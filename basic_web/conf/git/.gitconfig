@@ -19,7 +19,6 @@
 
 [core]
   whitespace = fix,-indent-with-non-tab,-indent-with-tab,trailing-space,cr-at-eol
-  editor = vim
 
 [push]
   default = tracking

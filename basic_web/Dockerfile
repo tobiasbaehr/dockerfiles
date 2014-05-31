@@ -42,6 +42,8 @@ RUN useradd dev -m -s /bin/bash &&\
 
 ADD conf/git/.gitconfig /home/dev/.gitconfig
 
+RUN chown dev:dev /home/dev/.gitconfig
+
 # Generate a host key
 RUN mkdir -p /var/run/sshd && service ssh start; service ssh stop
 
@@ -64,10 +66,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install libapache2-mod-php5 \
     php-apc \
     php-pear
 ADD conf/php5/apc.ini /etc/php5/mods-available/apc.ini
-ADD conf/php5/php.ini /etc/php5/conf.d/99-php.ini
+ADD conf/php5/php.ini /tmp/php.ini
+
+RUN cat /tmp/php.ini >> /etc/php5/apache2/php.ini
 
 # Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
+
+# xhprof
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install make graphviz
+
+ADD conf/php5/xhprof.conf /etc/apache2/conf.d/xhprof.conf
+ADD conf/php5/xhprof.ini /etc/php5/mods-available/xhprof.ini
+
+RUN cd /opt && git clone https://github.com/facebook/xhprof.git &&\
+    cd xhprof/extension && phpize && ./configure && make && make install &&\
+    cd /opt/xhprof && composer install
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq purge make; apt-get clean -y
 
 # Nodejs and npm packages for frontend stuff
 RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list;\
