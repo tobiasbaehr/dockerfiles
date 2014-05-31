@@ -16,5 +16,5 @@ ADD conf/mysql/supervisor-mysql.conf /etc/supervisor/conf.d/supervisor-mysql.con
 RUN mkdir -p /root/phpmyadmin
 ADD conf/phpmyadmin/config.inc.php /root/phpmyadmin/config.inc.php
 ADD scripts/build_phpmyadmin.sh /root/phpmyadmin/build_phpmyadmin.sh
-RUN sh /root/phpmyadmin/build_phpmyadmin.sh 4.1.14
+RUN sh /root/phpmyadmin/build_phpmyadmin.sh 4.2.2
 ADD conf/phpmyadmin/phpmyadmin.conf /etc/apache2/conf.d/phpmyadmin.conf
