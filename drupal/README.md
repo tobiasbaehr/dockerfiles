@@ -8,4 +8,6 @@ Uses as base image [rb-basic-lamp](https://index.docker.io/u/tobiasb/rb-basic-la
 Tools
 ------
 
-* Drush
+* [Drush](https://github.com/drush-ops/drush)
+* [Registry Rebuild](https://drupal.org/project/registry_rebuild)
+* [Yadd](https://github.com/reinblau/yadd)
