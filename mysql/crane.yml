@@ -1,0 +1,8 @@
+containers:
+  - name: mysql
+    dockerfile: .
+    image: tobiasb/mysql
+    run:
+      volume: ["/data/log/mysql:/var/log/mysql", "/data/lib/mysql:/var/lib/mysql"]
+      publish-all: true
+      detach: true
