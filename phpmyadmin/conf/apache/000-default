@@ -1,0 +1,34 @@
+<VirtualHost *:80>
+    DocumentRoot /var/www
+    <Directory /var/www>
+      Options FollowSymLinks
+      DirectoryIndex index.php
+      <IfModule mod_php5.c>
+        AddType application/x-httpd-php .php
+
+        php_flag magic_quotes_gpc Off
+        php_flag track_vars On
+        php_flag register_globals Off
+      </IfModule>
+    </Directory>
+
+    # Disallow web access to directories that don't need it
+    <Directory /var/www/setup>
+      Order Deny,Allow
+      Deny from All
+    </Directory>
+    <Directory /var/www/libraries>
+      Order Deny,Allow
+      Deny from All
+    </Directory>
+    <Directory /var/www/setup/lib>
+      Order Deny,Allow
+      Deny from All
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/phpmyadmin-error.log
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

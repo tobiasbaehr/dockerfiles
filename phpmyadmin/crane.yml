@@ -1,0 +1,10 @@
+containers:
+  - name: phpmyadmin
+    dockerfile: .
+    image: tobiasb/phpmyadmin
+    run:
+      publish-all: true
+      detach: true
+      hostname: "phpmyadmin.dev"
+      link: ["mysql:db"]
+      env: ["VIRTUAL_HOST=phpmyadmin.dev"]
