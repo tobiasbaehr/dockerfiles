@@ -1,4 +1,4 @@
-FROM reinblau/debian
+FROM tobiasb/debian
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
