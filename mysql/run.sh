@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -o errexit
+set -o errexit
 #set -x
 
 __DIR__="$(cd "$(dirname "${0}")"; echo $(pwd))"
