@@ -3,7 +3,7 @@ FROM tobiasb/debian
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
 # PHP
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install mysql-client\
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yqq install mysql-client\
     php5 \
     php5-curl \
     php5-gd \
