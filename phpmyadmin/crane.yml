@@ -1,6 +1,5 @@
 containers:
   - name: phpmyadmin
-    dockerfile: .
     image: tobiasb/phpmyadmin
     run:
       publish-all: true

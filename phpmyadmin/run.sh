@@ -15,7 +15,7 @@ update () {
 }
 
 main () {
-  rbresolve mysql
+  rbrequire mysql
   start
 }
 
