@@ -1,6 +1,6 @@
 containers:
   - name: basic_web
-    image: tobiasb/basic_web
+    image: tobiasb/rb-basic-web
     dockerfile: .
     run:
       publish-all: true
