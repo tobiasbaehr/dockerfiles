@@ -1,38 +1,17 @@
-FROM debian:wheezy
+FROM tobiasb/debian
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-get install -yqq \
-    libreadline-gplv2-dev \
-    libfreetype6 \
-    apt-utils \
-    dialog \
-    debconf-utils
-
-# Setup locale
-RUN echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8"|debconf-set-selections
-RUN echo "locales locales/default_environment_locale  select  de_DE.UTF-8"|debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive apt-get install locales -yqq &&\
-    dpkg-reconfigure -f noninteractive locales
-ENV LC_ALL de_DE.UTF-8
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     nano \
     openssh-server \
     passwd \
     supervisor \
     git-core \
-    sudo \
-    unzip \
-    wget \
-    curl
+    sudo
 
 ADD conf/supervisor/debian.conf /etc/supervisor/conf.d/debian.conf
 ADD conf/ssh/supervisor-sshd.conf /etc/supervisor/conf.d/supervisor-sshd.conf
-
-RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
-
-RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
 RUN useradd dev -m -s /bin/bash &&\
     echo dev:dev | chpasswd &&\
