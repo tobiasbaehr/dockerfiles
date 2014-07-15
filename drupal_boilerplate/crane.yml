@@ -1,0 +1,10 @@
+containers:
+  - name: drupal_boilerplate
+    image: tobiasb/rb-drupal-lamp
+    run:
+      publish-all: true
+      detach: true
+      hostname: "drupal_boilerplate.dev"
+      link: ["mysql:db"]
+      env: ["VIRTUAL_HOST=drupal_boilerplate.dev"]
+      volume: ["/data/www/drupal_boilerplate:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/"]
