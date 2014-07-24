@@ -24,6 +24,10 @@ RUN sh /root/phpmyadmin/build_phpmyadmin.sh
 
 ADD conf/php/apc.ini /etc/php5/mods-available/apc.ini
 
+ADD conf/php5/php.ini /tmp/php.ini
+
+RUN cat /tmp/php.ini >> /etc/php5/apache2/php.ini
+
 ADD scripts/start.sh /opt/start.sh
 
 RUN chmod +x /opt/start.sh
