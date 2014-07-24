@@ -22,7 +22,7 @@ ADD conf/phpmyadmin/config.inc.php /root/phpmyadmin/config.inc.php
 ADD scripts/build_phpmyadmin.sh /root/phpmyadmin/build_phpmyadmin.sh
 RUN sh /root/phpmyadmin/build_phpmyadmin.sh
 
-ADD conf/php/apc.ini /etc/php5/mods-available/apc.ini
+ADD conf/php5/apc.ini /etc/php5/mods-available/apc.ini
 
 ADD conf/php5/php.ini /tmp/php.ini
 
