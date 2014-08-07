@@ -1,9 +1,0 @@
-containers:
-  - name: basic_web
-    image: tobiasb/rb-basic-web
-    dockerfile: .
-    run:
-      publish-all: true
-      detach: true
-      hostname: "basic_web.dev"
-      env: ["VIRTUAL_HOST=basic_web.dev"]
