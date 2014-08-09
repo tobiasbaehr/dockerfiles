@@ -10,7 +10,7 @@ start () {
 }
 
 main () {
-  rbrequire mysql
+  rbrequire --project=mysql
   start
 }
 

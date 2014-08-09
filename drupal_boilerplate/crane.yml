@@ -7,4 +7,4 @@ containers:
       hostname: "drupal_boilerplate.dev"
       link: ["mysql:db"]
       env: ["VIRTUAL_HOST=drupal_boilerplate.dev"]
-      volume: ["/data/www/drupal_boilerplate:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/"]
+      volume: ["/data/www/drupal_boilerplate:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig"]

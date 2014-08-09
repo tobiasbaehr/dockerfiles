@@ -19,10 +19,6 @@ RUN useradd dev -m -s /bin/bash &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev
 
-ADD conf/git/.gitconfig /home/dev/.gitconfig
-
-RUN chown dev:dev /home/dev/.gitconfig
-
 # Generate a host key
 RUN mkdir -p /var/run/sshd && service ssh start; service ssh stop
 
