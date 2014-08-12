@@ -1,0 +1,6 @@
+containers:
+  - name: memcached
+    image: sylvainlasnier/memcached
+    run:
+      publish-all: true
+      detach: true
