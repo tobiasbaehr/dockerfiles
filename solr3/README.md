@@ -1,19 +1,8 @@
-RB_Basic_Web
+SOLR3
 ============
 
 OS: Debian Wheezy
 
 Installed Tools
 ---------------
-* Git
-* Apache2
-* PHP
-* Composer
-* GruntJs + Plugins for frontend stuff
-* ruby-compass and bundler
-* supervisor for process management (SSH, Apache)
-
-
-SSH-Login
-----------
-dev:dev
+* [Apache Solr](http://lucene.apache.org/solr/) , prepared for [Search Api Solr](https://www.drupal.org/project/search_api_solr)
