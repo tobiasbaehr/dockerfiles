@@ -1,7 +1,6 @@
 containers:
   - name: solr3
     image: tobiasb/solr3
-    dockerfile: .
     run:
       publish-all: true
       detach: true
