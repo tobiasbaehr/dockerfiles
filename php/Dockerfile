@@ -31,9 +31,3 @@ RUN cd /opt && git clone https://github.com/facebook/xhprof.git &&\
     cd /opt/xhprof && composer install
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq purge make; apt-get clean -y
-
-EXPOSE 80
-
-VOLUME /var/log/apache2
-
-CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
