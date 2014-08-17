@@ -1,6 +1,7 @@
 containers:
   - name: phpmyadmin
-    image: tobiasb/phpmyadmin
+    image: reinblau/phpmyadmin
+    dockerfile: .
     run:
       publish-all: true
       detach: true
