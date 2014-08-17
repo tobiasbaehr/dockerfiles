@@ -1,9 +1,9 @@
-RB_Drupal_LAMP
+Drupal_LAMP
 =============
 
 Dockerfile for Drupal projects with a MySql database.
 
-Uses as base image [rb-basic-lamp](https://registry.hub.docker.com/u/tobiasb/rb-basic-lamp/).
+Uses as base image [reinblau/lamp](https://registry.hub.docker.com/u/reinblau/lamp/).
 
 Tools
 ------
