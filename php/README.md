@@ -1,4 +1,4 @@
-RB_PHP
+PHP
 ============
 
 OS: Debian Wheezy
