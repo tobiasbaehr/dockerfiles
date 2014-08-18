@@ -32,4 +32,4 @@ RUN cd /opt && git clone https://github.com/facebook/xhprof.git &&\
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq purge make; apt-get clean -y
 
-VOLUME /etc/php5/apache2/php.ini
+VOLUME /etc/php5/apache2/
