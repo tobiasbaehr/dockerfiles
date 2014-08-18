@@ -1,7 +1,6 @@
 containers:
   - name: cmd
     image: reinblau/cmd
-    dockerfile: .
     run:
       publish-all: false
       detach: false
