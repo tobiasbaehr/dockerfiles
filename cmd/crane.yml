@@ -9,3 +9,4 @@ containers:
       link: ["mysql:db"]
       rm: true
       volume: ["/data/www/:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig", "/data/yaddprojects:/home/dev/yaddprojects/", "/data/user/.drush:/home/dev/.drush/"]
+      cmd: ["su", "dev"]
