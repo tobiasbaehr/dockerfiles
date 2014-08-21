@@ -45,3 +45,7 @@ RUN useradd dev -m -s /bin/bash &&\
     chmod 0440 /etc/sudoers.d/dev
 
 RUN ln -s /opt/yadd/ /home/dev/yadd
+
+RUN chown -R dev: /opt/
+
+RUN usermod -a -G www-data dev
