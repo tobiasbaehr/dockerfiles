@@ -15,46 +15,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install locales -yqq &&\
 ENV LC_ALL de_DE.UTF-8
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
-    locales \
-    nano \
-    openssh-server \
-    passwd \
-    supervisor \
-    git-core \
-    sudo \
     unzip \
     wget \
-    curl
-
-ADD conf/supervisor/debian.conf /etc/supervisor/conf.d/debian.conf
-ADD conf/ssh/supervisor-sshd.conf /etc/supervisor/conf.d/supervisor-sshd.conf
+    curl \
+    git-core
 
 RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
-
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
-RUN useradd dev -m -s /bin/bash &&\
-    echo dev:dev | chpasswd &&\
-    usermod -a -G sudo dev &&\
-    echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
-    chmod 0440 /etc/sudoers.d/dev
-ADD conf/git/.gitconfig /home/dev/.gitconfig
-
-# Generate a host key
-RUN mkdir -p /var/run/sshd && service ssh start; service ssh stop
-
-# Apache
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2-mpm-prefork apache2-utils;\
-    a2enmod rewrite;\
-    echo "ServerName localhost" | tee /etc/apache2/conf.d/fqdn;\
-    echo "export APACHE_RUN_USER=dev" >> /etc/apache2/envvars &&\
-    echo "export APACHE_RUN_GROUP=dev" >> /etc/apache2/envvars
-ADD conf/apache/000-default /etc/apache2/sites-enabled/000-default
-ADD conf/apache/supervisor-apache2.conf /etc/supervisor/conf.d/supervisor-apache2.conf
 
 # PHP
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install libapache2-mod-php5 \
-    php5 \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install php5 \
     php5-cli \
     php5-curl \
     php5-dev \
@@ -62,32 +33,34 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install libapache2-mod-php5 \
     php-apc \
     php-pear
 ADD conf/php5/apc.ini /etc/php5/mods-available/apc.ini
-ADD conf/php5/php.ini /etc/php5/conf.d/99-php.ini
+ADD conf/php5/php.ini /tmp/php.ini
+
+RUN cat /tmp/php.ini >> /etc/php5/apache2/php.ini && rm /tmp/php.ini
+
+ENV APACHE_RUN_USER  www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_PID_FILE  /var/run/apache2.pid
+ENV APACHE_RUN_DIR   /var/run/apache2
+ENV APACHE_LOCK_DIR  /var/lock/apache2
+ENV APACHE_LOG_DIR   /var/log/apache2
+
+# Apache
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2-mpm-prefork apache2-utils libapache2-mod-php5;\
+    a2enmod rewrite;\
+    echo "ServerName localhost" | tee /etc/apache2/conf.d/fqdn
+ADD conf/apache/000-default /etc/apache2/sites-enabled/000-default
 
 # Mysql
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     mysql-common\
-    mysql-server\
     mysql-client\
     php5-mysql\
     php5-mcrypt
-RUN service mysql start;sleep 2;mysqladmin -uroot password root;service mysql stop
-ADD conf/mysql/debian-mysql.conf /etc/supervisor/conf.d/debian-mysql.conf
 
-# PhpMyadmin
-RUN mkdir -p /root/phpmyadmin
-ADD conf/phpmyadmin/config.inc.php /root/phpmyadmin/config.inc.php
-ADD scripts/build_phpmyadmin.sh /root/phpmyadmin/build_phpmyadmin.sh
-RUN sh /root/phpmyadmin/build_phpmyadmin.sh 4.1.14
-ADD conf/phpmyadmin/phpmyadmin.conf /etc/apache2/conf.d/phpmyadmin.conf
+VOLUME /etc/php5/apache2/
 
-# Setup Composer
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
+VOLUME /var/log/apache2/
 
-# Setup https://github.com/drush-ops/drush
-RUN sudo -u dev mkdir -p /home/dev/.composer && sudo -u dev composer global require drush/drush:dev-master -d /home/dev/.composer
-RUN sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' /home/dev/.bashrc
+EXPOSE 80
 
-EXPOSE 22 80
-
-CMD ["/usr/bin/supervisord", "-n"]
+CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
