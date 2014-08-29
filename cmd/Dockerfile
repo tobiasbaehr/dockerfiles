@@ -15,7 +15,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
 ENV COMPOSER_HOME /opt
 
 # Setup https://github.com/drush-ops/drush
-RUN composer global require drush/drush:6.3.0
+RUN composer global require drush/drush:6.4.0
 
 RUN ln -s /opt/vendor/bin/drush /usr/bin/drush
 
