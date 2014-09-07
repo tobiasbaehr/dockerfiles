@@ -24,7 +24,7 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install make graphviz
 
 ADD conf/php5/xhprof.conf /etc/apache2/conf.d/xhprof.conf
-ADD conf/php5/xhprof.ini /etc/php5/mods-available/xhprof.ini
+ADD conf/php5/xhprof.ini /etc/php5/conf.d/xhprof.ini
 
 RUN cd /opt && git clone https://github.com/facebook/xhprof.git &&\
     cd xhprof/extension && phpize && ./configure && make && make install
