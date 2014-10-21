@@ -1,16 +1,23 @@
-FROM reinblau/php
+FROM reinblau/debian
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
-# Mysql
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
+# Mysql client && PHP packages for the cli.
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
     mysql-common\
     mysql-client\
+    php5-cli\
     php5-mysql\
     php5-mcrypt\
-    nano \
-    passwd \
-    sudo
+    nano\
+    passwd\
+    sudo\
+    git-core\
+    ruby-compass &&\
+    gem install bundler
+
+# Setup Composer
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
 ENV COMPOSER_HOME /opt
 
@@ -35,17 +42,10 @@ RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/ap
         live-reload \
         grunt-contrib-sass
 
-# Ruby stuff
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq ruby-compass &&\
-    gem install bundler
-
 RUN useradd dev -m -s /bin/bash &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
-    chmod 0440 /etc/sudoers.d/dev
-
-RUN ln -s /opt/yadd/ /home/dev/yadd
-
-RUN chown -R dev: /opt/
-
-RUN usermod -a -G www-data dev
+    chmod 0440 /etc/sudoers.d/dev;\
+    ln -s /opt/yadd/ /home/dev/yadd\
+    && chown -R dev: /opt/\
+    && usermod -a -G www-data dev
