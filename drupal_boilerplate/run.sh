@@ -13,6 +13,7 @@ start () {
   #   echo 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $SSHKEY $*' > ssh && chmod +x ssh
   #   GIT_SSH='./ssh' git clone gitolite@example.com:user/$project.git "$DATADIR/www/$project/"
   #   rm ssh
+  #   chown -R vagrant: "$DATADIR/www/$project/"
   # fi
 }
 
