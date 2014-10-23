@@ -14,6 +14,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     sudo\
     git-core\
     openssh-client\
+    patch\
     ruby-compass &&\
     gem install bundler
 
