@@ -10,6 +10,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-mysql\
     php5-mcrypt\
     php5-gd\
+    php5-curl\
     nano\
     passwd\
     sudo\
