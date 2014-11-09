@@ -25,18 +25,26 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
 # Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
-ENV COMPOSER_HOME /opt
+ENV DRUSH6 6.4.0
 
-# Setup https://github.com/drush-ops/drush
-RUN composer global require drush/drush:6.4.0
+RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /usr/local/src/$DRUSH6.zip &&\
+  cd /usr/local/src && unzip $DRUSH6.zip &&\
+  rm $DRUSH6.zip &&\
+  ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
-RUN ln -s /opt/vendor/bin/drush /usr/bin/drush
+ENV DRUSH7 7.0.0-alpha4
+
+RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /usr/local/src/$DRUSH7.zip &&\
+  cd /usr/local/src && unzip $DRUSH7.zip &&\
+  rm $DRUSH7.zip &&\
+  cd drush-$DRUSH7 && composer install --no-dev &&\
+  ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
 # https://drupal.org/project/registry_rebuild
-RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush dl registry_rebuild
+RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush dl registry_rebuild site_audit
 
 # https://github.com/reinblau/yadd
-RUN git clone https://github.com/reinblau/yadd.git /opt/yadd
+RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd
 
 # Nodejs and npm packages for frontend stuff
 RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list;\
@@ -51,7 +59,6 @@ RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/ap
 RUN useradd dev -m -s /bin/bash &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
-    chmod 0440 /etc/sudoers.d/dev;\
-    ln -s /opt/yadd/ /home/dev/yadd\
-    && chown -R dev: /opt/\
-    && usermod -a -G www-data dev
+    chmod 0440 /etc/sudoers.d/dev &&\
+    git clone https://github.com/reinblau/yadd.git /home/dev/yadd &&\
+    usermod -a -G www-data dev
