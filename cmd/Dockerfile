@@ -25,14 +25,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
 # Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
-ENV DRUSH6 6.4.0
+ENV DRUSH6 6.5.0
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /usr/local/src/$DRUSH6.zip &&\
   cd /usr/local/src && unzip $DRUSH6.zip &&\
   rm $DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
-ENV DRUSH7 7.0.0-alpha4
+ENV DRUSH7 7.0.0-alpha6
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /usr/local/src/$DRUSH7.zip &&\
   cd /usr/local/src && unzip $DRUSH7.zip &&\
