@@ -8,6 +8,7 @@ ENV APACHE_PID_FILE  /var/run/apache2.pid
 ENV APACHE_RUN_DIR   /var/run/apache2
 ENV APACHE_LOCK_DIR  /var/lock/apache2
 ENV APACHE_LOG_DIR   /var/log/apache2
+ENV APACHE_USER_UID 0
 
 # PHP && Apache
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install --no-install-recommends php5 \
@@ -31,4 +32,6 @@ EXPOSE 80
 
 VOLUME ["/var/log/apache2","/etc/php5/apache2/"]
 
-CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
+ADD script/start.bash /root/start.bash
+
+CMD ["/bin/bash", "/root/start.bash"]
