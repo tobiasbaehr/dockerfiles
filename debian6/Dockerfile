@@ -43,6 +43,7 @@ ENV APACHE_PID_FILE  /var/run/apache2.pid
 ENV APACHE_RUN_DIR   /var/run/apache2
 ENV APACHE_LOCK_DIR  /var/lock/apache2
 ENV APACHE_LOG_DIR   /var/log/apache2
+ENV APACHE_USER_UID 0
 
 # Apache
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2-mpm-prefork apache2-utils libapache2-mod-php5;\
@@ -57,10 +58,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     php5-mysql\
     php5-mcrypt
 
-VOLUME /etc/php5/apache2/
-
-VOLUME /var/log/apache2/
+VOLUME ["/var/log/apache2/", "/etc/php5/apache2/"]
 
 EXPOSE 80
 
-CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
+ADD script/start.bash /root/start.bash
+
+CMD ["/bin/bash", "/root/start.bash"]
