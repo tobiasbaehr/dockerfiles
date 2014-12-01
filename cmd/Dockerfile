@@ -32,7 +32,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /usr/local
   rm $DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
-ENV DRUSH7 7.0.0-alpha6
+ENV DRUSH7 7.0.0-alpha7
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /usr/local/src/$DRUSH7.zip &&\
   cd /usr/local/src && unzip $DRUSH7.zip &&\
