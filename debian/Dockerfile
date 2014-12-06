@@ -24,4 +24,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     && echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
 # Define default command.
-CMD ["bin/bash"]
+CMD ["/bin/bash"]
