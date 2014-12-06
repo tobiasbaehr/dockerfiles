@@ -9,4 +9,4 @@ containers:
       cmd: ["/bin/bash", "/home/dev/start.bash"]
       workdir: "/var/www/"
       env: ["VIRTUAL_HOST=ungit.dev", "VIRTUAL_PORT=8448"]
-      volume: ["/data/www/:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig"]
+      volume: ["/data/www/:/var/www/", "/data/user/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig"]

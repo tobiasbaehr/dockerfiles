@@ -8,6 +8,6 @@ containers:
       hostname: "cmd.dev"
       link: ["mysql:db"]
       rm: true
-      volume: ["/data/www/:/var/www/", "/vagrant/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig", "/data/user/yaddprojects:/home/dev/yaddprojects/", "/data/user/.drush/:/home/dev/.drush/"]
-      cmd: ["su", "dev"]
+      volume: ["/data/www/:/var/www/", "/data/user/.ssh/:/home/dev/.ssh/", "/data/user/.gitconfig:/home/dev/.gitconfig", "/data/user/yaddprojects:/home/dev/yaddprojects/", "/data/user/.drush/:/home/dev/.drush/"]
+      user: "dev"
       workdir: "/var/www"
