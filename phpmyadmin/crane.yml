@@ -1,5 +1,5 @@
 containers:
-  - name: phpmyadmin
+  phpmyadmin:
     image: reinblau/phpmyadmin
     run:
       publish-all: true

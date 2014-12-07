@@ -1,5 +1,5 @@
 containers:
-  - name: mysql
+  mysql:
     image: reinblau/mysql
     run:
       volume: ["/data/log/mysql:/var/log/mysql", "/data/lib/mysql:/var/lib/mysql"]

@@ -1,5 +1,5 @@
 containers:
-  - name: memcached
+  memcached:
     image: sylvainlasnier/memcached
     run:
       publish-all: true

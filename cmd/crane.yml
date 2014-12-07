@@ -1,5 +1,6 @@
 containers:
-  - image: reinblau/cmd
+  cmd:
+    image: reinblau/cmd
     run:
       publish-all: false
       detach: false

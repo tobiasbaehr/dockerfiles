@@ -1,5 +1,5 @@
 containers:
-  - name: solr3
+  solr3:
     image: reinblau/solr3
     run:
       publish-all: true

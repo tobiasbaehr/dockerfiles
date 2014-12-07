@@ -1,6 +1,6 @@
 containers:
-  - image: reinblau/ungit
-    name: ungit
+  ungit:
+    image: reinblau/ungit
     run:
       user: "dev"
       publish-all: true

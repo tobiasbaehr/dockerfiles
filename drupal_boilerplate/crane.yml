@@ -1,5 +1,5 @@
 containers:
-  - name: drupal_boilerplate
+  drupal_boilerplate:
     image: reinblau/lamp
     run:
       publish-all: true

@@ -1,4 +1,4 @@
 dockerfiles
 ===========
 
-Dockerfiles for docker.io
+Dockerfiles for hub.docker.com
