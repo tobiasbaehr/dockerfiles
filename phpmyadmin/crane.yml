@@ -1,7 +1,6 @@
 containers:
   - name: phpmyadmin
     image: reinblau/phpmyadmin
-    dockerfile: .
     run:
       publish-all: true
       detach: true
