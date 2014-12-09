@@ -19,6 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     patch\
     less\
     rsync\
+    python\
     ruby-compass &&\
     gem install bundler
 
@@ -45,6 +46,12 @@ RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush 
 
 # https://github.com/reinblau/yadd
 RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd
+
+# icdiff - https://github.com/jeffkaufman/icdiff
+
+RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff/ &&\
+    mv /tmp/icdiff/icdiff /usr/local/bin/icdiff &&\
+    mv /tmp/icdiff/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
 RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list;\
