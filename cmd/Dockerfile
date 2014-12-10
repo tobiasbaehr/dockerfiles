@@ -50,7 +50,7 @@ RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/dru
 # icdiff - https://github.com/jeffkaufman/icdiff
 
 RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff.zip &&\
-    unzip /tmp/icdiff.zip -d /tmp/
+    unzip /tmp/icdiff.zip -d /tmp/ &&\
     mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
