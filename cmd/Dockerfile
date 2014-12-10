@@ -28,21 +28,21 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 
 ENV DRUSH6 6.5.0
 
-RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /usr/local/src/$DRUSH6.zip &&\
-  cd /usr/local/src && unzip $DRUSH6.zip &&\
-  rm $DRUSH6.zip &&\
+RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUSH6.zip &&\
+  unzip -q /tmp/$DRUSH6.zip -d /usr/local/src &&\
+  rm /tmp/$DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
 ENV DRUSH7 7.0.0-alpha7
 
-RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /usr/local/src/$DRUSH7.zip &&\
-  cd /usr/local/src && unzip $DRUSH7.zip &&\
-  rm $DRUSH7.zip &&\
-  cd drush-$DRUSH7 && composer install --no-dev &&\
+RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUSH7.zip &&\
+  unzip -q /tmp/$DRUSH7.zip -d /usr/local/src &&\
+  rm /tmp/$DRUSH7.zip &&\
+  cd /usr/local/src/drush-$DRUSH7 && composer install --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
 # https://drupal.org/project/registry_rebuild
-RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush dl registry_rebuild site_audit
+RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush -q dl registry_rebuild site_audit
 
 # https://github.com/reinblau/yadd
 RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd
@@ -50,19 +50,19 @@ RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/dru
 # icdiff - https://github.com/jeffkaufman/icdiff
 
 RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff.zip &&\
-    unzip /tmp/icdiff.zip -d /tmp/ &&\
+    unzip -q /tmp/icdiff.zip -d /tmp/ &&\
     mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
-RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list;\
-    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq nodejs-legacy &&\
-    curl --insecure https://www.npmjs.org/install.sh | sudo clean=no sh &&\
-    npm install --silent -g grunt-cli \
-        grunt-contrib-csslint \
-        grunt-contrib-jshint \
-        live-reload \
-        grunt-contrib-sass
+RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup | bash - &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
+  npm install --silent -q npm &&\
+  npm install --silent -g grunt-cli \
+    grunt-contrib-csslint \
+    grunt-contrib-jshint \
+    live-reload \
+    grunt-contrib-sass
 
 RUN useradd dev -m -s /bin/bash &&\
     usermod -a -G sudo dev &&\
@@ -70,4 +70,5 @@ RUN useradd dev -m -s /bin/bash &&\
     chmod 0440 /etc/sudoers.d/dev &&\
     git clone https://github.com/reinblau/yadd.git /home/dev/yadd &&\
     usermod -a -G www-data dev &&\
-    rm -rf /tmp/*
+    rm -rf /tmp/* &&\
+    rm -rf /var/lib/apt/lists/*
