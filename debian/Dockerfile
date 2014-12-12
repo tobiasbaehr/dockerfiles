@@ -9,13 +9,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-g
     dialog \
     debconf-utils
 
-# Setup locale
-RUN echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8"|debconf-set-selections \
-&& echo "locales locales/default_environment_locale  select  de_DE.UTF-8"|debconf-set-selections \
-&& DEBIAN_FRONTEND=noninteractive apt-get install locales -yqq &&\
-    dpkg-reconfigure -f noninteractive locales
-ENV LC_ALL de_DE.UTF-8
-
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     unzip \
     wget \
