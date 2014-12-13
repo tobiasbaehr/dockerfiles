@@ -69,6 +69,5 @@ RUN useradd dev -m -s /bin/bash &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev &&\
     git clone https://github.com/reinblau/yadd.git /home/dev/yadd &&\
-    usermod -a -G www-data dev &&\
     rm -rf /tmp/* &&\
     rm -rf /var/lib/apt/lists/*
