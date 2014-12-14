@@ -10,6 +10,7 @@ start () {
 }
 
 main () {
+  rbrequire --ssh --gitconfig
   start
 }
 

@@ -7,6 +7,6 @@ RUN echo "deb http://ftp2.de.debian.org/debian wheezy-backports main" >> /etc/ap
 
 RUN npm install ungit -g
 
-ADD start.bash /home/dev/start.bash
-
 EXPOSE 8448
+
+CMD ["/usr/bin/ungit", "--no-launchBrowser", "--forcedLaunchPath=/var/www"]
