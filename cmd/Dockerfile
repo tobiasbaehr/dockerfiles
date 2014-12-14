@@ -20,6 +20,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     less\
     rsync\
     python\
+    bash-completion\
     ruby-compass &&\
     gem install bundler
 
