@@ -3,7 +3,7 @@ Commander for Drupal/PHP-Projects
 
 Uses as base image [reinblau/debian](https://registry.hub.docker.com/u/reinblau/debian/).
 
-This is intended as an interactive image. Means change to it and type in ``crane lift``.
+This is intended as an interactive image. Means run the command ``rbcommander``.
 
 Installed Tools
 ---------------
