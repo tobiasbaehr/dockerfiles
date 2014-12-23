@@ -7,13 +7,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-g
     dialog \
     debconf-utils
 
-# Setup locale
-RUN echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8"|debconf-set-selections
-RUN echo "locales locales/default_environment_locale  select  de_DE.UTF-8"|debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive apt-get install locales -yqq &&\
-    dpkg-reconfigure -f noninteractive locales
-ENV LC_ALL de_DE.UTF-8
-
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     unzip \
     wget \
@@ -21,17 +14,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     git-core
 
 RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
-RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
-
 
 # PHP
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install php5 \
-    php5-cli \
     php5-curl \
-    php5-dev \
     php5-gd \
-    php-apc \
-    php-pear
+    php-apc
 ADD conf/php5/apc.ini /etc/php5/mods-available/apc.ini
 ADD conf/php5/php.ini /tmp/php.ini
 
@@ -56,7 +44,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
     mysql-common\
     mysql-client\
     php5-mysql\
-    php5-mcrypt
+    php5-mcrypt;\
+    rm -rf /tmp/* &&\
+    rm -rf /var/lib/apt/lists/*
 
 VOLUME ["/var/log/apache2/", "/etc/php5/apache2/"]
 
