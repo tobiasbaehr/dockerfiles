@@ -27,11 +27,10 @@ $i = 0;
 $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'config';
-/* host is the docker linked alias name */
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'db';
+$cfg['Servers'][$i]['host'] = getenv("DB_PORT_3306_TCP_ADDR");
 $cfg['Servers'][$i]['user'] = 'root';
-$cfg['Servers'][$i]['password'] = 'root';
+$cfg['Servers'][$i]['password'] = getenv("MYSQL_ROOT_PASSWORD");
 $cfg['Servers'][$i]['connect_type'] = 'tcp';
 $cfg['Servers'][$i]['compress'] = false;
 /* Select mysql if your server does not have mysqli */
