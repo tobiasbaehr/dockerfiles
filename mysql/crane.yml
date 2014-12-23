@@ -1,7 +1,8 @@
 containers:
   mysql:
-    image: reinblau/mysql
+    image: mysql:5.5
     run:
-      volume: ["/data/log/mysql:/var/log/mysql", "/data/lib/mysql:/var/lib/mysql"]
+      volume: ["/data/lib/mysql:/var/lib/mysql"]
       publish-all: true
       detach: true
+      env: ["MYSQL_ROOT_PASSWORD=root"]
