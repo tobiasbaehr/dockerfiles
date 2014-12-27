@@ -1,0 +1,10 @@
+containers:
+  xdebug54:
+    image: reinblau/xdebug54
+    run:
+      publish-all: true
+      detach: true
+      hostname: "xdebug54.dev"
+      link: ["mysql:db"]
+      env: ["VIRTUAL_HOST=xdebug54.dev", "APACHE_USER_UID=1000"]
+      volume: ["/data/www/:/var/www/", "/data/php/conf/20-xdebug.ini:/etc/php5/apache2/conf.d/20-xdebug.ini"]
