@@ -7,12 +7,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-g
     dialog \
     debconf-utils
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
-    unzip \
-    wget \
-    curl \
-    git-core
-
 RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # PHP
