@@ -1,6 +1,13 @@
-FROM reinblau/debian
+FROM debian:jessie
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
+
+RUN apt-get update;DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
+    unzip \
+    wget \
+    curl \
+    && echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
+    && echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
 # Mysql client && PHP packages for the cli.
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
@@ -59,11 +66,7 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
 RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
   npm install --silent -q npm &&\
-  npm install --silent -g grunt-cli \
-    grunt-contrib-csslint \
-    grunt-contrib-jshint \
-    live-reload \
-    grunt-contrib-sass
+  npm install --silent -g grunt-cli
 
 RUN useradd dev -m -s /bin/bash &&\
     usermod -a -G sudo dev &&\
