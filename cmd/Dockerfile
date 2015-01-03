@@ -2,22 +2,18 @@ FROM debian:jessie
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
-RUN apt-get update;DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
-    unzip \
-    wget \
-    curl \
-    && echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
-    && echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
-
-# Mysql client && PHP packages for the cli.
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
-    mysql-common\
-    mysql-client\
-    php5-cli\
-    php5-mysql\
-    php5-mcrypt\
-    php5-gd\
-    php5-curl\
+RUN apt-get update -qq;\
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -yqq;\
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
+    gcc\
+    g++\
+    make\
+    pkg-config\
+    ruby-dev\
+    ruby\
+    unzip\
+    wget\
+    curl\
     nano\
     passwd\
     sudo\
@@ -27,9 +23,23 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     less\
     rsync\
     python\
-    bash-completion\
-    ruby-compass &&\
-    gem install bundler
+    bash-completion
+
+RUN gem update --quiet --no-document --system &&\
+    gem update --quiet --no-document &&\
+    gem install --quiet --no-document compass &&\
+    echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
+    echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
+
+# Mysql client && PHP packages for the cli.
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
+    mysql-common\
+    mysql-client\
+    php5-cli\
+    php5-mysql\
+    php5-mcrypt\
+    php5-gd\
+    php5-curl
 
 # Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
@@ -46,14 +56,15 @@ ENV DRUSH7 7.0.0-alpha7
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUSH7.zip &&\
   unzip -q /tmp/$DRUSH7.zip -d /usr/local/src &&\
   rm /tmp/$DRUSH7.zip &&\
-  cd /usr/local/src/drush-$DRUSH7 && composer install --no-dev &&\
+  cd /usr/local/src/drush-$DRUSH7 && composer install --quiet --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
 # https://drupal.org/project/registry_rebuild
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush -q dl registry_rebuild site_audit
 
 # https://github.com/reinblau/yadd
-RUN git clone --branch=drush https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd
+RUN git clone --branch=drush --quiet https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd &&\
+    rm -rf /usr/share/drush/commands/yadd/.git
 
 # icdiff - https://github.com/jeffkaufman/icdiff
 
@@ -65,13 +76,26 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
 # Nodejs and npm packages for frontend stuff
 RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
-  npm install --silent -q npm &&\
-  npm install --silent -g grunt-cli
+  npm install --production -g npm grunt-cli &&\
+  npm completion > /etc/bash_completion.d/npm
 
 RUN useradd dev -m -s /bin/bash &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev &&\
-    git clone https://github.com/reinblau/yadd.git /home/dev/yadd &&\
+    git clone --quiet https://github.com/reinblau/yadd.git /home/dev/yadd &&\
+    rm -rf /home/dev/yadd/.git
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get purge -yqq\
+    gcc\
+    g++\
+    make\
+    pkg-config\
+    ruby-dev &&\
+    apt-get autoremove -yqq &&\
     rm -rf /tmp/* &&\
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /root/.npm &&\
+    rm -rf /root/.gem &&\
+    rm -rf /root/.drush &&\
+    rm -rf /root/.composer
