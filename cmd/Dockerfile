@@ -74,9 +74,10 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
-RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup | bash - &&\
+RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
-  npm install --production -g npm grunt-cli &&\
+  npm install --production -g npm &&\
+  npm install --production -g grunt-cli &&\
   npm completion > /etc/bash_completion.d/npm
 
 RUN useradd dev -m -s /bin/bash &&\
