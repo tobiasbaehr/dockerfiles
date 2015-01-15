@@ -28,6 +28,8 @@ RUN apt-get update -qq;\
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
     gem install --quiet --no-document compass &&\
+    gem install --quiet --no-document bundler &&\
+    gem install --quiet --no-document singularitygs &&\
     echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
     echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
@@ -78,6 +80,8 @@ RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup | 
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
   npm install --production -g npm &&\
   npm install --production -g grunt-cli &&\
+  npm install --production -g bower &&\
+  npm install --production -g gulp &&\
   npm completion > /etc/bash_completion.d/npm
 
 RUN useradd dev -m -s /bin/bash &&\
