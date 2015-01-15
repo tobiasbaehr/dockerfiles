@@ -14,3 +14,7 @@ fi
 if [ "$(docker images | grep reinblau/solr3)" ];then
   docker pull reinblau/solr3
 fi
+
+if [ "$(docker images | grep reinblau/cmd)" ];then
+  docker pull reinblau/cmd
+fi
