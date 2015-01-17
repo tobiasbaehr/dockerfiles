@@ -9,6 +9,7 @@ Installed Tools
 ---------------
 * Mysql client
 * [composer](https://getcomposer.org/)
+* [drupalconsole](http://drupalconsole.com/)
 * [drush](https://github.com/drush-ops/drush) (Use drush for 6.x.x and drush7 for 7.x.x)
  * [Registry Rebuild](https://drupal.org/project/registry_rebuild)
  * [Site Audit](https://drupal.org/project/site_audit)

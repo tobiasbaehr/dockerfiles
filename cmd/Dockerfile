@@ -46,6 +46,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
 # Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
+RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
+
 ENV DRUSH6 6.5.0
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUSH6.zip &&\
