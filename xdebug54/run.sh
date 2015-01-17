@@ -13,7 +13,7 @@ start () {
   fi
   local project="webgrind"
   if [[ ! -d "$DATADIR/www/$project/.git" ]];then
-    su vagrant -c "git clone --config core.filemode=false git@github.com:jokkedk/$project.git $DATADIR/www/$project/"
+    su vagrant -c "git clone --config core.filemode=false https://github.com/jokkedk/$project.git $DATADIR/www/$project/"
     chown -R vagrant: $DATADIR/www/$project/
   fi
   cd "${__DIR__}" && crane lift
