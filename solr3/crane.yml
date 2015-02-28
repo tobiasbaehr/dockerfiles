@@ -1,6 +1,0 @@
-containers:
-  solr3:
-    image: reinblau/solr3
-    run:
-      publish-all: true
-      detach: true
