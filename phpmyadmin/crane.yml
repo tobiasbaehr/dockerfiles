@@ -1,9 +1,0 @@
-containers:
-  phpmyadmin:
-    image: reinblau/phpmyadmin
-    run:
-      publish-all: true
-      detach: true
-      hostname: "phpmyadmin.dev"
-      link: ["mysql:db"]
-      env: ["VIRTUAL_HOST=phpmyadmin.dev"]

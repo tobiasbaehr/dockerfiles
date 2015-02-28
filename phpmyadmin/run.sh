@@ -6,7 +6,10 @@ __BASE__="$(basename "${0}")"
 __FILE__="${__DIR__}/${__BASE__}"
 
 start () {
-  cd "${__DIR__}" && crane lift
+  docker rm -f phpmyadmin >/dev/null 2>&1
+  docker run --detach --env VIRTUAL_HOST=phpmyadmin.dev \
+    --hostname phpmyadmin.dev --link mysql:db \
+    --publish-all --name phpmyadmin reinblau/phpmyadmin >/dev/null
 }
 
 main () {
