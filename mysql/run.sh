@@ -10,7 +10,7 @@ start () {
     mkdir -p /data/mysql/
   fi
   cp "${__DIR__}/my.cnf" /data/mysql/my.cnf
-  docker ps -a | grep "mysql:5.5" >/dev/null || docker start mysql >/dev/null 2>&1 || \
+  docker ps | grep "mysql:5.5" >/dev/null || docker start mysql >/dev/null 2>&1 || \
   docker run --detach --env MYSQL_ROOT_PASSWORD=root \
     --publish-all --sig-proxy \
     --volume /data/lib/mysql:/var/lib/mysql \
