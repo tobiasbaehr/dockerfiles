@@ -1,8 +1,0 @@
-containers:
-  mysql:
-    image: mysql:5.5
-    run:
-      volume: ["/data/lib/mysql:/var/lib/mysql", "/data/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf"]
-      publish-all: true
-      detach: true
-      env: ["MYSQL_ROOT_PASSWORD=root"]
