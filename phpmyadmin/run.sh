@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -o errexit
+#!/bin/bash
 
 __DIR__="$(cd "$(dirname "${0}")"; echo $(pwd))"
 __BASE__="$(basename "${0}")"
