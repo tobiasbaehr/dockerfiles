@@ -23,7 +23,8 @@ RUN apt-get update -qq;\
     less\
     rsync\
     python\
-    bash-completion
+    bash-completion\
+    python-pip
 
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
@@ -31,7 +32,8 @@ RUN gem update --quiet --no-document --system &&\
     gem install --quiet --no-document bundler &&\
     gem install --quiet --no-document singularitygs &&\
     echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
-    echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
+    echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
+    pip install -q mkdocs
 
 # Mysql client && PHP packages for the cli.
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
@@ -63,8 +65,9 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUS
   cd /usr/local/src/drush-$DRUSH7 && composer install --quiet --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
-# https://drupal.org/project/registry_rebuild
-RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands && drush -q dl registry_rebuild site_audit
+# Contrib drush commands
+RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
+    drush -q dl registry_rebuild site_audit grn drupalgeddon
 
 # https://github.com/reinblau/yadd
 RUN git clone --branch=drush --quiet https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd &&\
