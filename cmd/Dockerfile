@@ -50,14 +50,14 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 
 RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
 
-ENV DRUSH6 6.5.0
+ENV DRUSH6 6.6.0
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUSH6.zip &&\
   unzip -q /tmp/$DRUSH6.zip -d /usr/local/src &&\
   rm /tmp/$DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
-ENV DRUSH7 7.0.0-alpha9
+ENV DRUSH7 7.0.0-rc1
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUSH7.zip &&\
   unzip -q /tmp/$DRUSH7.zip -d /usr/local/src &&\
