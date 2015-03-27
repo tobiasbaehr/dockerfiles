@@ -7,12 +7,16 @@ __FILE__="${__DIR__}/${__BASE__}"
 start () {
   docker rm -f phpmyadmin >/dev/null 2>&1
   docker run --detach --env VIRTUAL_HOST=phpmyadmin.dev \
-    --hostname phpmyadmin.dev --link mysql:db \
-    --publish-all --name phpmyadmin reinblau/phpmyadmin >/dev/null
+    --hostname phpmyadmin.dev \
+    --link mysql:mysql_5_5 \
+    --link mariadb_10_0:mariadb_10_0 \
+    --publish-all \
+    --name phpmyadmin reinblau/phpmyadmin >/dev/null
 }
 
 main () {
   rbrequire --project=mysql
+  rbrequire --project=mariadb
   start
 }
 
