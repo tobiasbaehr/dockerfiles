@@ -18,3 +18,15 @@ fi
 if [ "$(docker images | grep reinblau/cmd)" ];then
   docker pull reinblau/cmd
 fi
+
+if [ "$(docker images | grep reinblau/phpmyadmin)" ];then
+  docker pull reinblau/phpmyadmin
+fi
+
+if [ "$(docker images | grep mysql)" ];then
+  docker pull mysql:5.5
+fi
+
+if [ "$(docker images | grep mariadb)" ];then
+  docker pull mariadb:10.0
+fi
