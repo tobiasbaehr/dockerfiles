@@ -11,27 +11,28 @@ ENV APACHE_LOG_DIR   /var/log/apache2
 ENV APACHE_USER_UID 0
 
 # PHP && Apache
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install --no-install-recommends php5 \
-    php5-curl \
-    php5-gd \
-    php-apc \
-    apache2-mpm-prefork \
-    apache2-utils \
-    libapache2-mod-php5;\
-    a2enmod rewrite;\
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yqq install --no-install-recommends\
+    php5\
+    php5-curl\
+    php5-gd\
+    php-apc\
+    apache2-mpm-prefork\
+    apache2-utils\
+    libapache2-mod-php5 &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    a2enmod rewrite &&\
     echo "ServerName localhost" | tee /etc/apache2/conf.d/fqdn
 
 # Config files.
-ADD conf/apache/000-default /etc/apache2/sites-enabled/000-default
-ADD conf/php5/apc.ini /etc/php5/mods-available/apc.ini
-ADD conf/php5/php.ini /tmp/php.ini
+COPY conf/apache/000-default /etc/apache2/sites-enabled/000-default
+COPY conf/php5/apc.ini /etc/php5/mods-available/apc.ini
+COPY conf/php5/php.ini /tmp/php.ini
+COPY script/start.bash /root/start.bash
 
 RUN cat /tmp/php.ini >> /etc/php5/apache2/php.ini && rm /tmp/php.ini
 
 EXPOSE 80
 
 VOLUME ["/var/log/apache2","/etc/php5/apache2/"]
-
-ADD script/start.bash /root/start.bash
 
 CMD ["/bin/bash", "/root/start.bash"]
