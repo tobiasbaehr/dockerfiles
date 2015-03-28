@@ -2,9 +2,7 @@ FROM debian:jessie
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
-RUN apt-get update -qq;\
-    DEBIAN_FRONTEND=noninteractive apt-get upgrade -yqq;\
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
     gcc\
     g++\
     make\
@@ -45,7 +43,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-gd\
     php5-curl
 
-# Setup Composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
 RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
@@ -68,10 +65,6 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUS
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
     drush -q dl registry_rebuild site_audit grn drupalgeddon
-
-# https://github.com/reinblau/yadd
-RUN git clone --branch=drush --quiet https://github.com/reinblau/yadd.git /usr/share/drush/commands/yadd &&\
-    rm -rf /usr/share/drush/commands/yadd/.git
 
 # icdiff - https://github.com/jeffkaufman/icdiff
 
