@@ -2,17 +2,17 @@ FROM reinblau/debian
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
-ENV SOLR_VERSION 3.6.1
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq\
+  openjdk-7-jre-headless &&\
+  rm -rf /var/lib/apt/lists/*
+
+ENV SOLR_VERSION 3.6.2
 
 ENV SEARCH_API_SOLR_VERSION 7.x-1.6
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-get install -y \
-  openjdk-7-jre-headless \
-  tar
-
 RUN mkdir -p /opt
 ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /opt/apache-solr-$SOLR_VERSION.tgz
-RUN tar -C /opt --extract --file /opt/apache-solr-$SOLR_VERSION.tgz && \
+RUN tar -C /opt --extract --file /opt/apache-solr-$SOLR_VERSION.tgz &&\
     mv /opt/apache-solr-$SOLR_VERSION /opt/solr
 
 WORKDIR /tmp
