@@ -11,7 +11,7 @@ ENV APACHE_LOG_DIR   /var/log/apache2
 ENV APACHE_USER_UID 0
 
 # PHP && Apache
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yqq install --no-install-recommends\
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yqq install --no-install-recommends\
     php5\
     php5-curl\
     php5-gd\
