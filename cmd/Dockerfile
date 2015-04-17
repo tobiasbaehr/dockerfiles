@@ -22,7 +22,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     rsync\
     python\
     bash-completion\
-    python-pip
+    python-pip\
+    vim
 
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
