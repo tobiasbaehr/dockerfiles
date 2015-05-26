@@ -23,7 +23,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     python\
     bash-completion\
     python-pip\
-    vim
+    vim\
+    php5-readline
 
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
