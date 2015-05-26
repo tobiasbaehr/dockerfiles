@@ -55,7 +55,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUS
   rm /tmp/$DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
 
-ENV DRUSH7 7.0.0-rc2
+ENV DRUSH7 7.0.0
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUSH7.zip &&\
   unzip -q /tmp/$DRUSH7.zip -d /usr/local/src &&\
