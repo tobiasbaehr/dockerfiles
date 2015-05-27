@@ -16,6 +16,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yqq install --
     php5-curl\
     php5-gd\
     php-apc\
+    php5-imagick\
     apache2-mpm-prefork\
     apache2-utils\
     libapache2-mod-php5 &&\
