@@ -15,6 +15,7 @@
  * cookie
  */
 $cfg['blowfish_secret'] = 'a8b7c6d'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['VersionCheck'] = false;
 
 /*
  * Servers configuration
