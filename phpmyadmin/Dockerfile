@@ -1,4 +1,4 @@
-FROM reinblau/lamp_56
+FROM reinblau/lamp:5.6
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
