@@ -1,6 +1,6 @@
 containers:
   drupal_boilerplate:
-    image: reinblau/lamp
+    image: reinblau/lamp:5.6
     run:
       publish-all: true
       detach: true
