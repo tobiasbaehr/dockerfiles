@@ -13,4 +13,6 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev imag
 	&& rm -rvf /usr/local/etc/php/conf.d/docker-php-ext-{curl,pdo}.ini \
 	&& rm -rf /tmp/*
 
+COPY php.ini /usr/local/etc/php/conf.d/custom_php.ini
+
 RUN usermod -u 1000 www-data
