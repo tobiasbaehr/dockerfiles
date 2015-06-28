@@ -34,6 +34,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq\
     apache2-utils\
     libapache2-mod-php5;\
     a2enmod rewrite;\
+    a2enmod vhost_alias;\
     echo "ServerName localhost" | tee /etc/apache2/conf.d/fqdn
 COPY conf/apache/000-default /etc/apache2/sites-enabled/000-default
 
