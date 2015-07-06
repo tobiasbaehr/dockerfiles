@@ -71,7 +71,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUS
   rm /tmp/$DRUSH8.zip &&\
   cd /usr/local/src/drush-$DRUSH8 && composer install --quiet --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH8/drush /usr/local/bin/drush8 &&\
-  cp /usr/local/src/drush-$DRUSH8/drush/drush.complete.sh /etc/bash_completion.d/drush.complete.sh
+  cp /usr/local/src/drush-$DRUSH8/drush.complete.sh /etc/bash_completion.d/drush.complete.sh
 
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
