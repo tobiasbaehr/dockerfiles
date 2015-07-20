@@ -8,7 +8,7 @@ RUN a2enmod rewrite vhost_alias
 RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev imagemagick libxml2-dev \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip exif soap\
+	&& docker-php-ext-install gd mbstring pdo pdo_mysql zip exif soap\
 	&& pecl install memcache-3.0.8 && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/docker-php-ext-memcache.ini; \
 	rm -rvf /usr/local/etc/php/conf.d/docker-php-ext-pdo.ini; \
 	rm -rvf /usr/local/etc/php/conf.d/docker-php-ext-curl.ini; \
