@@ -8,11 +8,11 @@ __FILE__="${__DIR__}/${__BASE__}"
 
 start () {
   # local project="drupal_boilerplate"
-  # if [[ ! -d "$DATADIR/www/$project/.git" ]];then
-  #   su vagrant -c "git clone --config core.filemode=false gitolite@example.com:user/$project.git $DATADIR/www/$project/"
-  #   chown -R vagrant: $DATADIR/www/$project/
+  # if [[ ! -d "/data/www/$project/.git" ]];then
+  #   su vagrant -c "git clone --config core.filemode=false gitolite@example.com:user/$project.git /data/www/$project/"
+  #   chown -R vagrant: /data/www/$project/
   # fi
-  cd "${__DIR__}" && crane lift
+  cd "${__DIR__}" && crane run
 }
 
 main () {
