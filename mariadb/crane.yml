@@ -1,0 +1,10 @@
+containers:
+  mariadb_10_0:
+    image: mariadb:10.0
+    run:
+      expose: ["3306"]
+      detach: true
+      hostname: "mariadb_10_0.dev"
+      env: ["MYSQL_ROOT_PASSWORD=root"]
+      volume: ["/data/mariadb/10.0/data:/var/lib/mysql", "my.cnf:/etc/mysql/my.cnf"]
+      restart: always
