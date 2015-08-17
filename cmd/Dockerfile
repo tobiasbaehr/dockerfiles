@@ -91,6 +91,7 @@ RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup | 
   npm install --production -g grunt-cli &&\
   npm install --production -g bower &&\
   npm install --production -g gulp &&\
+  npm install --production -g caniuse-cmd &&\
   npm completion > /etc/bash_completion.d/npm
 
 RUN useradd dev -m -s /bin/bash &&\
