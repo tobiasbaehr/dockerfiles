@@ -10,6 +10,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     ruby-dev\
     ruby\
     unzip\
+    bzip2\
     wget\
     curl\
     nano\
