@@ -3,13 +3,14 @@ Commander for Drupal/PHP-Projects
 
 Uses as base image [debian:jessie](https://registry.hub.docker.com/_/debian/).
 
-This is intended as an interactive image. Means run the command ``rbcommander``.
+This is intended as an interactive image.
 
 Installed Tools
 ---------------
 * Mysql client
 * [composer](https://getcomposer.org/)
 * [drupalconsole](http://drupalconsole.com/)
+* [phpqa](https://github.com/jmolivas/phpqa)
 * [drush](https://github.com/drush-ops/drush) (Use drush for 6.x.x and drush7 for 7.x.x)
  * [Registry Rebuild](https://www.drupal.org/project/registry_rebuild)
  * [Site Audit](https://www.drupal.org/project/site_audit)

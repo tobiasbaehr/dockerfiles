@@ -78,6 +78,12 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUS
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
     drush -q dl registry_rebuild site_audit grn drupalgeddon
 
+RUN cd /usr/local/src && git clone https://github.com/jmolivas/phpqa.git &&\
+    cd phpqa &&\
+    composer install &&\
+    ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa
+
+
 # icdiff - https://github.com/jeffkaufman/icdiff
 
 RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff.zip &&\

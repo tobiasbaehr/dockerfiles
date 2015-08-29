@@ -8,5 +8,7 @@ docker run --hostname cmd.dev \
 --volume /data/user/.gitconfig:/home/dev/.gitconfig \
 --volume /data/user/yaddprojects:/home/dev/yaddprojects/ \
 --volume /data/user/.drush/:/home/dev/.drush/ \
+--volume /data/user/.gems/:/home/dev/.gems/ \
 --volume /data/user/.composer/:/home/dev/.composer/ \
+-e GEM_HOME=/home/dev/.gems \
 --workdir /var/www reinblau/cmd
