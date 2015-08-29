@@ -55,7 +55,7 @@ ENV DRUSH6 6.6.0
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUSH6.zip &&\
   unzip -q /tmp/$DRUSH6.zip -d /usr/local/src &&\
   rm /tmp/$DRUSH6.zip &&\
-  ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush
+  ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush6
 
 ENV DRUSH7 7.0.0
 
@@ -71,7 +71,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUS
   unzip -q /tmp/$DRUSH8.zip -d /usr/local/src &&\
   rm /tmp/$DRUSH8.zip &&\
   cd /usr/local/src/drush-$DRUSH8 && composer install --quiet --no-dev &&\
-  ln -s /usr/local/src/drush-$DRUSH8/drush /usr/local/bin/drush8 &&\
+  ln -s /usr/local/src/drush-$DRUSH8/drush /usr/local/bin/drush &&\
   cp /usr/local/src/drush-$DRUSH8/drush.complete.sh /etc/bash_completion.d/drush.complete.sh
 
 # Contrib drush commands
