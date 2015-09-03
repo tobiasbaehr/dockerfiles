@@ -6,5 +6,5 @@ containers:
       detach: true
       hostname: "mariadb_10_0.dev"
       env: ["MYSQL_ROOT_PASSWORD=root"]
-      volume: ["/data/mariadb/10.0/data:/var/lib/mysql", "my.cnf:/etc/mysql/my.cnf"]
+      volume: ["/data/mariadb/10.0/data:/var/lib/mysql",  "/data/mariadb/10.0/my.cnf:/etc/mysql/my.cnf"]
       restart: always
