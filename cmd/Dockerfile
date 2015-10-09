@@ -56,7 +56,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUS
   unzip -q /tmp/$DRUSH6.zip -d /usr/local/src &&\
   rm /tmp/$DRUSH6.zip &&\
   ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush6 &&\
-  drush6 #Drush6 needs to download a library from http://download.pear.php.net/package/Console_Table-1.1.3.tgz 
+  drush6 #Drush6 needs to download a library from http://download.pear.php.net/package/Console_Table-1.1.3.tgz
 
 ENV DRUSH7 7.0.0
 
@@ -66,7 +66,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUS
   cd /usr/local/src/drush-$DRUSH7 && composer install --quiet --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
-ENV DRUSH8 8.0.0-beta14
+ENV DRUSH8 8.0.0-rc1
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUSH8.zip &&\
   unzip -q /tmp/$DRUSH8.zip -d /usr/local/src &&\
@@ -93,7 +93,7 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
-RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup | bash - &&\
+RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_4.x | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
   npm install --production -g npm &&\
   npm install --production -g grunt-cli &&\
