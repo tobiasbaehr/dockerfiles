@@ -109,14 +109,7 @@ RUN useradd dev -m -s /bin/bash &&\
     git clone --quiet https://github.com/reinblau/yadd.git /home/dev/yadd &&\
     rm -rf /home/dev/yadd/.git
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get purge -yqq\
-    gcc\
-    g++\
-    make\
-    pkg-config\
-    ruby-dev &&\
-    apt-get autoremove -yqq &&\
-    rm -rf /tmp/* &&\
+RUN rm -rf /tmp/* &&\
     rm -rf /var/lib/apt/lists/* &&\
     rm -rf /root/.npm &&\
     rm -rf /root/.gem &&\
