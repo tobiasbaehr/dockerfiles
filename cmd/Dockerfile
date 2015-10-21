@@ -9,7 +9,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     pkg-config\
     ruby-dev\
     ruby\
-    unzip\
     bzip2\
     wget\
     curl\

@@ -8,8 +8,6 @@ ADD https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip /tmp/phpmyadmin.
 
 WORKDIR /tmp
 
-RUN apt-get update && apt-get install -y unzip && docker-php-ext-install mysqli && rm -rf /var/lib/apt/lists/*
-
 RUN unzip -q phpmyadmin.zip && rm phpmyadmin.zip && mv `ls` phpmyadmin && ls -lah phpmyadmin/
 
 ADD conf/phpmyadmin/config.inc.php /tmp/phpmyadmin/config.inc.php
