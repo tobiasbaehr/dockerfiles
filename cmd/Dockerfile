@@ -65,7 +65,7 @@ RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUS
   cd /usr/local/src/drush-$DRUSH7 && composer install --quiet --no-dev &&\
   ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
-ENV DRUSH8 8.0.0-rc1
+ENV DRUSH8 8.0.0-rc2
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUSH8.zip &&\
   unzip -q /tmp/$DRUSH8.zip -d /usr/local/src &&\
