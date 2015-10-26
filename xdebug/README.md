@@ -1,7 +1,7 @@
 XDEBUG
 ============
 
-Uses as base image [php:5.6](https://hub.docker.com/r/library/php/).
+Uses as base image [reinblau/lamp:5.6](https://hub.docker.com/r/reinblau/lamp/).
 
 Installed tools
 -------------------------
