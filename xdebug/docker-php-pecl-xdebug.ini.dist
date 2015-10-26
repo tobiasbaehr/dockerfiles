@@ -1,4 +1,4 @@
-zend_extension=/usr/lib/php5/20100525/xdebug.so
+zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so
 xdebug.remote_enable=On
 xdebug.profiler_enable_trigger=On
 ;xdebug.remote_host=YOUR_DESKTOP_IP

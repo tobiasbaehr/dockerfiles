@@ -1,9 +1,9 @@
-FROM reinblau/lamp
+FROM reinblau/lamp:5.6
 
 MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
 
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq\
-    php5-xdebug\
-    graphviz\
-    python &&\
-    rm -rf /var/lib/apt/lists/*
+  graphviz\
+  python;\
+  pecl install xdebug; \
+  rm -rf /var/lib/apt/lists/*
