@@ -25,7 +25,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     bash-completion\
     python-pip\
     vim\
-    php5-readline
+    php5-readline\
+    tig
 
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
@@ -49,22 +50,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
 RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
-
-ENV DRUSH6 6.6.0
-
-RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH6.zip -O /tmp/$DRUSH6.zip &&\
-  unzip -q /tmp/$DRUSH6.zip -d /usr/local/src &&\
-  rm /tmp/$DRUSH6.zip &&\
-  ln -s /usr/local/src/drush-$DRUSH6/drush /usr/local/bin/drush6 &&\
-  drush6 #Drush6 needs to download a library from http://download.pear.php.net/package/Console_Table-1.1.3.tgz
-
-ENV DRUSH7 7.0.0
-
-RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH7.zip -O /tmp/$DRUSH7.zip &&\
-  unzip -q /tmp/$DRUSH7.zip -d /usr/local/src &&\
-  rm /tmp/$DRUSH7.zip &&\
-  cd /usr/local/src/drush-$DRUSH7 && composer install --quiet --no-dev &&\
-  ln -s /usr/local/src/drush-$DRUSH7/drush /usr/local/bin/drush7
 
 ENV DRUSH8 8.0.0-rc2
 

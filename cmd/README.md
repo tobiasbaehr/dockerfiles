@@ -11,7 +11,7 @@ Installed Tools
 * [composer](https://getcomposer.org/)
 * [drupalconsole](http://drupalconsole.com/)
 * [phpqa](https://github.com/jmolivas/phpqa)
-* [drush](https://github.com/drush-ops/drush) (Use drush for 6.x.x and drush7 for 7.x.x)
+* [drush](https://github.com/drush-ops/drush)
  * [Registry Rebuild](https://www.drupal.org/project/registry_rebuild)
  * [Site Audit](https://www.drupal.org/project/site_audit)
  * [Drupalgeddon](https://www.drupal.org/project/drupalgeddon)
@@ -29,3 +29,4 @@ Installed Tools
  * [singularitygs](http://singularity.gs/)
 * [icdiff](https://github.com/jeffkaufman/icdiff)
 * [Mkdocs](http://www.mkdocs.org/)
+* [tig](https://github.com/jonas/tig)
