@@ -51,7 +51,7 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 
 RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
 
-ENV DRUSH8 8.0.0-rc2
+ENV DRUSH8 8.0.0-rc3
 
 RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUSH8.zip &&\
   unzip -q /tmp/$DRUSH8.zip -d /usr/local/src &&\
