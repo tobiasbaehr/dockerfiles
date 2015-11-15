@@ -47,26 +47,23 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-gd\
     php5-curl
 
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
+RUN curl -sSL https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
 
-RUN curl -LSs http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
+RUN curl -sSL http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
 
-ENV DRUSH8 8.0.0-rc3
-
-RUN wget -q https://github.com/drush-ops/drush/archive/$DRUSH8.zip -O /tmp/$DRUSH8.zip &&\
-  unzip -q /tmp/$DRUSH8.zip -d /usr/local/src &&\
-  rm /tmp/$DRUSH8.zip &&\
-  cd /usr/local/src/drush-$DRUSH8 && composer install --quiet --no-dev &&\
-  ln -s /usr/local/src/drush-$DRUSH8/drush /usr/local/bin/drush &&\
-  cp /usr/local/src/drush-$DRUSH8/drush.complete.sh /etc/bash_completion.d/drush.complete.sh
+RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.0-rc3/drush.phar -O /usr/local/bin/drush &&\
+    chmod +x /usr/local/bin/drush &&\
+    wget -q https://raw.githubusercontent.com/drush-ops/drush/master/drush.complete.sh -O /etc/bash_completion.d/drush &&\
+    wget -q http://codeception.com/codecept.phar -O /usr/local/bin/codecept &&\
+    chmod +x /usr/local/bin/codecept
 
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
-    drush -q dl registry_rebuild site_audit grn drupalgeddon
+    drush -q dl registry_rebuild site_audit grn drupalgeddon composer_generate
 
 RUN cd /usr/local/src && git clone https://github.com/jmolivas/phpqa.git &&\
     cd phpqa &&\
-    composer install &&\
+    composer install --no-dev --no-interaction --prefer-dist &&\
     ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa
 
 
@@ -78,7 +75,7 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
-RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_4.x | bash - &&\
+RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_5.x | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
   npm install --production -g npm &&\
   npm install --production -g grunt-cli &&\
@@ -92,7 +89,11 @@ RUN useradd dev -m -s /bin/bash &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev &&\
     git clone --quiet https://github.com/reinblau/yadd.git /home/dev/yadd &&\
-    rm -rf /home/dev/yadd/.git
+    rm -rf /home/dev/yadd/.git &&\
+    echo 'export NVM_DIR="$HOME/.nvm"' >> /home/dev/.bashrc &&\
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm' >> /home/dev/.bashrc &&\
+    echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> /home/dev/.bashrc
+
 
 RUN rm -rf /tmp/* &&\
     rm -rf /var/lib/apt/lists/* &&\
