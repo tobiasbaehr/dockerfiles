@@ -59,7 +59,7 @@ RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.1/drush.pha
 
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
-    drush -q dl registry_rebuild site_audit grn drupalgeddon composer_generate
+    drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2
 
 RUN cd /usr/local/src && git clone https://github.com/jmolivas/phpqa.git &&\
     cd phpqa &&\

@@ -14,7 +14,6 @@ Installed Tools
 * [drush](https://github.com/drush-ops/drush)
  * [Registry Rebuild](https://www.drupal.org/project/registry_rebuild)
  * [Site Audit](https://www.drupal.org/project/site_audit)
- * [Drupalgeddon](https://www.drupal.org/project/drupalgeddon)
  * [Git Release Notes for Drush](https://www.drupal.org/project/grn)
  * [Composer Generate](https://www.drupal.org/project/composer_generate)
 * [nodejs](http://nodejs.org/)
