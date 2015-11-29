@@ -51,7 +51,7 @@ RUN curl -sSL https://getcomposer.org/installer | php && mv composer.phar /usr/l
 
 RUN curl -sSL http://drupalconsole.com/installer | php && mv console.phar /usr/local/bin/drupal
 
-RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.0/drush.phar -O /usr/local/bin/drush &&\
+RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.1/drush.phar -O /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
     wget -q https://raw.githubusercontent.com/drush-ops/drush/master/drush.complete.sh -O /etc/bash_completion.d/drush &&\
     wget -q http://codeception.com/codecept.phar -O /usr/local/bin/codecept &&\
