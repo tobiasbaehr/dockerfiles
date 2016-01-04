@@ -45,6 +45,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-mysql\
     php5-mcrypt\
     php5-gd\
+    php5-intl\
     php5-curl
 
 RUN curl -sSL https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
