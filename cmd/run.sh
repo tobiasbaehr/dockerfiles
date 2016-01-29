@@ -15,4 +15,4 @@ docker run --hostname cmd.dev \
 --volume /data/user/.composer/:/home/dev/.composer/ \
 --volume /data/user/.nvm/:/home/dev/.nvm/ \
 -e GEM_HOME=/home/dev/.gems \
---workdir /var/www test/cmd /usr/bin/zsh -l
+--workdir /var/www reinblau/cmd /usr/bin/zsh -l
