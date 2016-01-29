@@ -26,7 +26,13 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     python-pip\
     vim\
     php5-readline\
-    tig
+    tig\
+    locales\
+    zsh
+
+RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
+    locale-gen de_DE.UTF-8 &&\
+    update-locale LANG=de_DE.UTF-8
 
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
@@ -54,7 +60,6 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal
 
 RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.2/drush.phar -O /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
-    wget -q https://raw.githubusercontent.com/drush-ops/drush/master/drush.complete.sh -O /etc/bash_completion.d/drush &&\
     wget -q http://codeception.com/codecept.phar -O /usr/local/bin/codecept &&\
     chmod +x /usr/local/bin/codecept
 
@@ -82,19 +87,22 @@ RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_5.x
   npm install --production -g grunt-cli &&\
   npm install --production -g bower &&\
   npm install --production -g gulp &&\
-  npm install --production -g caniuse-cmd &&\
-  npm completion > /etc/bash_completion.d/npm
+  npm install --production -g caniuse-cmd
 
-RUN useradd dev -m -s /bin/bash &&\
+RUN useradd dev -m -s /usr/bin/zsh &&\
+    git clone https://github.com/zsh-users/antigen.git /home/dev/antigen &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev &&\
     git clone --quiet https://github.com/reinblau/yadd.git /home/dev/yadd &&\
-    rm -rf /home/dev/yadd/.git &&\
-    echo 'export NVM_DIR="$HOME/.nvm"' >> /home/dev/.bashrc &&\
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm' >> /home/dev/.bashrc &&\
-    echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> /home/dev/.bashrc
+    rm -rf /home/dev/yadd/.git
 
+ADD .zshrc /home/dev/.zshrc
+
+RUN chown -R dev: /home/dev/ &&\
+    su dev -c "source /home/dev/.zshrc" &&\
+    echo 'source /home/dev/.zshrc && antigen-apply' > /home/dev/.zlogin &&\
+    chown -R dev: /home/dev/
 
 RUN rm -rf /tmp/* &&\
     rm -rf /var/lib/apt/lists/* &&\
