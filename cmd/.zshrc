@@ -3,9 +3,6 @@ export NVM_DIR="$HOME/.nvm"
 
 alias ll="ls -lah --color=auto"
 
-autoload bashcompinit
-bashcompinit
-
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 source ~/antigen/antigen.zsh
 
@@ -24,8 +21,7 @@ gulp
 nvm
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions src
-drush-ops/drush drush.complete.sh
-
+webflo/drush_zsh_completion
 # Syntax highlighting bundle.
 zsh-users/zsh-syntax-highlighting
 

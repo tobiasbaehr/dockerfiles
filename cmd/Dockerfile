@@ -101,7 +101,6 @@ ADD .zshrc /home/dev/.zshrc
 
 RUN chown -R dev: /home/dev/ &&\
     su dev -c "source /home/dev/.zshrc" &&\
-    echo 'source /home/dev/.zshrc && antigen-apply' > /home/dev/.zlogin &&\
     chown -R dev: /home/dev/
 
 RUN rm -rf /tmp/* &&\
