@@ -61,7 +61,7 @@ RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php 
     php composer-setup.php &&\
     mv composer.phar /usr/local/bin/composer;
 
-RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal
+RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
 RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.0.3/drush.phar -o drush &&\
     echo "35e8b9a91ae45378fe2ab881c5b8a3a225140198f4a600f6f9770674029155e543aafd9a08550d78740d4b6a5210265a  drush" > drush.CHECKSUM &&\
