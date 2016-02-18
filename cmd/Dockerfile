@@ -54,16 +54,22 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-intl\
     php5-curl
 
-RUN php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&\
-    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'fd26ce67e3b237fffd5e5544b45b0d92c41a4afe3e3f778e942e43ce6be197b9cdc7c251dcde6e2a52297ea269370680') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); }" &&\
-    php composer-setup.php && php -r "unlink('composer-setup.php');" &&\
+RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
+    echo "fd26ce67e3b237fffd5e5544b45b0d92c41a4afe3e3f778e942e43ce6be197b9cdc7c251dcde6e2a52297ea269370680  composer-setup.php" > composer-setup.php.CHECKSUM &&\
+    sha384sum -c composer-setup.php.CHECKSUM; \
+    if [ $? -gt 0 ]; then echo "Installer corrupt"; exit 1; fi; \
+    php composer-setup.php &&\
     mv composer.phar /usr/local/bin/composer;
 
-RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal
+RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal
 
-RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.3/drush.phar -O /usr/local/bin/drush &&\
+RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.0.3/drush.phar -o drush &&\
+    echo "35e8b9a91ae45378fe2ab881c5b8a3a225140198f4a600f6f9770674029155e543aafd9a08550d78740d4b6a5210265a  drush" > drush.CHECKSUM &&\
+    sha384sum --strict -c drush.CHECKSUM; \
+    if [ $? -gt 0 ]; then echo "drush corrupt"; exit 1; fi; \
+    mv drush /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
-    wget -q http://codeception.com/codecept.phar -O /usr/local/bin/codecept &&\
+    curl -sSL http://codeception.com/codecept.phar -o /usr/local/bin/codecept &&\
     chmod +x /usr/local/bin/codecept
 
 # Contrib drush commands
@@ -79,13 +85,13 @@ RUN cd /usr/local/src && git clone --quiet --depth=1 https://github.com/jmolivas
     ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa
 
 # icdiff - https://github.com/jeffkaufman/icdiff
-RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff.zip &&\
+RUN curl -sSL https://github.com/jeffkaufman/icdiff/archive/master.zip -o /tmp/icdiff.zip &&\
     unzip -q /tmp/icdiff.zip -d /tmp/ &&\
     mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
     mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
 
 # Nodejs and npm packages for frontend stuff
-RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_5.x | bash - &&\
+RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup_5.x | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
   npm install --production --no-color --no-progress -g npm &&\
   npm install --production --no-color --no-progress -g grunt-cli &&\
