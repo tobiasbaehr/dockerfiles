@@ -54,7 +54,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-intl\
     php5-curl
 
-RUN curl -sSL https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer;
+RUN php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&\
+    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'fd26ce67e3b237fffd5e5544b45b0d92c41a4afe3e3f778e942e43ce6be197b9cdc7c251dcde6e2a52297ea269370680') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); }" &&\
+    php composer-setup.php && php -r "unlink('composer-setup.php');" &&\
+    mv composer.phar /usr/local/bin/composer;
 
 RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal
 
@@ -67,14 +70,15 @@ RUN wget -q https://github.com/drush-ops/drush/releases/download/8.0.3/drush.pha
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
     drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2
 
-RUN cd /usr/local/src && git clone https://github.com/jmolivas/phpqa.git &&\
+# PHPQA Analyzer CLI tool - https://github.com/jmolivas/phpqa
+RUN cd /usr/local/src && git clone --quiet --depth=1 https://github.com/jmolivas/phpqa.git &&\
     cd phpqa &&\
-    composer install --no-dev --no-interaction --prefer-dist &&\
+    rm composer.lock &&\
+    rm -rf .git &&\
+    composer install --no-dev --no-interaction --prefer-dist --no-ansi &&\
     ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa
 
-
 # icdiff - https://github.com/jeffkaufman/icdiff
-
 RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icdiff.zip &&\
     unzip -q /tmp/icdiff.zip -d /tmp/ &&\
     mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
@@ -83,18 +87,18 @@ RUN wget -q https://github.com/jeffkaufman/icdiff/archive/master.zip -O /tmp/icd
 # Nodejs and npm packages for frontend stuff
 RUN rm -rf /var/lib/apt/lists/* && curl -sL https://deb.nodesource.com/setup_5.x | bash - &&\
   DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
-  npm install --production -g npm &&\
-  npm install --production -g grunt-cli &&\
-  npm install --production -g bower &&\
-  npm install --production -g gulp &&\
-  npm install --production -g caniuse-cmd
+  npm install --production --no-color --no-progress -g npm &&\
+  npm install --production --no-color --no-progress -g grunt-cli &&\
+  npm install --production --no-color --no-progress -g bower &&\
+  npm install --production --no-color --no-progress -g gulp &&\
+  npm install --production --no-color --no-progress -g caniuse-cmd
 
 RUN useradd dev -m -s /usr/bin/zsh &&\
-    git clone https://github.com/zsh-users/antigen.git /home/dev/antigen &&\
+    git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
     chmod 0440 /etc/sudoers.d/dev &&\
-    git clone --quiet https://github.com/reinblau/yadd.git /home/dev/yadd &&\
+    git clone --quiet --depth=1 https://github.com/reinblau/yadd.git /home/dev/yadd &&\
     rm -rf /home/dev/yadd/.git
 
 ADD .zshrc /home/dev/.zshrc
