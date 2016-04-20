@@ -25,7 +25,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     bash-completion\
     python-pip\
     vim\
-    php5-readline\
     tig\
     locales\
     zsh
@@ -52,6 +51,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-mcrypt\
     php5-gd\
     php5-intl\
+    php5-readline\
     php5-curl
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
@@ -98,6 +98,12 @@ RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup_5.
   npm install --production --no-color --no-progress -g bower &&\
   npm install --production --no-color --no-progress -g gulp &&\
   npm install --production --no-color --no-progress -g caniuse-cmd
+
+# sassc
+RUN cd /tmp && git clone https://github.com/sass/sassc && cd sassc &&\
+    git clone https://github.com/sass/libsass &&\
+    SASS_LIBSASS_PATH=/tmp/sassc/libsass make &&\
+    mv /tmp/sassc/bin/sassc /usr/local/bin/sassc
 
 RUN useradd dev -m -s /usr/bin/zsh &&\
     git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen &&\

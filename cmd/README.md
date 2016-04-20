@@ -30,3 +30,4 @@ Installed Tools
 * [icdiff](https://github.com/jeffkaufman/icdiff)
 * [Mkdocs](http://www.mkdocs.org/)
 * [tig](https://github.com/jonas/tig)
+* [sassc](http://sass-lang.com/libsass)
