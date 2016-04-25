@@ -65,7 +65,7 @@ RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && ch
 
 RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.0/drush.phar -o drush &&\
     echo "b31f862830750c07ab409d1dfb1cc696627529b8872a470e100201a8825085dd5afb977aa82a6942d32ee8c1ecb767afd67bc4d205421c8c586ed543af80cd6a  drush" > drush.CHECKSUM &&\
-    sha384sum --strict -c drush.CHECKSUM; \
+    sha512sum --strict -c drush.CHECKSUM; \
     if [ $? -gt 0 ]; then echo "drush corrupt"; exit 1; fi; \
     mv drush /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
