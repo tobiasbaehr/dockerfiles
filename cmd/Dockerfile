@@ -63,8 +63,8 @@ RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php 
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
-RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.0.5/drush.phar -o drush &&\
-    echo "24917587f74efb5dcec3ed22f47948ab2cf53a44f5e320981ad497a78cffef809e723cca66c5aa0dba229abc0ed80ba7  drush" > drush.CHECKSUM &&\
+RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.0/drush.phar -o drush &&\
+    echo "b31f862830750c07ab409d1dfb1cc696627529b8872a470e100201a8825085dd5afb977aa82a6942d32ee8c1ecb767afd67bc4d205421c8c586ed543af80cd6a  drush" > drush.CHECKSUM &&\
     sha384sum --strict -c drush.CHECKSUM; \
     if [ $? -gt 0 ]; then echo "drush corrupt"; exit 1; fi; \
     mv drush /usr/local/bin/drush &&\
