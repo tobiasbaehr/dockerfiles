@@ -55,7 +55,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-curl
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
-    echo "37ab5663950fcab4d0777435f2e0f0207f31fd49c23a549580a6376f04f881da71354faa01b202c2ce099be27d74417c3da161198c1e75bf6933fc73d1249e70  composer-setup.php" > composer-setup.php.CHECKSUM &&\
+    echo "95e01a0f875793e398c887cf3c99dd4da7d37a953a25fb72449f645bd7af820ce683ba37fe7cb2baf94e1b62f8a0e575b084123146702b069f0bf1567d7880e5  composer-setup.php" > composer-setup.php.CHECKSUM &&\
     sha512sum -c composer-setup.php.CHECKSUM; \
     if [ $? -gt 0 ]; then echo "Installer corrupt"; exit 1; fi; \
     php composer-setup.php &&\
