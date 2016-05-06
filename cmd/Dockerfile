@@ -52,7 +52,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-gd\
     php5-intl\
     php5-readline\
-    php5-curl
+    php5-curl\
+    php5-sqlite
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
     echo "881f05f274010ab940ded8a3d968423a6e16c5cafbff25de8d60ace14a9b7a5faa211c0dd4b8cac5bccae87c280bb16bcb628db0202ea00ddfe53a9f66635038  composer-setup.php" > composer-setup.php.CHECKSUM &&\
