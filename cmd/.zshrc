@@ -1,7 +1,6 @@
 export LANG=de_DE.UTF-8
 export NVM_DIR="$HOME/.nvm"
 PATH="$PATH:$HOME/.composer/vendor/bin"
-alias ll="ls -lah --color=auto"
 
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 source ~/antigen/antigen.zsh
@@ -35,3 +34,5 @@ antigen theme gentoo
 
 # Tell antigen that you're done.
 antigen apply
+
+alias ll="ls -lah --color=auto"
