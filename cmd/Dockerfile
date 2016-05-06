@@ -55,11 +55,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-curl
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
-    echo "95e01a0f875793e398c887cf3c99dd4da7d37a953a25fb72449f645bd7af820ce683ba37fe7cb2baf94e1b62f8a0e575b084123146702b069f0bf1567d7880e5  composer-setup.php" > composer-setup.php.CHECKSUM &&\
+    echo "881f05f274010ab940ded8a3d968423a6e16c5cafbff25de8d60ace14a9b7a5faa211c0dd4b8cac5bccae87c280bb16bcb628db0202ea00ddfe53a9f66635038  composer-setup.php" > composer-setup.php.CHECKSUM &&\
     sha512sum -c composer-setup.php.CHECKSUM; \
     if [ $? -gt 0 ]; then echo "Installer corrupt"; exit 1; fi; \
-    php composer-setup.php &&\
-    mv composer.phar /usr/local/bin/composer;
+    php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
