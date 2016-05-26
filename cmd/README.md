@@ -23,6 +23,7 @@ Installed Tools
  * [bower](https://www.npmjs.com/package/bower)
  * [gulp](https://www.npmjs.com/package/gulp)
  * [caniuse-cmd](https://www.npmjs.com/package/caniuse-cmd)
+ * [browser-sync](https://www.npmjs.com/package/browser-sync)
 * [Ruby](https://www.ruby-lang.org/)
  * [compass](http://compass-style.org/)
  * [bundler](http://bundler.io/)
