@@ -57,18 +57,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     echo "date.timezone=Europe/Berlin" >> /etc/php5/cli/php.ini
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
-    echo "881f05f274010ab940ded8a3d968423a6e16c5cafbff25de8d60ace14a9b7a5faa211c0dd4b8cac5bccae87c280bb16bcb628db0202ea00ddfe53a9f66635038  composer-setup.php" > composer-setup.php.CHECKSUM &&\
-    sha512sum -c composer-setup.php.CHECKSUM; \
-    if [ $? -gt 0 ]; then echo "Installer corrupt"; exit 1; fi; \
-    php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
+    echo "860132040c1b1f75a3f5b9af1e62d0058f6f31c03a4c70914b57610d6ad42c911259355130170b29b5cb3e8d96aefaccd35bdc795ce7e8b390545876ab9e1966  composer-setup.php" | sha512sum -c - \
+    && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
 RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.2/drush.phar -o drush &&\
-    echo "80e346ec9fb6b13a5a7c1893a89e59f5d8456c89d54fecac64ff161fba390b719b1d3b01aef5f1c62326ba84fa72604cedc79b2339c6cc4336b6723600d49b39  drush" > drush.CHECKSUM &&\
-    sha512sum --strict -c drush.CHECKSUM; \
-    if [ $? -gt 0 ]; then echo "drush corrupt"; exit 1; fi; \
-    mv drush /usr/local/bin/drush &&\
+    echo "80e346ec9fb6b13a5a7c1893a89e59f5d8456c89d54fecac64ff161fba390b719b1d3b01aef5f1c62326ba84fa72604cedc79b2339c6cc4336b6723600d49b39  drush"  | sha512sum -c - \
+    && mv drush /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
     curl -sSL http://codeception.com/codecept.phar -o /usr/local/bin/codecept &&\
     chmod +x /usr/local/bin/codecept
