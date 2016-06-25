@@ -57,7 +57,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     echo "date.timezone=Europe/Berlin" >> /etc/php5/cli/php.ini
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
-    echo "860132040c1b1f75a3f5b9af1e62d0058f6f31c03a4c70914b57610d6ad42c911259355130170b29b5cb3e8d96aefaccd35bdc795ce7e8b390545876ab9e1966  composer-setup.php" | sha512sum -c - \
+    echo "eeaf5dae9ceaf0613c168a0879765b6a9efba459978abea04dc55c4ac6c04e34384c3d2fe2715782f5c0debc909594747b6385a08581a10f91660f25c0883bc2  composer-setup.php" | sha512sum -c - \
     && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
