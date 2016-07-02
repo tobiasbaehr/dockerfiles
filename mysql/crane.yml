@@ -1,0 +1,10 @@
+containers:
+  mysql:
+    image: mysql:5.5
+    run:
+      expose: ["3306"]
+      detach: true
+      hostname: "mysql_5_5.dev"
+      env: ["MYSQL_ROOT_PASSWORD=root"]
+      volume: ["/data/lib/mysql:/var/lib/mysql",  "/data/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro"]
+      restart: always
