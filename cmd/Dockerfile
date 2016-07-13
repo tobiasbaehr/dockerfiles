@@ -94,6 +94,7 @@ RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup_5.
   npm install --production --no-color --no-progress -g grunt-cli &&\
   npm install --production --no-color --no-progress -g bower &&\
   npm install --production --no-color --no-progress -g gulp &&\
+  npm install --production --no-color --no-progress -g npm-run &&\
   npm install --production --no-color --no-progress -g caniuse-cmd
 
 # sassc
