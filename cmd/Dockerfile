@@ -74,7 +74,7 @@ RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
     drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2
 
 # PHPQA Analyzer CLI tool - https://github.com/jmolivas/phpqa
-RUN cd /usr/local/src && git clone --quiet --depth=1 https://github.com/jmolivas/phpqa.git &&\
+RUN cd /usr/local/src && git clone --branch update --quiet --depth=1 https://github.com/tobiasbaehr/phpqa.git &&\
     cd phpqa &&\
     rm composer.lock &&\
     rm -rf .git &&\
