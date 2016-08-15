@@ -28,6 +28,7 @@ Installed Tools
  * [compass](http://compass-style.org/)
  * [bundler](http://bundler.io/)
  * [singularitygs](http://singularity.gs/)
+ * [fontcustom](https://rubygems.org/gems/fontcustom)
 * [icdiff](https://github.com/jeffkaufman/icdiff)
 * [Mkdocs](http://www.mkdocs.org/)
 * [tig](https://github.com/jonas/tig)

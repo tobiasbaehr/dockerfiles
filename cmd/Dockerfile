@@ -38,6 +38,7 @@ RUN gem update --quiet --no-document --system &&\
     gem install --quiet --no-document compass &&\
     gem install --quiet --no-document bundler &&\
     gem install --quiet --no-document singularitygs &&\
+    gem install --quiet --no-document fontcustom &&\
     echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
     echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
     pip install -q mkdocs
