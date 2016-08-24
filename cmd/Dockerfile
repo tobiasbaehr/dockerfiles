@@ -27,7 +27,9 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     vim\
     tig\
     locales\
-    zsh
+    zsh\
+    fontforge\
+    zlib1g-dev
 
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
     locale-gen de_DE.UTF-8 &&\
@@ -42,6 +44,13 @@ RUN gem update --quiet --no-document --system &&\
     echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
     echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
     pip install -q mkdocs
+
+RUN wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip &&\
+    echo "3a2d5c0f495f8dda2b311d80b6a1e4ad5b98fd098cc5573e92e5e7193d0f0746f8e3e90f7b1dddbaad8c336a68874a32c028ac650c067cfb2cce2f540411e2f9  woff-code-latest.zip" | sha512sum -c - \
+    && unzip woff-code-latest.zip -d sfnt2woff &&\
+    cd sfnt2woff &&\
+    make &&\
+    mv sfnt2woff /usr/local/bin/
 
 # Mysql client && PHP packages for the cli.
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
