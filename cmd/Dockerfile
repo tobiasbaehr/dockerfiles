@@ -22,38 +22,60 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     less\
     rsync\
     python\
-    bash-completion\
-    python-pip\
     vim\
     tig\
     locales\
-    zsh\
-    fontforge\
-    zlib1g-dev
+    zsh &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /var/log/* &&\
+    rm -rf /var/cache/* &&\
+    rm -rf /tmp/*
 
+# locale stuff
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
-    locale-gen de_DE.UTF-8 &&\
-    update-locale LANG=de_DE.UTF-8
+  locale-gen de_DE.UTF-8 &&\
+  update-locale LANG=de_DE.UTF-8 &&\
+  echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
+  echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
 
+# Ruby gems
 RUN gem update --quiet --no-document --system &&\
     gem update --quiet --no-document &&\
     gem install --quiet --no-document compass &&\
     gem install --quiet --no-document bundler &&\
     gem install --quiet --no-document singularitygs &&\
     gem install --quiet --no-document fontcustom &&\
-    echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
-    echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
-    pip install -q mkdocs
+    rm -rf /root/.gem
 
-RUN wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip &&\
+# mkdocs
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
+    python-pip &&\
+    pip install -q mkdocs &&\
+    apt-get purge python-pip -yqq &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /var/log/* &&\
+    rm -rf /var/cache/* &&\
+    rm -rf /tmp/*
+
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
+    fontforge\
+    zlib1g-dev &&\
+    wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip &&\
     echo "3a2d5c0f495f8dda2b311d80b6a1e4ad5b98fd098cc5573e92e5e7193d0f0746f8e3e90f7b1dddbaad8c336a68874a32c028ac650c067cfb2cce2f540411e2f9  woff-code-latest.zip" | sha512sum -c - \
     && unzip woff-code-latest.zip -d sfnt2woff &&\
     cd sfnt2woff &&\
     make &&\
-    mv sfnt2woff /usr/local/bin/
+    mv sfnt2woff /usr/local/bin/ &&\
+    cd / && rm woff-code-latest.zip &&\
+    rm -rf sfnt2woff &&\
+    apt-get purge zlib1g-dev -yqq &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /var/log/* &&\
+    rm -rf /var/cache/* &&\
+    rm -rf /tmp/*
 
 # Mysql client && PHP packages for the cli.
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
     mysql-common\
     mysql-client\
     php5-cli\
@@ -64,72 +86,71 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq 
     php5-readline\
     php5-curl\
     php5-sqlite &&\
-    echo "date.timezone=Europe/Berlin" >> /etc/php5/cli/php.ini
+    echo "date.timezone=Europe/Berlin" >> /etc/php5/cli/php.ini &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /var/log/* &&\
+    rm -rf /var/cache/* &&\
+    rm -rf /tmp/*
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
     echo "1a60761d857099fd58b947c9976c867174312c0d7e48a242d3807d00269dc0683738d5f2442f966443aef7797d9b02c37062b55db814a6591307e1c0a38fe1f0  composer-setup.php" | sha512sum -c - \
-    && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
+    && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer &&\
+    rm -rf /root/.composer/ &&\
+    rm -rf /tmp/*
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
-RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.2/drush.phar -o drush &&\
-    echo "80e346ec9fb6b13a5a7c1893a89e59f5d8456c89d54fecac64ff161fba390b719b1d3b01aef5f1c62326ba84fa72604cedc79b2339c6cc4336b6723600d49b39  drush"  | sha512sum -c - \
-    && mv drush /usr/local/bin/drush &&\
+RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.3/drush.phar -o /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
-    curl -sSL http://codeception.com/codecept.phar -o /usr/local/bin/codecept &&\
-    chmod +x /usr/local/bin/codecept
+    echo "90afc3b40248bae30c75c37ef3d3e7f8fcc3e9e1dd1fa4a853c68c944343c0cbef9760278ee19486e3c750979ce5c06e060e596bfa6073162b267284e0bf1527  /usr/local/bin/drush"  | sha512sum -c -
 
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
-    drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2
+    drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2 &&\
+    rm -rf /root/.drush
 
-# PHPQA Analyzer CLI tool - https://github.com/jmolivas/phpqa
+# PHPQA Analyzer CLI tool - https://github.com/tobiasbaehr/phpqa.git (https://github.com/jmolivas/phpqa)
 RUN cd /usr/local/src && git clone --branch update --quiet --depth=1 https://github.com/tobiasbaehr/phpqa.git &&\
     cd phpqa &&\
     rm composer.lock &&\
     rm -rf .git &&\
     composer install --no-dev --no-interaction --prefer-dist --no-ansi &&\
-    ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa
+    ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa &&\
+    rm -rf /root/.composer/
 
 # icdiff - https://github.com/jeffkaufman/icdiff
 RUN curl -sSL https://github.com/jeffkaufman/icdiff/archive/master.zip -o /tmp/icdiff.zip &&\
     unzip -q /tmp/icdiff.zip -d /tmp/ &&\
     mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
-    mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff
+    mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff &&\
+    rm -rf /tmp/*
 
 # Nodejs and npm packages for frontend stuff
-RUN rm -rf /var/lib/apt/lists/* && curl -sSL https://deb.nodesource.com/setup_5.x | bash - &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
-  npm install --production --no-color --no-progress -g npm &&\
-  npm install --production --no-color --no-progress -g grunt-cli &&\
-  npm install --production --no-color --no-progress -g bower &&\
-  npm install --production --no-color --no-progress -g gulp &&\
-  npm install --production --no-color --no-progress -g npm-run &&\
-  npm install --production --no-color --no-progress -g caniuse-cmd
+RUN curl -sSL https://deb.nodesource.com/setup_4.x | bash - &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
+    npm install --production --no-color --no-progress -g npm &&\
+    npm install --production --no-color --no-progress -g grunt-cli bower gulp npm-run caniuse-cmd &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -rf /var/log/* &&\
+    rm -rf /var/cache/* &&\
+    rm -rf /tmp/* &&\
+    rm -rf /root/.npm
 
 # sassc
 RUN cd /tmp && git clone https://github.com/sass/sassc && cd sassc &&\
     git clone https://github.com/sass/libsass &&\
-    SASS_LIBSASS_PATH=/tmp/sassc/libsass make &&\
-    mv /tmp/sassc/bin/sassc /usr/local/bin/sassc
+    SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s &&\
+    mv /tmp/sassc/bin/sassc /usr/local/bin/sassc &&\
+    rm -rf /tmp/*
 
+#Setup dev user
 RUN useradd dev -m -s /usr/bin/zsh &&\
-    git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen &&\
+    su dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" &&\
     usermod -a -G sudo dev &&\
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
-    chmod 0440 /etc/sudoers.d/dev &&\
-    git clone --quiet --depth=1 https://github.com/reinblau/yadd.git /home/dev/yadd &&\
-    rm -rf /home/dev/yadd/.git
+    chmod 0440 /etc/sudoers.d/dev
 
-ADD .zshrc /home/dev/.zshrc
+COPY .zshrc /home/dev/.zshrc
 
-RUN chown -R dev: /home/dev/ &&\
-    su dev -c "source /home/dev/.zshrc" &&\
-    chown -R dev: /home/dev/
-
-RUN rm -rf /tmp/* &&\
-    rm -rf /var/lib/apt/lists/* &&\
-    rm -rf /root/.npm &&\
-    rm -rf /root/.gem &&\
-    rm -rf /root/.drush &&\
-    rm -rf /root/.composer
+RUN su dev -c "source /home/dev/.zshrc" &&\
+    find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
