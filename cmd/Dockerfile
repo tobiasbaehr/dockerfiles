@@ -25,7 +25,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     vim\
     tig\
     locales\
-    zsh &&\
+    zsh\
     optipng &&\
     rm -rf /var/lib/apt/lists/* &&\
     rm -rf /var/log/* &&\
