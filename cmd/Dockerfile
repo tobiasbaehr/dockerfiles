@@ -37,7 +37,8 @@ RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
   locale-gen de_DE.UTF-8 &&\
   update-locale LANG=de_DE.UTF-8 &&\
   echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
-  echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc
+  echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
+  echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf
 
 # Ruby gems
 RUN gem update --quiet --no-document --system &&\
