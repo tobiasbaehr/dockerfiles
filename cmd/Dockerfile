@@ -95,7 +95,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     rm -rf /tmp/*
 
 RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php &&\
-    echo "bcdfcdb0a828c169f18bce4b2c6d7880fcfd960c720a74e654effa7cb5b93c6e9498144acbb4b8c1e6065bcfd623de4a19c43a33219c226dc401446f26f6e50f  composer-setup.php" | sha512sum -c - \
+    echo "90b0481498d5113c8034ddb84840f3894b9bcc8c067b16e8f1efee168a01d024b318ae74b2b0eac35f97d4c88ab83b48f670425693bf31d3644698560e260932  composer-setup.php" | sha512sum -c - \
     && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer &&\
     rm -rf /root/.composer/ &&\
     rm -rf /tmp/*
