@@ -9,7 +9,7 @@ Installed Tools
 ---------------
 * Mysql client
 * [composer](https://getcomposer.org/)
-* [drupalconsole](http://drupalconsole.com/)
+* [Drupal Console Launcher](http://drupalconsole.com/)
 * [phpqa](https://github.com/jmolivas/phpqa)
 * [drush](https://github.com/drush-ops/drush)
  * [Registry Rebuild](https://www.drupal.org/project/registry_rebuild)
