@@ -20,5 +20,5 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 	rm -rf /tmp/*
 
 COPY php.ini /usr/local/etc/php/conf.d/custom_php.ini
-
+COPY xdebug_for_mac.sh /usr/local/bin/xdebug_for_mac
 RUN usermod -u 1000 www-data
