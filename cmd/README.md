@@ -34,3 +34,4 @@ Installed Tools
 * [tig](https://github.com/jonas/tig)
 * [sassc](http://sass-lang.com/libsass)
 * [OptiPNG](http://optipng.sourceforge.net/)
+* [jekyll](http://jekyllrb.com/)

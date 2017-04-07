@@ -47,6 +47,7 @@ RUN gem update --quiet --no-document --system &&\
     gem install --quiet --no-document bundler &&\
     gem install --quiet --no-document singularitygs &&\
     gem install --quiet --no-document fontcustom &&\
+    gem install --quiet --no-document jekyll &&\
     rm -rf /root/.gem
 
 # mkdocs
