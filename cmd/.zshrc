@@ -1,8 +1,8 @@
 export LANG=de_DE.UTF-8
 export NVM_DIR="$HOME/.nvm"
-PATH="$PATH:$HOME/.composer/vendor/bin"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+export ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache/"
 
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 source ~/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
@@ -36,3 +36,4 @@ antigen theme gentoo
 antigen apply
 
 alias ll="ls -lah --color=auto"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
