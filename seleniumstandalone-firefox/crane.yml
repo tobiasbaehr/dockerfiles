@@ -1,7 +1,0 @@
-containers:
-  seleniumstandalone-firefox:
-    image: selenium/standalone-firefox
-    run:
-      publish: ["4444:4444"]
-      detach: true
-      env: ["VIRTUAL_HOST=seleniumstandalone-firefox.dd"]
