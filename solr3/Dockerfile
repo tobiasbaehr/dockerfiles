@@ -6,7 +6,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq\
 
 ENV SOLR_VERSION 3.6.2
 
-ENV SEARCH_API_SOLR_VERSION 7.x-1.21
+ENV SEARCH_API_SOLR_VERSION 7.x-1.12
 
 RUN mkdir -p /opt
 ADD http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz /opt/apache-solr-$SOLR_VERSION.tgz
