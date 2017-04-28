@@ -1,7 +1,5 @@
 FROM debian:wheezy
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq\
     libreadline-gplv2-dev\
     libfreetype6\

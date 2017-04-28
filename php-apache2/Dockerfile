@@ -1,7 +1,5 @@
 FROM reinblau/debian
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 ENV APACHE_RUN_USER  www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_PID_FILE  /var/run/apache2.pid

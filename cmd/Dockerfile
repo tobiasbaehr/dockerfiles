@@ -1,7 +1,5 @@
 FROM debian:jessie
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
     gcc\
     g++\

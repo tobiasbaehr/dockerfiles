@@ -1,7 +1,5 @@
 FROM debian:squeeze
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 RUN echo "" > /etc/apt/sources.list &&\
   echo "deb http://ftp.de.debian.org/debian-archive/debian/ squeeze main" >> /etc/apt/sources.list &&\
   echo "deb http://security.debian.org squeeze/updates main" >> /etc/apt/sources.list

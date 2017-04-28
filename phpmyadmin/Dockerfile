@@ -1,7 +1,5 @@
 FROM reinblau/lamp:5.6
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 # PhpMyadmin
 
 ADD https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip /tmp/phpmyadmin.zip

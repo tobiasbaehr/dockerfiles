@@ -1,7 +1,5 @@
 FROM php:5.4-apache
 
-MAINTAINER Tobias Bähr "tobias.baehr@reinblau.de"
-
 RUN a2enmod rewrite vhost_alias
 
 # install the PHP extensions we need
