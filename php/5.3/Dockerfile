@@ -18,6 +18,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
   curl \
   tar \
   apache2 \
+  apache2-utils \
   xz
 
 RUN set -xe; \
