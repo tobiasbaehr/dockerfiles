@@ -3,7 +3,6 @@ FROM alpine:3.4
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
   autoconf \
-  dpkg-dev dpkg \
   file \
   g++ \
   gcc \
@@ -98,7 +97,6 @@ RUN set -xe \
     LDFLAGS="$PHP_LDFLAGS" \
   && docker-php-source extract \
   && cd /usr/src/php \
-  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
   && ./configure \
     --sysconfdir="$PHP_INI_DIR" \
     --with-layout=GNU \
