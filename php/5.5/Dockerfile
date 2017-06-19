@@ -3,28 +3,30 @@ FROM alpine:3.4
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
   autoconf \
+  dpkg-dev dpkg \
   file \
   g++ \
   gcc \
   libc-dev \
   make \
   pkgconf \
+  pcre-dev \
   re2c
 
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
   curl \
   tar \
+  apache2 \
+  apache2-utils \
   xz
 
-# ensure www-data user exists
-  RUN set -x \
-  && addgroup -g 82 -S www-data \
-  && adduser -u 82 -D -S -G www-data www-data
-# 82 is the standard uid/gid for "www-data" in Alpine
-# http://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.3.2
-# http://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.3.2
-# http://git.alpinelinux.org/cgit/aports/tree/main/nginx-initscripts/nginx-initscripts.pre-install?h=v3.3.2
+RUN set -xe; \
+  mkdir -p /run/apache2/ \
+  && sed -i 's/^#ServerName.*/ServerName localhost/' /etc/apache2/httpd.conf \
+  && sed -i 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' /etc/apache2/httpd.conf \
+  && ln -sf /dev/stdout /var/log/apache2/access.log \
+  && ln -sf /dev/stderr /var/log/apache2/error.log
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
@@ -84,15 +86,26 @@ RUN set -xe \
     libedit-dev \
     libxml2-dev \
     openssl-dev \
+    apache2-dev \
+    coreutils \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libmcrypt-dev \
   \
   && export CFLAGS="$PHP_CFLAGS" \
     CPPFLAGS="$PHP_CPPFLAGS" \
     LDFLAGS="$PHP_LDFLAGS" \
   && docker-php-source extract \
   && cd /usr/src/php \
+  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
   && ./configure \
+    --build="$gnuArch" \
+    --sysconfdir="$PHP_INI_DIR" \
+    --with-layout=GNU \
     --with-config-file-path="$PHP_INI_DIR" \
     --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
+    --with-apxs2=/usr/bin/apxs \
     \
     --disable-rpath \
     --disable-debug \
@@ -105,7 +118,6 @@ RUN set -xe \
     --without-db4 \
     --without-qdbm \
     --without-pdo_sqlite \
-    --without-sqlite \
     --without-sqlite3 \
     \
 # --enable-ftp is included here because ftp_ssl_connect() needs ftp to be compiled statically (see https://github.com/docker-library/php/issues/236)
@@ -114,11 +126,24 @@ RUN set -xe \
   --enable-mbstring \
 # --enable-mysqlnd is included here because it's harder to compile after the fact than extensions are (since it's a plugin for several extensions, not an extension in itself)
   --enable-mysqlnd \
+  --enable-pdo \
+  --enable-zip \
     \
     --with-curl \
     --with-libedit \
     --with-openssl \
     --with-zlib \
+    --with-gd \
+    --with-mcrypt \
+    --enable-gd-native-ttf \
+    --with-freetype-dir=/usr/include/ \
+    --with-jpeg-dir=/usr/include/ \
+    --with-png-dir=/usr/include/ \
+    --with-pdo-mysql=mysqlnd \
+    \
+    # bundled pcre is too old for s390x (which isn't exactly a good sign)
+    # /usr/src/php/ext/pcre/pcrelib/pcre_jit_compile.c:65:2: error: #error Unsupported architecture
+    --with-pcre-regex=/usr \
     \
     $PHP_EXTRA_CONFIGURE_ARGS \
   && make -j "$(getconf _NPROCESSORS_ONLN)" \
@@ -138,10 +163,21 @@ RUN set -xe \
   )" \
   && apk add --no-cache --virtual .php-rundeps $runDeps \
   \
-  && apk del .build-deps
+  && apk del .build-deps \
+  \
+# https://github.com/docker-library/php/issues/443
+&& pecl update-channels \
+&& rm -rf /tmp/pear ~/.pearrc \
+&& sed -i 's,lib/apache2/libphp5.so,modules/libphp5.so,' /etc/apache2/httpd.conf
 
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 COPY override_php.ini $PHP_INI_DIR/conf.d/
 
+COPY apache2-foreground /usr/local/bin/
+COPY php5-module.conf /etc/apache2/conf.d/
+
+WORKDIR /var/www/localhost/htdocs
+
+EXPOSE 80
 ENTRYPOINT ["docker-php-entrypoint"]
-CMD ["php", "-a"]
+CMD ["apache2-foreground"]
