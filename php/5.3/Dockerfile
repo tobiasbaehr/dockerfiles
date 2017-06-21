@@ -79,8 +79,8 @@ RUN set -xe; \
 
 COPY docker-php-source /usr/local/bin/
 
-RUN set -xe \
-  && apk add --no-cache --virtual .build-deps \
+RUN set -xe; \
+  apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     curl-dev \
     libedit-dev \
