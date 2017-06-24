@@ -1,12 +1,6 @@
-FROM debian:jessie
+FROM debian:jessie-slim
 
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
-    gcc\
-    g++\
-    make\
-    pkg-config\
-    ruby-dev\
-    ruby\
     unzip\
     bzip2\
     wget\
@@ -19,11 +13,11 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-in
     patch\
     less\
     rsync\
-    python\
-    vim\
     tig\
     locales\
     zsh\
+    ca-certificates\
+    apt-transport-https\
     optipng &&\
     rm -rf /var/lib/apt/lists/* &&\
     rm -rf /var/log/* &&\
@@ -38,42 +32,27 @@ RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
   echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
   echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf
 
-# Ruby gems
-RUN gem update --quiet --no-document --system &&\
-    gem update --quiet --no-document &&\
-    gem install --quiet --no-document compass &&\
-    gem install --quiet --no-document bundler &&\
-    gem install --quiet --no-document singularitygs &&\
-    gem install --quiet --no-document fontcustom &&\
-    gem install --quiet --no-document jekyll &&\
-    rm -rf /root/.gem
-
-# mkdocs
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
-    python-pip &&\
-    pip install -q mkdocs &&\
-    apt-get purge python-pip -yqq &&\
-    rm -rf /var/lib/apt/lists/* &&\
-    rm -rf /var/log/* &&\
-    rm -rf /var/cache/* &&\
-    rm -rf /tmp/*
-
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq\
-    fontforge\
-    zlib1g-dev &&\
-    wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip &&\
-    echo "3a2d5c0f495f8dda2b311d80b6a1e4ad5b98fd098cc5573e92e5e7193d0f0746f8e3e90f7b1dddbaad8c336a68874a32c028ac650c067cfb2cce2f540411e2f9  woff-code-latest.zip" | sha512sum -c - \
-    && unzip woff-code-latest.zip -d sfnt2woff &&\
-    cd sfnt2woff &&\
-    make &&\
-    mv sfnt2woff /usr/local/bin/ &&\
-    cd / && rm woff-code-latest.zip &&\
-    rm -rf sfnt2woff &&\
-    apt-get purge zlib1g-dev -yqq &&\
-    rm -rf /var/lib/apt/lists/* &&\
-    rm -rf /var/log/* &&\
-    rm -rf /var/cache/* &&\
-    rm -rf /tmp/*
+RUN set -xe \
+    && buildDeps=" \
+      fontforge\
+      zlib1g-dev \
+      make \
+      gcc \
+      " \
+    && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq $buildDeps \
+    && wget https://people.mozilla.com/~jkew/woff/woff-code-latest.zip \
+    && echo "3a2d5c0f495f8dda2b311d80b6a1e4ad5b98fd098cc5573e92e5e7193d0f0746f8e3e90f7b1dddbaad8c336a68874a32c028ac650c067cfb2cce2f540411e2f9  woff-code-latest.zip" | sha512sum -c - \
+    && unzip woff-code-latest.zip -d sfnt2woff \
+    && cd sfnt2woff \
+    && make \
+    && mv sfnt2woff /usr/local/bin/ \
+    && cd / && rm woff-code-latest.zip \
+    && rm -rf sfnt2woff \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/log/* \
+    && rm -rf /var/cache/* \
+    && rm -rf /tmp/*
 
 # Mysql client && PHP packages for the cli.
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
@@ -110,27 +89,12 @@ RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
     drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2 &&\
     rm -rf /root/.drush
 
-# PHPQA Analyzer CLI tool - https://github.com/tobiasbaehr/phpqa.git (https://github.com/jmolivas/phpqa)
-RUN cd /usr/local/src && git clone --branch update --quiet --depth=1 https://github.com/tobiasbaehr/phpqa.git &&\
-    cd phpqa &&\
-    rm composer.lock &&\
-    rm -rf .git &&\
-    composer install --no-dev --no-interaction --prefer-dist --no-ansi &&\
-    ln -s /usr/local/src/phpqa/bin/phpqa /usr/local/bin/phpqa &&\
-    rm -rf /root/.composer/
-
-# icdiff - https://github.com/jeffkaufman/icdiff
-RUN curl -sSL https://github.com/jeffkaufman/icdiff/archive/master.zip -o /tmp/icdiff.zip &&\
-    unzip -q /tmp/icdiff.zip -d /tmp/ &&\
-    mv /tmp/icdiff-master/icdiff /usr/local/bin/icdiff &&\
-    mv /tmp/icdiff-master/git-icdiff /usr/local/bin/git-icdiff &&\
-    rm -rf /tmp/*
-
 # Nodejs and npm packages for frontend stuff
 RUN curl -sSL https://deb.nodesource.com/setup_4.x | bash - &&\
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq nodejs &&\
     npm install --production --no-color --no-progress -g npm &&\
-    npm install --production --no-color --no-progress -g grunt-cli bower gulp npm-run caniuse-cmd &&\
+    npm install --production --no-color --no-progress -g grunt-cli bower gulp npm-run caniuse-cmd yarn &&\
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false lsb-release &&\
     rm -rf /var/lib/apt/lists/* &&\
     rm -rf /var/log/* &&\
     rm -rf /var/cache/* &&\
@@ -138,11 +102,21 @@ RUN curl -sSL https://deb.nodesource.com/setup_4.x | bash - &&\
     rm -rf /root/.npm
 
 # sassc
-RUN cd /tmp && git clone https://github.com/sass/sassc && cd sassc &&\
-    git clone https://github.com/sass/libsass &&\
-    SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s &&\
-    mv /tmp/sassc/bin/sassc /usr/local/bin/sassc &&\
-    rm -rf /tmp/*
+RUN set -xe \
+    && buildDeps=" \
+      make \
+      g++ \
+    " \
+    && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq $buildDeps \
+    && cd /tmp && git clone https://github.com/sass/sassc && cd sassc \
+    && git clone https://github.com/sass/libsass \
+    && SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s \
+    && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/log/* \
+    && rm -rf /var/cache/* \
+    && rm -rf /tmp/*
 
 #Setup dev user
 RUN useradd dev -m -s /usr/bin/zsh &&\
@@ -155,3 +129,28 @@ COPY .zshrc /home/dev/.zshrc
 
 RUN su dev -c "source /home/dev/.zshrc" &&\
     find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
+
+RUN set -xe \
+    && buildDeps=" \
+      ruby-dev\
+      ruby-build\
+      libssl-dev \
+    " \
+    && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq $buildDeps \
+    && su -l dev -c "git clone https://github.com/rbenv/rbenv.git .rbenv" \
+    && su -l dev -c "mkdir -p .rbenv/plugins/" \
+    && su -l dev -c "git clone https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build"\
+    && su -l dev -c ".rbenv/bin/rbenv install 2.4.0" \
+    && su -l dev -c ".rbenv/bin/rbenv global 2.4.0" \
+    && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
+    && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
+    && su -l dev -c ".rbenv/shims/gem install --quiet --no-document fontcustom" \
+    && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/log/* \
+    && rm -rf /var/cache/* \
+    && rm -rf /home/dev/.gem \
+    && rm -rf /tmp/*
+
+USER dev
