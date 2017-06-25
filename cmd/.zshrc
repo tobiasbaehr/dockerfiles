@@ -36,4 +36,4 @@ antigen theme gentoo
 antigen apply
 
 alias ll="ls -lah --color=auto"
-[ -f "$HOME/.rbenv/bin/rbenv" ] && eval "$(rbenv init -)"
+eval "$(rbenv init - 2>/dev/null)"
