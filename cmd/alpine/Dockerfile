@@ -1,37 +1,11 @@
 FROM alpine:3.4
 
-# skip installing gem documentation
-RUN set -ex; \
-  mkdir -p /usr/local/etc \
-  && { \
-    echo 'install: --no-document --quiet'; \
-    echo 'update: --no-document --quiet'; \
-    } >> /usr/local/etc/gemrc; \
-  echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-  && apk add --no-cache tzdata \
-  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-  && echo "Europe/Berlin" >  /etc/timezone
-
-# install things globally, for great justice
-# and don't create ".bundle" in all our apps
-ENV GEM_HOME /usr/local/bundle
-ENV BUNDLE_PATH="$GEM_HOME" \
-    BUNDLE_BIN="$GEM_HOME/bin" \
-    BUNDLE_SILENCE_ROOT_WARNING=1 \
-    BUNDLE_APP_CONFIG="$GEM_HOME"
-ENV PATH $BUNDLE_BIN:$PATH
-RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
-  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
-
-
-RUN set -ex; \
+RUN set -xe; \
   apk add --no-cache --virtual .persistent-deps \
   git \
   sudo \
   rsync \
   curl \
-  ruby-bundler@edge \
-  ruby@edge \
   nano \
   bzip2 \
   mysql-client \
@@ -47,45 +21,11 @@ RUN set -ex; \
   php5-zlib \
   nodejs \
   bash \
-  zsh && \
-  echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini
-
-RUN set -ex; \
-  apk add --no-cache --virtual .ruby-builddeps \
-  ruby-dev \
-  autoconf \
-  bison \
-  bzip2-dev \
-  ca-certificates \
-  coreutils \
-  gcc \
-  gdbm-dev \
-  glib-dev \
-  libc-dev \
-  libffi-dev \
-  libxml2-dev \
-  libxslt-dev \
-  linux-headers \
-  make \
-  ncurses-dev \
-  openssl \
-  openssl-dev \
-  procps \
-  readline-dev \
-  yaml-dev \
-  zlib-dev \
-  make \
-  xz
-
-# Ruby gems
-RUN set -xe; \
-  gem update --system --no-document \
-  && gem update --no-document \
-  && gem install --quiet --no-document compass \
-  && gem install --quiet --no-document bundler \
-  && gem install --quiet --no-document singularitygs \
-  && gem install --quiet --no-document jekyll \
-  && rm -rf /root/.gem
+  zsh \
+  tzdata \
+  && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \
+  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+  && echo "Europe/Berlin" > /etc/timezone
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
@@ -112,10 +52,10 @@ RUN set -xe; \
 
 # Setup dev user
 RUN set -xe; \
-  adduser dev -s /bin/zsh -D &&\
-  su dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" &&\
-  echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev &&\
-  chmod 0440 /etc/sudoers.d/dev
+  adduser dev -s /bin/zsh -D \
+  && su dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" \
+  && echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev \
+  && chmod 0440 /etc/sudoers.d/dev
 
 # Fix bug https://github.com/npm/npm/issues/9863
 RUN set -xe; \
@@ -127,8 +67,10 @@ RUN set -xe; \
 # sassc
 RUN set -xe; \
   apk add --no-cache --virtual .build-deps \
+  make \
   g++ \
-  && cd /tmp && git clone https://github.com/sass/sassc && cd sassc \
+  ; \
+  cd /tmp && git clone https://github.com/sass/sassc && cd sassc \
   && git clone https://github.com/sass/libsass \
   && SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s\
   && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
@@ -137,5 +79,37 @@ RUN set -xe; \
 
 COPY .zshrc /home/dev/.zshrc
 
-RUN su dev -c "source /home/dev/.zshrc" &&\
-  find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
+RUN su dev -c "source /home/dev/.zshrc" \
+    && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
+
+RUN set -xe; \
+  export CONFIGURE_OPTS="--disable-install-doc"; \
+  apk add --no-cache gmp yaml \
+  && apk add --no-cache --virtual .build-deps \
+  gcc \
+  make \
+  zlib-dev \
+  openssl-dev \
+  gdbm-dev \
+  db-dev \
+  libedit-dev \
+  libffi-dev \
+  coreutils \
+  linux-headers \
+  autoconf \
+  libc-dev \
+  gmp-dev \
+  yaml-dev \
+  ; \
+  su -l dev -c "git clone --depth=1 https://github.com/rbenv/rbenv.git .rbenv" \
+  && su -l dev -c "mkdir -p .rbenv/plugins/" \
+  && su -l dev -c "git clone --depth=1 https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build" \
+  && su -l dev -c ".rbenv/bin/rbenv install 2.4.1" \
+  && su -l dev -c ".rbenv/bin/rbenv global 2.4.1" \
+  && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
+  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
+  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
+  && apk del .build-deps \
+  && rm -rf /tmp/* \
+  && rm -rf /home/dev/.gem/ \
+  && rm -rf /home/dev/.rbenv/plugins/ruby-build
