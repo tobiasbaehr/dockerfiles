@@ -152,5 +152,3 @@ RUN set -xe \
     && rm -rf /var/cache/* \
     && rm -rf /home/dev/.gem \
     && rm -rf /tmp/*
-
-USER dev
