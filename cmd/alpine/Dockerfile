@@ -19,6 +19,7 @@ RUN set -xe; \
   php5-ctype \
   php5-zip \
   php5-zlib \
+  php5-pdo_mysql \
   nodejs \
   bash \
   zsh \
