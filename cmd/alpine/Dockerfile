@@ -24,6 +24,7 @@ RUN set -xe; \
   bash \
   zsh \
   tzdata \
+  openssh-client \
   && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \
   && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
   && echo "Europe/Berlin" > /etc/timezone
