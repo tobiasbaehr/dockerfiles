@@ -26,6 +26,7 @@ RUN set -xe; \
   tzdata \
   openssh-client \
   && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \
+  && echo "memory_limit=256M" >> /etc/php5/php.ini \
   && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
   && echo "Europe/Berlin" > /etc/timezone
 
