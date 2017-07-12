@@ -45,7 +45,7 @@ ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9
 
 ENV PHP_VERSION 7.1.7
 ENV PHP_URL="https://secure.php.net/get/php-7.1.7.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.6.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="01584dc521ab7ec84b502b61952f573652fe6aa00c18d6d844fb9209f14b245b" PHP_MD5="eafc7a79cc8cc62c9292c96f9c9ccf90"
+ENV PHP_SHA256="d149a3c396c45611f5dc6bf14be190f464897145a76a8e5851cf18ff7094f6ac"
 
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
@@ -60,9 +60,6 @@ RUN set -xe; \
   \
   if [ -n "$PHP_SHA256" ]; then \
     echo "$PHP_SHA256 *php.tar.xz" | sha256sum -c -; \
-  fi; \
-  if [ -n "$PHP_MD5" ]; then \
-    echo "$PHP_MD5 *php.tar.xz" | md5sum -c -; \
   fi; \
   \
   if [ -n "$PHP_ASC_URL" ]; then \
