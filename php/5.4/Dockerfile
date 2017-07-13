@@ -71,7 +71,7 @@ RUN set -xe; \
       gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
     done; \
     gpg --batch --verify php.tar.gz.asc php.tar.gz; \
-    rm -r "$GNUPGHOME"; \
+    rm -rf "$GNUPGHOME"; \
   fi; \
   \
   apk del .fetch-deps

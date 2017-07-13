@@ -44,7 +44,7 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E
 
 ENV PHP_VERSION 7.1.7
-ENV PHP_URL="https://secure.php.net/get/php-7.1.7.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.6.tar.xz.asc/from/this/mirror"
+ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
 ENV PHP_SHA256="d149a3c396c45611f5dc6bf14be190f464897145a76a8e5851cf18ff7094f6ac"
 
 RUN set -xe; \
@@ -69,7 +69,7 @@ RUN set -xe; \
       gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
     done; \
     gpg --batch --verify php.tar.xz.asc php.tar.xz; \
-    rm -r "$GNUPGHOME"; \
+    rm -rf "$GNUPGHOME"; \
   fi; \
   \
   apk del .fetch-deps
