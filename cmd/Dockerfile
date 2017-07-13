@@ -32,28 +32,6 @@ RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen &&\
   echo 'alias ll="ls -lah --color=auto"' >> /etc/bash.bashrc &&\
   echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf
 
-RUN set -xe \
-    && buildDeps=" \
-      fontforge\
-      zlib1g-dev \
-      make \
-      gcc \
-      " \
-    && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq $buildDeps \
-    && wget https://people.mozilla.com/~jkew/woff/woff-code-latest.zip \
-    && echo "3a2d5c0f495f8dda2b311d80b6a1e4ad5b98fd098cc5573e92e5e7193d0f0746f8e3e90f7b1dddbaad8c336a68874a32c028ac650c067cfb2cce2f540411e2f9  woff-code-latest.zip" | sha512sum -c - \
-    && unzip woff-code-latest.zip -d sfnt2woff \
-    && cd sfnt2woff \
-    && make \
-    && mv sfnt2woff /usr/local/bin/ \
-    && cd / && rm woff-code-latest.zip \
-    && rm -rf sfnt2woff \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/log/* \
-    && rm -rf /var/cache/* \
-    && rm -rf /tmp/*
-
 # Mysql client && PHP packages for the cli.
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yqq \
     mysql-common\
