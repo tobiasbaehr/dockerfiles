@@ -45,7 +45,7 @@ ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9
 
 ENV PHP_VERSION 7.1.7
 ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="d149a3c396c45611f5dc6bf14be190f464897145a76a8e5851cf18ff7094f6ac"
+ENV PHP_SHA256="0d42089729be7b2bb0308cbe189c2782f9cb4b07078c8a235495be5874fff729"
 
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
