@@ -44,7 +44,7 @@ ENV PHP_VERSION 5.4.45
 ENV PHP_URL="https://secure.php.net/get/php-5.4.45.tar.gz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-5.4.45.tar.gz.asc/from/this/mirror"
 ENV PHP_SHA256="25bc4723955f4e352935258002af14a14a9810b491a19400d76fcdfa9d04b28f" PHP_MD5="ba580e774ed1ab256f22d1fa69a59311"
 
-ADD 5DA04B5D.asc /tmp/
+COPY 5DA04B5D.asc /tmp/
 
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
