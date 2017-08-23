@@ -40,11 +40,11 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-ENV GPG_KEYS F38252826ACD957EF380D39F2F7956BC5DA04B5D
-
 ENV PHP_VERSION 5.4.45
 ENV PHP_URL="https://secure.php.net/get/php-5.4.45.tar.gz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-5.4.45.tar.gz.asc/from/this/mirror"
 ENV PHP_SHA256="25bc4723955f4e352935258002af14a14a9810b491a19400d76fcdfa9d04b28f" PHP_MD5="ba580e774ed1ab256f22d1fa69a59311"
+
+ADD 5DA04B5D.asc /tmp/
 
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
@@ -67,9 +67,7 @@ RUN set -xe; \
   if [ -n "$PHP_ASC_URL" ]; then \
     wget -O php.tar.gz.asc "$PHP_ASC_URL"; \
     export GNUPGHOME="$(mktemp -d)"; \
-    for key in $GPG_KEYS; do \
-      gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-    done; \
+    gpg --import /tmp/5DA04B5D.asc; \
     gpg --batch --verify php.tar.gz.asc php.tar.gz; \
     rm -rf "$GNUPGHOME"; \
   fi; \
