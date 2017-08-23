@@ -58,9 +58,9 @@ RUN cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php 
 
 RUN curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
-RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.12/drush.phar -o /usr/local/bin/drush &&\
+RUN cd /tmp && curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.13/drush.phar -o /usr/local/bin/drush &&\
     chmod +x /usr/local/bin/drush &&\
-    echo "d282af8064d40119c1fbb93796ad4ae7aaeab0f4cbf420759a7fab0a50a847eb1880c86ce63e9863bafcb63fddd134ee4d7ae3bf4ed557dd0f06dfcedb76632b  /usr/local/bin/drush"  | sha512sum -c -
+    echo "7f8a3007edf2e3d6065a2e45dc0f17e8da1329f65f30ea8756a66f71f6715ca34c4350dc5eac434998596f72e6c3b86a5051fd7d534a3a9eb89a8f73b4a9e994  /usr/local/bin/drush"  | sha512sum -c -
 
 # Contrib drush commands
 RUN mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
