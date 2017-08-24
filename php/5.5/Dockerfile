@@ -72,7 +72,7 @@ RUN set -xe; \
     wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
     export GNUPGHOME="$(mktemp -d)"; \
     for key in $GPG_KEYS; do \
-      gpg --import "/tmp/$key"; \
+      gpg --import "/tmp/$key.asc"; \
     done; \
     gpg --batch --verify php.tar.xz.asc php.tar.xz; \
     rm -rf "$GNUPGHOME"; \
