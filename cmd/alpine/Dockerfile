@@ -43,9 +43,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.13/drush.phar -o /usr/local/bin/drush \
+	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.14/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
-  && echo "7f8a3007edf2e3d6065a2e45dc0f17e8da1329f65f30ea8756a66f71f6715ca34c4350dc5eac434998596f72e6c3b86a5051fd7d534a3a9eb89a8f73b4a9e994  /usr/local/bin/drush"  | sha512sum -c -
+  && echo "1a4bf739b373d9b0234132442dd163f8441cbc9f236791953680157a34cf7e82968c5672a212bc9ee334d67f4ae991b92700cc323bba975ea591fc86f068c50a  /usr/local/bin/drush"  | sha512sum -c -
 
 # Contrib drush commands
 RUN set -xe; \
