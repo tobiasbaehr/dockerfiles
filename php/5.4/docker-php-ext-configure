@@ -52,7 +52,6 @@ if [ "$pm" = 'apk' ]; then
 	fi
 fi
 
-set -x
 cd "$ext"
 phpize
 ./configure "$@"
