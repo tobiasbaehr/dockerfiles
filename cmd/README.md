@@ -1,7 +1,7 @@
 Commander for Drupal/PHP-Projects
 ===============
 
-Uses as base image [debian:jessie](https://registry.hub.docker.com/_/debian/).
+Uses as base image [debian:jessie](https://hub.docker.com/_/debian/).
 
 This is intended as an interactive image.
 

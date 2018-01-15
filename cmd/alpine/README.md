@@ -1,13 +1,14 @@
 Commander for Drupal/PHP-Projects
 ===============
 
-Uses as base image [debian:jessie](https://registry.hub.docker.com/_/debian/).
+Uses as base image [alpine:3.4](https://hub.docker.com/_/alpine/).
 
 This is intended as an interactive image.
 
 Installed Tools
 ---------------
 * Mysql client
+* PostgreSQL client
 * [composer](https://getcomposer.org/)
 * [Drupal Console Launcher](http://drupalconsole.com/)
 * [drush](https://github.com/drush-ops/drush)
