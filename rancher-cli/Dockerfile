@@ -13,8 +13,3 @@ RUN set -xe; \
   && chmod +x /usr/local/bin/rancher \
   && rm -rf /tmp/* \
   && apk del .build-deps
-
-RUN set -xe; \
-  apk add --no-cache --virtual .persistent-deps \
-  duply \
-  ; \
