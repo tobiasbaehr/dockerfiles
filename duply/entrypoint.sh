@@ -11,7 +11,7 @@ function setup() {
   gpg --import /root/pgp.pub
   echo -e "\npinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
 
-export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5)"
+export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5 | cut -c 1-8)"
 
 cat >/root/.duply/default/conf <<EOF
 # GPG
