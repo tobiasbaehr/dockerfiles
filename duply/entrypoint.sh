@@ -6,12 +6,11 @@ if [ ! -d /root/.duply/default ]; then
 fi
 
 function setup() {
-  echo "${DUPLY_GPG_KEY_PUB}" > /root/pgp.pub
-  echo -e "${DUPLY_GPG_KEY_PRIVATE}" > /root/pgp.private
-  gpg --import /root/pgp.pub
-  echo -e "\npinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
+  echo "${DUPLY_GPG_KEY}" > /root/pgp.asc
+  gpg --import /root/pgp.asc
+  #echo -e "pinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
 
-export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5 | cut -c 1-8)"
+export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5 | cut -c 9-17)"
 
 cat >/root/.duply/default/conf <<EOF
 # GPG
