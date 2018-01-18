@@ -6,8 +6,8 @@ if [ ! -d /root/.duply/default ]; then
 fi
 
 function setup() {
-  echo $DUPLY_GPG_KEY_PUB > /root/pgp.pub
-  echo $DUPLY_GPG_KEY_PRIVATE > /root/pgp.private
+  echo "${DUPLY_GPG_KEY_PUB}" > /root/pgp.pub
+  echo "${DUPLY_GPG_KEY_PRIVATE}" > /root/pgp.private
   gpg --import /root/pgp.pub
   echo "pinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
 
