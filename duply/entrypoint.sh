@@ -7,11 +7,11 @@ fi
 
 function setup() {
   echo "${DUPLY_GPG_KEY_PUB}" > /root/pgp.pub
-  echo "${DUPLY_GPG_KEY_PRIVATE}" > /root/pgp.private
+  echo -e "${DUPLY_GPG_KEY_PRIVATE}" > /root/pgp.private
   gpg --import /root/pgp.pub
-  echo "pinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
+  echo -e "\npinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
 
-export DUPLY_GPG_ID=gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5
+export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5)"
 
 cat >/root/.duply/default/conf <<EOF
 # GPG
