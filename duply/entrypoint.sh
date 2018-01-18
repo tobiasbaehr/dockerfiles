@@ -48,5 +48,5 @@ case "$1" in
     ;;
     *)
     setup
-    exec duply backup
+    exec duply default backup
 esac
