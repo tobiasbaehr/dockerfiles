@@ -17,8 +17,8 @@ cat >/root/.duply/default/conf <<EOF
 GPG_KEYS_ENC='${DUPLY_GPG_ID}'
 GPG_KEY_SIGN='${DUPLY_GPG_ID}'
 GPG_PW='${DUPLY_GPG_PW}'
-GPG_OPTS='--pinentry-mode loopback'
-
+#GPG_OPTS='--pinentry-mode loopback'
+GPG_OPTS='--trust-model always'
 # Base directory to backup
 SOURCE='/backup'
 
@@ -47,5 +47,5 @@ case "$1" in
     ;;
     *)
     setup
-    exec duply default backup
+    exec duply default "$@"
 esac
