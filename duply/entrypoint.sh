@@ -8,7 +8,7 @@ fi
 function setup() {
   echo "${DUPLY_GPG_KEY}" > /root/pgp.asc
   gpg --import /root/pgp.asc
-  #echo -e "pinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
+  echo -e "pinentry-mode loopback\nuse-agent" > /root/.gnupg/gpg.conf
 
 export DUPLY_GPG_ID="$(gpg --fingerprint --with-colon | grep ''^pub'' | cut -d: -f5 | cut -c 9-17)"
 
