@@ -21,6 +21,7 @@ RUN set -xe; \
   php5-zlib \
   php5-pdo_mysql \
   php5-dom \
+  php5-xml \
   nodejs \
   bash \
   zsh \
