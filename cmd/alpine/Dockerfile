@@ -111,8 +111,8 @@ RUN set -xe; \
   su -l dev -c "git clone --depth=1 https://github.com/rbenv/rbenv.git .rbenv" \
   && su -l dev -c "mkdir -p .rbenv/plugins/" \
   && su -l dev -c "git clone --depth=1 https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build" \
-  && su -l dev -c ".rbenv/bin/rbenv install 2.5.0" \
-  && su -l dev -c ".rbenv/bin/rbenv global 2.5.0" \
+  && su -l dev -c ".rbenv/bin/rbenv install 2.5.1" \
+  && su -l dev -c ".rbenv/bin/rbenv global 2.5.1" \
   && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
   && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
   && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
