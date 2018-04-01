@@ -42,9 +42,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS 0BD78B5F97500D450838F95DFE857D9A90D90EC1 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3
 
-ENV PHP_VERSION 5.6.33
+ENV PHP_VERSION 5.6.35
 ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="9004995fdf55f111cd9020e8b8aff975df3d8d4191776c601a46988c375f3553"
+ENV PHP_SHA256="9985cb64cb8224c289effff5b34f670d14f838175f76daea0507d643eec650d2"
 
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
