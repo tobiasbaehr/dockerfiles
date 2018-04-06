@@ -11,6 +11,8 @@ ENV PHPIZE_DEPS \
   pkgconf \
   re2c
 
+COPY disable_ipv6.conf /etc/sysctl.d/
+
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
   curl \
