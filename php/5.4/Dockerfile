@@ -11,7 +11,11 @@ ENV PHPIZE_DEPS \
   pkgconf \
   re2c
 
-COPY disable_ipv6.conf /etc/sysctl.d/
+RUN set -xe; \
+  apk add --no-cache tzdata;\
+  cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+  && echo "Europe/Berlin" > /etc/timezone; \
+  apk del tzdata
 
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
@@ -25,6 +29,7 @@ RUN set -xe; \
   mkdir -p /run/apache2/ \
   && sed -i 's/^#ServerName.*/ServerName localhost/' /etc/apache2/httpd.conf \
   && sed -i 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' /etc/apache2/httpd.conf \
+  && sed -i 's/^Listen 80/Listen 0.0.0.0:80/' /etc/apache2/httpd.conf \
   && ln -sf /dev/stdout /var/log/apache2/access.log \
   && ln -sf /dev/stderr /var/log/apache2/error.log
 
