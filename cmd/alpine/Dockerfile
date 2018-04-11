@@ -1,38 +1,53 @@
-FROM alpine:3.4
+FROM alpine:3.7
 
 RUN set -xe; \
-  apk add --no-cache --virtual .persistent-deps \
+  apk update \
+  && apk upgrade \
+  && rm -rf /var/cache/* \
+  && mkdir -p /var/cache/apk
+
+RUN set -xe; \
+  apk add --update --no-cache tzdata\
+  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+  && echo "Europe/Berlin" > /etc/timezone \
+  && apk del tzdata \
+  && rm -rf /var/cache/* \
+  && mkdir -p /var/cache/apk
+
+RUN set -xe; \
+  apk add --update --no-cache --virtual .persistent-deps \
   git \
   sudo \
   rsync \
   curl \
   nano \
   bzip2 \
-  mysql-client \
-  php5-cli \
-  php5-mcrypt \
-  php5-gd \
-  php5-curl \
-  php5-json \
-  php5-phar \
-  php5-openssl \
-  php5-ctype \
-  php5-zip \
-  php5-zlib \
-  php5-pdo_mysql \
-  php5-dom \
-  php5-xml \
   nodejs \
   bash \
   zsh \
-  tzdata \
   openssh-client \
+  mysql-client \
   postgresql-client \
-  && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \
-  && echo "memory_limit=256M" >> /etc/php5/php.ini \
-  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-  && echo "Europe/Berlin" > /etc/timezone
-
+  php7-cli \
+  php7-mcrypt \
+  php7-gd \
+  php7-curl \
+  php7-json \
+  php7-phar \
+  php7-openssl \
+  php7-ctype \
+  php7-zip \
+  php7-zlib \
+  php7-pdo_mysql \
+  php7-dom \
+  php7-xml \
+  php7-iconv \
+  php7-mbstring \
+  && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
+  && echo "memory_limit=256M" >> /etc/php7/php.ini \
+  && rm -rf /var/cache/* \
+  && mkdir -p /var/cache/apk
+  
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
   && echo "4190f971ff4e8d4ddff9fa167d6bad4e7d2dc5cf5bbd1aafc87dcecbdb0fe7415aa7305adb16d8a03acd93bcc69c5b39a4e9f1017bb1bec8feab3a81a44ddb93  composer-setup.php" | sha512sum -c - \
@@ -41,82 +56,45 @@ RUN set -xe; \
   && rm -rf /tmp/*
 
 RUN set -xe; \
-  curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
-	&& chmod +x /usr/local/bin/drupal
+  cd /tmp && curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
+  && chmod +x /usr/local/bin/drupal \
+  && echo "ecdaf34abfd82bea614c067ce8769194f2e9835553da76da32e1a1a66b8505d99f30b4c9143ae58e5fad21829dba62eb0167e26dba9dac84f58724c045cc273b  /usr/local/bin/drupal" | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.16/drush.phar -o /usr/local/bin/drush \
-  && chmod +x /usr/local/bin/drush \
-  && echo "aa1a524fc0787a0aab90687ec3810149bc4e739ba3c8960226af5fc8d9d136f60ad7b686fc2768d60f1c6930c251402ca7518e610f8780cd82943bcd2f8d00c5  /usr/local/bin/drush"  | sha512sum -c -
+	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.16/drush.phar -o /usr/local/bin/drush8 \
+  && chmod +x /usr/local/bin/drush8 \
+  && echo "aa1a524fc0787a0aab90687ec3810149bc4e739ba3c8960226af5fc8d9d136f60ad7b686fc2768d60f1c6930c251402ca7518e610f8780cd82943bcd2f8d00c5  /usr/local/bin/drush8"  | sha512sum -c -
 
-# Contrib drush commands
 RUN set -xe; \
-  mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
-  drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2 &&\
-  rm -rf /root/.drush
+  cd /tmp \
+	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar -o /usr/local/bin/drush \
+  && chmod +x /usr/local/bin/drush \
+  && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush"  | sha512sum -c -
+
+ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
+
+COPY .zshrc /tmp/.zshrc
 
 # Setup dev user
 RUN set -xe; \
   adduser dev -s /bin/zsh -D \
   && su dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" \
   && echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev \
-  && chmod 0440 /etc/sudoers.d/dev
-
-# Fix bug https://github.com/npm/npm/issues/9863
-RUN set -xe; \
-  cd $(npm root -g)/npm \
-  && npm install --no-color --no-progress fs-extra \
-  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js \
-	&& npm install --production --no-color --no-progress -g npm yarn
-
+  && chmod 0440 /etc/sudoers.d/dev \
+  && cp /tmp/.zshrc /home/dev/.zshrc \
+  && su dev -c "source /home/dev/.zshrc" \
+  && find /home/dev/ -type d -name \.git -exec rm -rf -- {} + 
+    
 # sassc
 RUN set -xe; \
-  apk add --no-cache --virtual .build-deps \
+  apk add --update --no-cache --virtual .build-deps \
   make \
   g++ \
   ; \
-  cd /tmp && git clone https://github.com/sass/sassc && cd sassc \
-  && git clone https://github.com/sass/libsass \
-  && SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s\
+  cd /tmp && git clone https://github.com/sass/sassc && . sassc/script/bootstrap \
+  && make -C sassc -s\
   && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
   && rm -rf /tmp/* \
   && apk del .build-deps
-
-COPY .zshrc /home/dev/.zshrc
-
-RUN su dev -c "source /home/dev/.zshrc" \
-    && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
-
-RUN set -xe; \
-  export CONFIGURE_OPTS="--disable-install-doc"; \
-  apk add --no-cache gmp yaml \
-  && apk add --no-cache --virtual .build-deps \
-  gcc \
-  g++ \
-  make \
-  zlib-dev \
-  openssl-dev \
-  gdbm-dev \
-  db-dev \
-  libedit-dev \
-  libffi-dev \
-  coreutils \
-  linux-headers \
-  autoconf \
-  libc-dev \
-  gmp-dev \
-  yaml-dev \
-  ; \
-  su -l dev -c "git clone --depth=1 https://github.com/rbenv/rbenv.git .rbenv" \
-  && su -l dev -c "mkdir -p .rbenv/plugins/" \
-  && su -l dev -c "git clone --depth=1 https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build" \
-  && su -l dev -c ".rbenv/bin/rbenv install 2.5.1" \
-  && su -l dev -c ".rbenv/bin/rbenv global 2.5.1" \
-  && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
-  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
-  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
-  && apk del .build-deps \
-  && rm -rf /tmp/* \
-  && rm -rf /home/dev/.gem/ \
-  && rm -rf /home/dev/.rbenv/plugins/ruby-build
+  
