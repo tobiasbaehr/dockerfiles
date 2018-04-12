@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM gzevd/alpine:3.4
 
 RUN set -xe; \
   apk add --no-cache --virtual .persistent-deps \
