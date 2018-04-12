@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM gzevd/alpine:3.4
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
@@ -11,12 +11,6 @@ ENV PHPIZE_DEPS \
   make \
   pkgconf \
   re2c
-
-RUN set -xe; \
-  apk add --no-cache tzdata;\
-  cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-  && echo "Europe/Berlin" > /etc/timezone; \
-  apk del tzdata
 
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
