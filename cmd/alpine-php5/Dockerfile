@@ -25,13 +25,12 @@ RUN set -xe; \
   nodejs \
   bash \
   zsh \
-  tzdata \
   openssh-client \
   postgresql-client \
   && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \
   && echo "memory_limit=256M" >> /etc/php5/php.ini \
-  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-  && echo "Europe/Berlin" > /etc/timezone
+  && rm -rf /var/cache/* \
+  && mkdir -p /var/cache/apk
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
@@ -41,20 +40,15 @@ RUN set -xe; \
   && rm -rf /tmp/*
 
 RUN set -xe; \
-  curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
-	&& chmod +x /usr/local/bin/drupal
+  cd /tmp && curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
+  && chmod +x /usr/local/bin/drupal \
+  && echo "ecdaf34abfd82bea614c067ce8769194f2e9835553da76da32e1a1a66b8505d99f30b4c9143ae58e5fad21829dba62eb0167e26dba9dac84f58724c045cc273b  /usr/local/bin/drupal" | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
 	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.1.16/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
   && echo "aa1a524fc0787a0aab90687ec3810149bc4e739ba3c8960226af5fc8d9d136f60ad7b686fc2768d60f1c6930c251402ca7518e610f8780cd82943bcd2f8d00c5  /usr/local/bin/drush"  | sha512sum -c -
-
-# Contrib drush commands
-RUN set -xe; \
-  mkdir -p /usr/share/drush/commands && cd /usr/share/drush/commands &&\
-  drush -q dl registry_rebuild-7.x-2.x-dev site_audit grn-7.x-2.x-dev composer_generate-7.x-1.2 &&\
-  rm -rf /root/.drush
 
 # Setup dev user
 RUN set -xe; \
@@ -81,7 +75,7 @@ RUN set -xe; \
   && SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s\
   && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
   && rm -rf /tmp/* \
-  && apk del .build-deps
+  && apk del --no-cache .build-deps
 
 COPY .zshrc /home/dev/.zshrc
 
@@ -116,7 +110,7 @@ RUN set -xe; \
   && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
   && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
   && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
-  && apk del .build-deps \
+  && apk del --no-cache .build-deps \
   && rm -rf /tmp/* \
   && rm -rf /home/dev/.gem/ \
   && rm -rf /home/dev/.rbenv/plugins/ruby-build

@@ -82,5 +82,5 @@ RUN set -xe; \
   && make -C sassc -s\
   && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
   && rm -rf /tmp/* \
-  && apk del .build-deps
+  && apk del --no-cache .build-deps
   
