@@ -1,18 +1,4 @@
-FROM alpine:3.7
-
-RUN set -xe; \
-  apk update \
-  && apk upgrade \
-  && rm -rf /var/cache/* \
-  && mkdir -p /var/cache/apk
-
-RUN set -xe; \
-  apk add --update --no-cache tzdata\
-  && cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-  && echo "Europe/Berlin" > /etc/timezone \
-  && apk del tzdata \
-  && rm -rf /var/cache/* \
-  && mkdir -p /var/cache/apk
+FROM gzevd/alpine:3.7
 
 RUN set -xe; \
   apk add --update --no-cache --virtual .persistent-deps \

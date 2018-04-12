@@ -1,13 +1,14 @@
 Commander for Drupal/PHP-Projects
 ===============
 
-Uses as base image [debian:jessie](https://hub.docker.com/_/debian/).
+Uses as base image [gzevd/alpine:3.4](https://hub.docker.com/r/gzevd/alpine/).
 
 This is intended as an interactive image.
 
 Installed Tools
 ---------------
 * Mysql client
+* PostgreSQL client
 * [composer](https://getcomposer.org/)
 * [Drupal Console Launcher](http://drupalconsole.com/)
 * [drush](https://github.com/drush-ops/drush)
@@ -16,19 +17,10 @@ Installed Tools
  * [Git Release Notes for Drush](https://www.drupal.org/project/grn)
  * [Composer Generate](https://www.drupal.org/project/composer_generate)
 * [nodejs](http://nodejs.org/)
- * [Node Version Manager](https://github.com/creationix/nvm)
  * [npm](https://www.npmjs.com/)
- * [grunt-cli](https://www.npmjs.com/package/grunt-cli)
- * [bower](https://www.npmjs.com/package/bower)
- * [gulp](https://www.npmjs.com/package/gulp)
- * [caniuse-cmd](https://www.npmjs.com/package/caniuse-cmd)
- * [npm-run](https://www.npmjs.com/package/npm-run)
  * [yarn](https://www.npmjs.com/package/yarn)
 * [Ruby](https://www.ruby-lang.org/)
  * [compass](http://compass-style.org/)
  * [bundler](http://bundler.io/)
- * [fontcustom](https://rubygems.org/gems/fontcustom)
-* [tig](https://github.com/jonas/tig)
 * [sassc](http://sass-lang.com/libsass)
-* [OptiPNG](http://optipng.sourceforge.net/)
 * [jekyll](http://jekyllrb.com/)

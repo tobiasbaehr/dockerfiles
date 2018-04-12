@@ -1,7 +1,6 @@
 export LANG=de_DE.UTF-8
-export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
 export ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache/"
-source ~/antigen/antigen.zsh
+source /home/dev/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -34,4 +33,3 @@ antigen theme gentoo
 antigen apply
 
 alias ll="ls -lah --color=auto"
-eval "$(rbenv init - 2>/dev/null)"

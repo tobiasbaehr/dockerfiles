@@ -1,9 +1,7 @@
 export LANG=de_DE.UTF-8
-export NVM_DIR="$HOME/.nvm"
-export PATH="$PATH:$HOME/.composer/vendor/bin:$HOME/.rbenv/bin"
+export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
 export ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache/"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-source ~/antigen/antigen.zsh
+source /home/dev/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
