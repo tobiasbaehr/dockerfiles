@@ -29,6 +29,7 @@ RUN set -xe; \
   php7-xml \
   php7-iconv \
   php7-mbstring \
+  php7-memcached \
   && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
   && echo "memory_limit=256M" >> /etc/php7/php.ini \
   && rm -rf /var/cache/* \
