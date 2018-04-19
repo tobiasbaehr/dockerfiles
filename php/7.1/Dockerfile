@@ -145,7 +145,7 @@ RUN set -xe \
     $(test "$gnuArch" = 's390x-linux-gnu' && echo '--without-pcre-jit') \
     \
     $PHP_EXTRA_CONFIGURE_ARGS \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" \
+  && make -j "$(nproc)" \
   && make install \
   # Copy default php.ini and configure it
   && cp php.ini-production $PHP_INI_DIR/php.ini \
@@ -168,6 +168,17 @@ RUN set -xe \
 && pecl update-channels \
 && rm -rf /tmp/pear ~/.pearrc \
 && sed -i 's,lib/apache2/libphp7.so,modules/libphp7.so,' /etc/apache2/httpd.conf
+
+ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
+RUN apk add --no-cache --update libmemcached-libs zlib
+RUN set -xe \
+    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
+    && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
+    && pecl install memcached \
+    && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/20_memcached.ini \
+    && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/* \
+    && apk del .memcached-deps .phpize-deps
 
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 COPY override_php.ini $PHP_INI_DIR/conf.d/

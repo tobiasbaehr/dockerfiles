@@ -35,6 +35,11 @@ if [ -z "$ext" ] || [ ! -d "$ext" ]; then
 		| xargs
 	exit 1
 fi
+ext="$1"
+if [ -z "$ext" ] || [ ! -d "$ext" ]; then
+	usage >&2
+	exit 1
+fi
 shift
 
 pm='unknown'
