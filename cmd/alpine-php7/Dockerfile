@@ -3,6 +3,7 @@ FROM gzevd/alpine:3.7
 RUN set -xe; \
   apk add --update --no-cache --virtual .persistent-deps \
   git \
+  patch \
   sudo \
   rsync \
   curl \
