@@ -62,7 +62,8 @@ RUN set -xe; \
   cd $(npm root -g)/npm \
   && npm install --no-color --no-progress fs-extra \
   && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js \
-	&& npm install --production --no-color --no-progress -g npm yarn
+  && npm install --production --no-color --no-progress -g npm yarn \
+  && rm -rf /root/.npm
 
 # sassc
 RUN set -xe; \
@@ -70,16 +71,25 @@ RUN set -xe; \
   make \
   g++ \
   ; \
-  cd /tmp && git clone https://github.com/sass/sassc && cd sassc \
-  && git clone https://github.com/sass/libsass \
-  && SASS_LIBSASS_PATH=/tmp/sassc/libsass make -s\
-  && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
+  cd /tmp; \
+  export SASSC_VERSION="3.4.8"; \
+  export LIBSASS_VERSION="3.4.8"; \
+  curl -L https://github.com/sass/sassc/archive/${SASSC_VERSION}.tar.gz | tar -xz; \
+  curl -L https://github.com/sass/libsass/archive/${LIBSASS_VERSION}.tar.gz | tar -xz; \
+  export SASS_LIBSASS_PATH=`pwd`/libsass-${LIBSASS_VERSION} \
+  && echo $SASSC_VERSION > sassc-${SASSC_VERSION}/VERSION \
+  && echo $LIBSASS_VERSION > libsass-${LIBSASS_VERSION}/VERSION \
+  && make -s -C sassc-${SASSC_VERSION} \
+  && make install -C sassc-${SASSC_VERSION} \
+  && sassc --version \
   && rm -rf /tmp/* \
   && apk del --no-cache .build-deps
 
 COPY .zshrc /home/dev/.zshrc
 
-RUN su dev -c "source /home/dev/.zshrc" \
+RUN set -xe; \
+    chown dev: /home/dev/.zshrc \
+    && su dev -c "source /home/dev/.zshrc" \
     && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
 
 RUN set -xe; \
@@ -101,11 +111,10 @@ RUN set -xe; \
   libc-dev \
   gmp-dev \
   yaml-dev \
+  tar \
   ; \
-  su -l dev -c "git clone --depth=1 https://github.com/rbenv/rbenv.git .rbenv" \
-  && su -l dev -c "mkdir -p .rbenv/plugins/" \
-  && su -l dev -c "git clone --depth=1 https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build" \
-  && su -l dev -c ".rbenv/bin/rbenv install 2.5.1" \
+  su -l dev -c "source /home/dev/.zshrc; curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash" \
+  && su -l dev -c "source /home/dev/.zshrc;rbenv install 2.5.1" \
   && su -l dev -c ".rbenv/bin/rbenv global 2.5.1" \
   && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
   && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \

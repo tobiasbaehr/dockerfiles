@@ -1,5 +1,5 @@
 export LANG=de_DE.UTF-8
-export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 export ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache/"
 source /home/dev/antigen/antigen.zsh
 
