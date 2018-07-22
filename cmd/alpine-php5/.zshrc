@@ -1,5 +1,4 @@
 export LANG=de_DE.UTF-8
-export PATH="$HOME/.composer/vendor/bin:$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 export ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache/"
 source /home/dev/antigen/antigen.zsh
 
@@ -15,7 +14,6 @@ sudo
 npm
 node
 gulp
-nvm
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions src
 webflo/drush_zsh_completion
@@ -24,7 +22,6 @@ zsh-users/zsh-syntax-highlighting
 
 # ZSH port of Fish shell's history search feature.
 zsh-users/zsh-history-substring-search
-
 EOBUNDLES
 
 # Load the theme.
@@ -34,4 +31,3 @@ antigen theme gentoo
 antigen apply
 
 alias ll="ls -lah --color=auto"
-eval "$(rbenv init - 2>/dev/null)"
