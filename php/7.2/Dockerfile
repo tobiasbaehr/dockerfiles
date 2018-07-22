@@ -1,4 +1,4 @@
-FROM gzevd/alpine:3.7
+FROM gzevd/alpine:3.8
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
