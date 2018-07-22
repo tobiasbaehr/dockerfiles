@@ -1,4 +1,4 @@
-FROM gzevd/alpine:3.4
+FROM gzevd/alpine:3.8
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
@@ -18,7 +18,9 @@ RUN apk add --no-cache --virtual .persistent-deps \
   tar \
   apache2 \
   apache2-utils \
-  xz
+  xz \
+# https://github.com/docker-library/php/issues/494
+  libressl
 
 RUN set -xe; \
   mkdir -p /run/apache2/ \
@@ -50,7 +52,7 @@ ENV PHP_SHA256="cd7d1006201459d43fae0790cce4eb3451add5c87f4cadb13b228d4c179b850c
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
   gnupg \
-  openssl \
+  wget \
   ; \
   \
   mkdir -p /usr/src; \
@@ -84,13 +86,14 @@ RUN set -xe \
     curl-dev \
     libedit-dev \
     libxml2-dev \
-    openssl-dev \
+    libressl-dev \
     apache2-dev \
     coreutils \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    libsodium-dev \
   \
   && export CFLAGS="$PHP_CFLAGS" \
     CPPFLAGS="$PHP_CPPFLAGS" \
@@ -104,6 +107,9 @@ RUN set -xe \
     --with-layout=GNU \
     --with-config-file-path="$PHP_INI_DIR" \
     --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
+    \
+# make sure invalid --configure-flags are fatal errors intead of just warnings
+    --enable-option-checking=fatal \
     --with-apxs2=/usr/bin/apxs \
     \
     --disable-rpath \

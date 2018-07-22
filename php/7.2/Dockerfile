@@ -18,7 +18,9 @@ RUN apk add --no-cache --virtual .persistent-deps \
   tar \
   apache2 \
   apache2-utils \
-  xz
+  xz \
+# https://github.com/docker-library/php/issues/494
+  libressl
 
 RUN set -xe; \
   mkdir -p /run/apache2/ \
@@ -50,7 +52,7 @@ ENV PHP_SHA256="53ba0708be8a7db44256e3ae9fcecc91b811e5b5119e6080c951ffe7910ffb0f
 RUN set -xe; \
   apk add --no-cache --virtual .fetch-deps \
   gnupg \
-  openssl \
+  wget \
   ; \
   \
   mkdir -p /usr/src; \
