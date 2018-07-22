@@ -22,7 +22,6 @@ zsh-users/zsh-syntax-highlighting
 
 # ZSH port of Fish shell's history search feature.
 zsh-users/zsh-history-substring-search
-
 EOBUNDLES
 
 # Load the theme.

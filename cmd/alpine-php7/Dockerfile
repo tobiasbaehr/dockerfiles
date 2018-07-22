@@ -65,17 +65,19 @@ RUN set -xe; \
 
 ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
 
-COPY .zshrc /tmp/.zshrc
-
 # Setup dev user
 RUN set -xe; \
   adduser dev -s /bin/zsh -D \
-  && su dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" \
+  && su -l dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" \
   && echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev \
-  && chmod 0440 /etc/sudoers.d/dev \
-  && cp /tmp/.zshrc /home/dev/.zshrc \
-  && su dev -c "source /home/dev/.zshrc" \
-  && find /home/dev/ -type d -name \.git -exec rm -rf -- {} + 
+  && chmod 0440 /etc/sudoers.d/dev
+
+COPY .zshrc /home/dev/.zshrc
+
+RUN set -xe; \
+    chown dev: /home/dev/.zshrc \
+    && su -l dev -c "source /home/dev/.zshrc" \
+    && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
 
 COPY .gemrc /etc/gemrc
 RUN set -xe; \

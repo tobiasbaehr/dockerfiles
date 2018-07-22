@@ -1,7 +1,7 @@
 Commander for Drupal/PHP-Projects
 ===============
 
-Uses as base image [gzevd/alpine:3.7](https://hub.docker.com/r/gzevd/alpine/).
+Uses as base image [gzevd/alpine:3.8](https://hub.docker.com/r/gzevd/alpine/).
 
 This is intended as an interactive image.
 
