@@ -18,5 +18,5 @@ Installed Tools
 * [Ruby](https://www.ruby-lang.org/)
  * [compass](http://compass-style.org/)
  * [bundler](http://bundler.io/)
+ * [jekyll](http://jekyllrb.com/)
 * [sassc](http://sass-lang.com/libsass)
-* [jekyll](http://jekyllrb.com/)

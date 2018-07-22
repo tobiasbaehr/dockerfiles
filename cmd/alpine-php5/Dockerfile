@@ -8,6 +8,7 @@ RUN set -xe; \
   curl \
   nano \
   bzip2 \
+  ruby \
   mysql-client \
   php5-cli \
   php5-mcrypt \
@@ -65,15 +66,14 @@ RUN set -xe; \
   && npm install --production --no-color --no-progress -g npm yarn \
   && rm -rf /root/.npm
 
-# sassc
 RUN set -xe; \
   apk add --no-cache --virtual .build-deps \
   make \
   g++ \
   ; \
   cd /tmp; \
-  export SASSC_VERSION="3.4.8"; \
-  export LIBSASS_VERSION="3.4.8"; \
+  export SASSC_VERSION="3.5.0"; \
+  export LIBSASS_VERSION="3.5.4"; \
   curl -L https://github.com/sass/sassc/archive/${SASSC_VERSION}.tar.gz | tar -xz; \
   curl -L https://github.com/sass/libsass/archive/${LIBSASS_VERSION}.tar.gz | tar -xz; \
   export SASS_LIBSASS_PATH=`pwd`/libsass-${LIBSASS_VERSION} \
@@ -92,34 +92,22 @@ RUN set -xe; \
     && su dev -c "source /home/dev/.zshrc" \
     && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
 
+COPY .gemrc /etc/gemrc
 RUN set -xe; \
-  export CONFIGURE_OPTS="--disable-install-doc"; \
-  apk add --no-cache gmp yaml \
-  && apk add --no-cache --virtual .build-deps \
-  gcc \
-  g++ \
-  make \
-  zlib-dev \
-  openssl-dev \
-  gdbm-dev \
-  db-dev \
-  libedit-dev \
-  libffi-dev \
-  coreutils \
-  linux-headers \
-  autoconf \
-  libc-dev \
-  gmp-dev \
-  yaml-dev \
-  tar \
-  ; \
-  su -l dev -c "source /home/dev/.zshrc; curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash" \
-  && su -l dev -c "source /home/dev/.zshrc;rbenv install 2.5.1" \
-  && su -l dev -c ".rbenv/bin/rbenv global 2.5.1" \
-  && su -l dev -c ".rbenv/shims/gem update --quiet --no-document" \
-  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document compass" \
-  && su -l dev -c ".rbenv/shims/gem install --quiet --no-document jekyll" \
-  && apk del --no-cache .build-deps \
-  && rm -rf /tmp/* \
-  && rm -rf /home/dev/.gem/ \
-  && rm -rf /home/dev/.rbenv/plugins/ruby-build
+    export CONFIGURE_OPTS="--disable-install-doc"; \
+    apk add --no-cache \
+    gmp \
+    yaml \
+    ruby-json \
+    ruby-bigdecimal \
+    && apk add --no-cache --virtual .build-deps \
+    ruby-dev \
+    build-base \
+    openssl-dev \
+    && gem update --clear-sources --quiet --system \
+    && gem update --clear-sources --quiet --force \
+    && gem install --clear-sources --quiet compass jekyll \
+    && gem cleanup \
+    && apk del --no-cache .build-deps \
+    && rm -rf /tmp/* \
+    && rm -rf /home/root/.gem/
