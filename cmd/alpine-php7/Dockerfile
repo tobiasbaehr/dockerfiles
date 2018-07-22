@@ -1,17 +1,19 @@
-FROM gzevd/alpine:3.7
+FROM gzevd/alpine:3.8
 
 RUN set -xe; \
   apk add --update --no-cache --virtual .persistent-deps \
   git \
-  patch \
   sudo \
   rsync \
   curl \
   nano \
   bzip2 \
   nodejs \
+  nodejs-npm \
   bash \
   zsh \
+  sassc \
+  ruby \
   openssh-client \
   mysql-client \
   postgresql-client \
@@ -74,16 +76,29 @@ RUN set -xe; \
   && cp /tmp/.zshrc /home/dev/.zshrc \
   && su dev -c "source /home/dev/.zshrc" \
   && find /home/dev/ -type d -name \.git -exec rm -rf -- {} + 
-    
-# sassc
+
+COPY .gemrc /etc/gemrc
 RUN set -xe; \
-  apk add --update --no-cache --virtual .build-deps \
-  make \
-  g++ \
-  ; \
-  cd /tmp && git clone https://github.com/sass/sassc && . sassc/script/bootstrap \
-  && make -C sassc -s\
-  && mv /tmp/sassc/bin/sassc /usr/local/bin/sassc \
-  && rm -rf /tmp/* \
-  && apk del --no-cache .build-deps
-  
+    export CONFIGURE_OPTS="--disable-install-doc"; \
+    apk add --no-cache \
+    gmp \
+    yaml \
+    ruby-json \
+    ruby-bigdecimal \
+    && apk add --no-cache --virtual .build-deps \
+    ruby-dev \
+    build-base \
+    openssl-dev \
+    && gem update --clear-sources --quiet --system \
+    && gem update --clear-sources --quiet --force \
+    && gem install --clear-sources --quiet compass jekyll \
+    && gem cleanup \
+    && apk del --no-cache .build-deps \
+    && rm -rf /tmp/* \
+    && rm -rf /home/root/.gem/
+    
+RUN set -xe; \
+  npm install --production --no-color --no-progress -g npm yarn \
+  && rm -rf /root/.npm \
+  && rm -rf /usr/share/man/* \
+  && rm -rf /tmp/*

@@ -14,7 +14,6 @@ sudo
 npm
 node
 gulp
-nvm
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions src
 webflo/drush_zsh_completion
