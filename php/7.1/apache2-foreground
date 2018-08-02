@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-exec /usr/sbin/apachectl -DFOREGROUND;
+exec /usr/sbin/httpd -DFOREGROUND;
