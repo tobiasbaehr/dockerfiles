@@ -47,7 +47,7 @@ ENV GPG_KEYS 7BD5DCD0 31CBD89E 70D12172
 
 ENV PHP_VERSION 7.1.22
 ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="ff6f62afeb32c71b3b89ecbd42950ef6c5e0c329cc6e1c58ffac47e6f1f883c4"
+ENV PHP_SHA256="9194c9b3a592d8376fde837dde711ec01ee26f8607fc2884047ef6f7c089b15d"
 
 COPY 7BD5DCD0.asc /tmp/
 COPY 31CBD89E.asc /tmp/
