@@ -19,4 +19,5 @@ RUN set -xe; \
     tar \
     patch \
     coreutils \
+    less \
     sed
