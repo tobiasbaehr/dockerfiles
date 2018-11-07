@@ -11,7 +11,7 @@ RUN set -xe; \
   apk add --update --no-cache tzdata;\
   cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
   && echo "Europe/Berlin" > /etc/timezone; \
-  apk del tzdata
+  apk del --no-cache tzdata
 
 # Install default packages
 RUN set -xe; \
