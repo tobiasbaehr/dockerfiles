@@ -15,12 +15,13 @@ ENV PHPIZE_DEPS \
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
   curl \
-  tar \
   apache2 \
   apache2-utils \
   xz \
 # https://github.com/docker-library/php/issues/494
-  libressl
+  libressl \
+  openssh-client \
+  mysql-client \
 
 RUN set -xe; \
   mkdir -p /run/apache2/ \

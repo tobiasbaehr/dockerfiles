@@ -14,7 +14,6 @@ ENV PHPIZE_DEPS \
 RUN apk add --no-cache --virtual .persistent-deps \
   ca-certificates \
   curl \
-  tar \
   apache2 \
   apache2-utils \
   xz
@@ -84,7 +83,6 @@ RUN set -xe \
     libxml2-dev \
     openssl-dev \
     apache2-dev \
-    coreutils \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
