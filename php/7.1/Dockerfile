@@ -21,7 +21,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
 # https://github.com/docker-library/php/issues/494
   libressl \
   openssh-client \
-  mysql-client \
+  mysql-client
 
 RUN set -xe; \
   mkdir -p /run/apache2/ \
