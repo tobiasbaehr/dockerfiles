@@ -9,7 +9,6 @@ RUN set -xe; \
   nano \
   bzip2 \
   ruby \
-  mysql-client \
   php5-cli \
   php5-mcrypt \
   php5-gd \
@@ -24,8 +23,8 @@ RUN set -xe; \
   php5-dom \
   php5-xml \
   nodejs \
-  bash \
   zsh \
+  mysql-client \
   openssh-client \
   postgresql-client \
   && echo "date.timezone=Europe/Berlin" >> /etc/php5/php.ini \

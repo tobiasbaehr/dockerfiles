@@ -10,7 +10,6 @@ RUN set -xe; \
   bzip2 \
   nodejs \
   nodejs-npm \
-  bash \
   zsh \
   sassc \
   ruby \
