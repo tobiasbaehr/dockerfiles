@@ -17,4 +17,8 @@ RUN set -xe; \
 RUN set -xe; \
   apk add --update --no-cache \
     tar \
-    patch
+    patch \
+    coreutils \
+    less \
+    sed \
+    bash

@@ -20,4 +20,5 @@ RUN set -xe; \
     patch \
     coreutils \
     less \
-    sed
+    sed \
+    bash
