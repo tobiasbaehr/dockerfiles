@@ -13,6 +13,8 @@ RUN set -xe; \
   && echo "Europe/Berlin" > /etc/timezone; \
   apk del --no-cache tzdata
 
+ENV TZ /etc/localtime
+
 # Install default packages
 RUN set -xe; \
   apk add --update --no-cache \

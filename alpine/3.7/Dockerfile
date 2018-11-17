@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.3
 
 # Upgrade
 RUN set -xe; \
@@ -12,6 +12,8 @@ RUN set -xe; \
   cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
   && echo "Europe/Berlin" > /etc/timezone; \
   apk del --no-cache tzdata
+
+ENV TZ /etc/localtime
 
 # Install default packages
 RUN set -xe; \
