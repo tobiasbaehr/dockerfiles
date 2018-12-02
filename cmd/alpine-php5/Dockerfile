@@ -63,7 +63,7 @@ RUN set -xe; \
   cd $(npm root -g)/npm \
   && npm install --no-color --no-progress fs-extra \
   && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js \
-  && npm install --production --no-color --no-progress -g npm yarn \
+  && npm install --production --no-color --no-progress -g npm yarn gulp-cli \
   && rm -rf /root/.npm
 
 RUN set -xe; \

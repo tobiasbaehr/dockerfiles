@@ -16,6 +16,7 @@ Installed Tools
 * [nodejs](http://nodejs.org/)
  * [npm](https://www.npmjs.com/)
  * [yarn](https://www.npmjs.com/package/yarn)
+ * [gulp-cli](https://www.npmjs.com/package/gulp-cli)
 * [sassc](http://sass-lang.com/libsass)
 * [Ruby](https://www.ruby-lang.org/)
  * [compass](http://compass-style.org/)

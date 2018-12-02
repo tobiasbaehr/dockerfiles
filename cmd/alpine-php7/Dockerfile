@@ -102,7 +102,7 @@ RUN set -xe; \
     && rm -rf /home/root/.gem/
     
 RUN set -xe; \
-  npm install --production --no-color --no-progress -g npm yarn \
+  npm install --production --no-color --no-progress -g npm yarn gulp-cli \
   && rm -rf /root/.npm \
   && rm -rf /usr/share/man/* \
   && rm -rf /tmp/*
