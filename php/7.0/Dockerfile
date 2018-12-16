@@ -45,9 +45,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS 33CFC8B3 9C0D5763
 
-ENV PHP_VERSION 7.0.32
+ENV PHP_VERSION 7.0.33
 ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="ff6f62afeb32c71b3b89ecbd42950ef6c5e0c329cc6e1c58ffac47e6f1f883c4"
+ENV PHP_SHA256="ab8c5be6e32b1f8d032909dedaaaa4bbb1a209e519abb01a52ce3914f9a13d96"
 
 COPY 33CFC8B3.asc /tmp/
 COPY 9C0D5763.asc /tmp/
@@ -193,7 +193,7 @@ RUN docker-php-ext-enable opcache
 COPY override_php.ini $PHP_INI_DIR/conf.d/
 
 COPY apache2-foreground /usr/local/bin/
-COPY php5-module.conf /etc/apache2/conf.d/
+COPY php-module.conf /etc/apache2/conf.d/
 
 WORKDIR /var/www/localhost/htdocs
 
