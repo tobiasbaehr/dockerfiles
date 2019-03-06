@@ -35,6 +35,7 @@ RUN set -xe; \
   php7-memcached \
   php7-tokenizer \
   php7-xmlwriter \
+  php7-fileinfo \
   && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
   && echo "memory_limit=256M" >> /etc/php7/php.ini \
   && rm -rf /var/cache/* \
