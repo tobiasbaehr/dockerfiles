@@ -96,7 +96,7 @@ RUN set -xe; \
     openssl-dev \
     && gem update --clear-sources --quiet --system 2.7.9 \
     && gem update --clear-sources --quiet --force \
-    && gem install --clear-sources --quiet compass jekyll \
+    && gem install --clear-sources --quiet compass jekyll jekyll-sitemap jekyll-feed\
     && gem update --clear-sources --quiet --force \
     && gem cleanup \
     && apk del --no-cache .build-deps \

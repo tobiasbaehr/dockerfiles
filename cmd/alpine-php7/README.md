@@ -22,3 +22,5 @@ Installed Tools
  * [compass](http://compass-style.org/)
  * [bundler](http://bundler.io/)
  * [jekyll](http://jekyllrb.com/)
+ * [jekyll-sitemap](https://github.com/jekyll/jekyll-sitemap)
+ * [jekyll-feed](https://github.com/jekyll/jekyll-feed)
