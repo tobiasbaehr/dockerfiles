@@ -104,7 +104,7 @@ RUN set -xe; \
     ruby-dev \
     build-base \
     openssl-dev \
-    && gem update --clear-sources --quiet --system \
+    && gem update --clear-sources --quiet --system 2.7.9 \
     && gem update --clear-sources --quiet --force \
     && gem install --clear-sources --quiet compass jekyll \
     && gem cleanup \
