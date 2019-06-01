@@ -37,17 +37,17 @@ RUN set -xe; \
   php7-xmlwriter \
   php7-fileinfo \
   && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
-  && echo "memory_limit=256M" >> /etc/php7/php.ini \
-  && rm -rf /var/cache/* \
-  && mkdir -p /var/cache/apk
+  && echo "memory_limit=256M" >> /etc/php7/php.ini
   
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
   && echo "5a465f56b483df2314cee5dc81a8e877cb607439ebc203963ecaa5e98784bf111f969b5683b5a71560f182403ddddce2f0cda342398c5d41fc46225f82cfdcf2  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
-  && rm -rf /root/.composer/ \
-  && rm -rf /tmp/*
+  && rm -rf /tmp/composer-setup.php \
+  && set +x \
+  && printf "$(composer --version)\n\n"\
+  && composer diagnose
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
