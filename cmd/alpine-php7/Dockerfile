@@ -41,7 +41,7 @@ RUN set -xe; \
   
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "5a465f56b483df2314cee5dc81a8e877cb607439ebc203963ecaa5e98784bf111f969b5683b5a71560f182403ddddce2f0cda342398c5d41fc46225f82cfdcf2  composer-setup.php" | sha512sum -c - \
+  && echo "3b9638533b7c43c80fbde4ce9f11a5c90a62b2fdf157bc1d860938042abdab5560f665b8e802e2af49e416db450cc814d0af8ca1dfaa762032220cb9fa961274  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
   && rm -rf /tmp/composer-setup.php \
