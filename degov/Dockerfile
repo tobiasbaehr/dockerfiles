@@ -44,7 +44,7 @@ RUN set -xe; \
   && docker-php-source delete \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
-COPY degov.ini /usr/local/etc/php/conf.d/degov.ini
+COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
 USER dev
 
