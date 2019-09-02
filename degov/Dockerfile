@@ -41,7 +41,7 @@ RUN set -xe; \
     libpng-dev \
   && docker-php-source extract \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install -j$(nproc) gd \
+  && docker-php-ext-install -j$(nproc) gd pdo_mysql \
   && docker-php-source delete \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
