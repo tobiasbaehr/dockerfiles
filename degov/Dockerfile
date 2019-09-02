@@ -47,7 +47,7 @@ RUN set -xe; \
 
 COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
-USER dev
+#USER dev
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
@@ -66,5 +66,5 @@ RUN set -xe; \
   && chmod +x /usr/local/bin/drush \
   && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush"  | sha512sum -c -
 
-WORKDIR /home/dev
+#WORKDIR /home/dev
   
