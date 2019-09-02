@@ -26,7 +26,8 @@ RUN set -xe; \
     bash \
     curl \
     mysql-client \
-    git
+    git \
+    screen
 
 # Setup dev user
 RUN set -xe; \
