@@ -29,11 +29,6 @@ RUN set -xe; \
     git \
     screen
 
-# Setup dev user
-RUN set -xe; \
-  adduser dev -s /bin/bash -D \
-  && chown dev: /usr/local/bin/
-
 RUN set -xe; \
   apk add --no-cache --virtual .build-deps \
     freetype-dev \
@@ -42,12 +37,11 @@ RUN set -xe; \
   && docker-php-source extract \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install -j$(nproc) gd pdo_mysql \
+  && docker-php-ext-enable opcache \
   && docker-php-source delete \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
-
-#USER dev
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
@@ -65,6 +59,4 @@ RUN set -xe; \
   && curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
   && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush"  | sha512sum -c -
-
-#WORKDIR /home/dev
   
