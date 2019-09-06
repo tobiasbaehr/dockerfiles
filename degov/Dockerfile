@@ -28,17 +28,19 @@ RUN set -xe; \
     mysql-client \
     git \
     screen \
-    openssh-client
-
-RUN set -xe; \
-  apk add --no-cache --virtual .build-deps \
+    openssh-client \
     freetype-dev \
     libjpeg-turbo-dev \
-    libpng-dev \
+    libpng-dev
+
+RUN set -xe; \
+  apk add --no-cache --virtual .build-dependencies \
+    $PHPIZE_DEPS \
   && docker-php-source extract \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install -j$(nproc) gd pdo_mysql \
-  && docker-php-ext-enable opcache \
+  && pecl install apcu \
+  && docker-php-ext-enable opcache apcu \
   && docker-php-source delete \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
