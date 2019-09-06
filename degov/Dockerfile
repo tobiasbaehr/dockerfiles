@@ -27,7 +27,8 @@ RUN set -xe; \
     curl \
     mysql-client \
     git \
-    screen
+    screen \
+    openssh-client
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-deps \
