@@ -42,6 +42,7 @@ RUN set -xe; \
   && pecl install apcu \
   && docker-php-ext-enable opcache apcu \
   && docker-php-source delete \
+  && apk del --no-cache .build-dependencies \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
