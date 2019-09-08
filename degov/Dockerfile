@@ -32,7 +32,7 @@ RUN set -xe; \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
-    postfix
+    exim
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
