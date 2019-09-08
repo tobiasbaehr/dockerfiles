@@ -31,7 +31,8 @@ RUN set -xe; \
     openssh-client \
     freetype-dev \
     libjpeg-turbo-dev \
-    libpng-dev
+    libpng-dev \
+    postfix
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
