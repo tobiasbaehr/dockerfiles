@@ -33,7 +33,9 @@ RUN set -xe; \
     libjpeg-turbo-dev \
     libpng-dev \
     exim \
-    jq
+    jq \
+    wget \
+    html2text
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
