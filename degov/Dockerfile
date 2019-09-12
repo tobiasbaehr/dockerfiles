@@ -32,7 +32,8 @@ RUN set -xe; \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
-    exim
+    exim \
+    jq
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
