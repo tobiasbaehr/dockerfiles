@@ -35,7 +35,8 @@ RUN set -xe; \
     exim \
     jq \
     wget \
-    html2text
+    html2text \
+    git-lfs
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
