@@ -13,6 +13,7 @@ RUN set -xe; \
   zsh \
   sassc \
   ruby \
+  git-lfs \
   openssh-client \
   mysql-client \
   postgresql-client \
