@@ -36,7 +36,8 @@ RUN set -xe; \
     jq \
     wget \
     html2text \
-    git-lfs
+    git-lfs \
+    openjdk8-jre
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
