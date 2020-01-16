@@ -53,7 +53,7 @@ RUN set -xe; \
 RUN set -xe; \
   cd /tmp && curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
   && chmod +x /usr/local/bin/drupal \
-  && echo "87c31b9f9a3069e2f7fc94bdb41c80fe173e536fc8568f021fafa65810c1abaa402cd609aa9e121a7f5eb9e20713604b97847c0151e5ebb39d4c1368a3f01979  /usr/local/bin/drupal" | sha512sum -c -
+  && echo "8f562502747c3ca17bab8502a707ca0d28386ab1930e6bfe94af3bf88759acb4bbe5e513f0a5da4895f88e124480e2a6aae0793423502c6780a10fd428b0f295  /usr/local/bin/drupal" | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
