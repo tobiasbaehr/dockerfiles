@@ -35,9 +35,12 @@ RUN set -xe; \
     exim \
     jq \
     wget \
-    html2text \
     git-lfs \
-    openjdk8-jre
+    openjdk8-jre \
+    shadow
+
+RUN set -xe; \
+  usermod --shell /bin/bash root
 
 RUN set -xe; \
   apk add --no-cache --virtual .build-dependencies \
@@ -55,7 +58,7 @@ COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "7aa79073bc48a1d215730ba5b0866424d4c0942a83946c10609c1225f328585f4b3f0e0e1e84de37c691ab74abccc0b6b1f0bf2f051e3eab66b8dfd67f2f4201  composer-setup.php" | sha512sum -c - \
+  && echo "a39518c338d46f3f482c834154369b2abc8201f8610de8ae0652f553dbf9087ef7c86bd7579d89ad7fee7f637d17e9bc545d814e12983d4b63717e633728e716  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
   && chmod +x /usr/local/bin/composer \
@@ -66,7 +69,8 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-  && curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar -o /usr/local/bin/drush \
-  && chmod +x /usr/local/bin/drush \
-  && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush"  | sha512sum -c -
-  
+  && touch ~/.profile \
+  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh \
+  && echo "b81f23c4b60dbf03d91deec2c0853fcc6f503528624648fedc3b58949f0cf87a1cffc96d5f13e0b855998e195d077a8162bff901620a857c4b9b8942ddf220f1  install.sh"  | sha512sum -c - \
+  && bash install.sh \
+  && rm install.sh
