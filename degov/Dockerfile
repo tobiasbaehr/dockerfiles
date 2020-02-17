@@ -38,7 +38,8 @@ RUN set -xe; \
     wget \
     git-lfs \
     openjdk8-jre \
-    shadow
+    shadow \
+    rsync
 
 RUN set -xe; \
   usermod --shell /bin/bash root
