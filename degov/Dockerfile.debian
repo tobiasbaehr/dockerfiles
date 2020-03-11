@@ -1,0 +1,76 @@
+FROM php:7.3-cli
+
+#Set timezone
+RUN set -xe; \
+  cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+  && echo "Europe/Berlin" > /etc/timezone
+
+ENV TZ /etc/localtime
+
+# Install default packages
+RUN set -xe; \
+  mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1; \
+  apt-get update\
+  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
+    less \
+    default-mysql-client \
+    git \
+    screen \
+    openssh-client \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libxml2-dev \
+    exim4-base \
+    jq \
+    wget \
+    git-lfs \
+    default-jre-headless \
+    rsync \
+    && apt-get autoclean -y; \
+    apt-get autoremove -y; \
+    rm -rf /var/lib/apt/lists/*; \
+    rm -rf /var/log/*; \
+    rm -rf /var/cache/*; \
+    rm -rf /tmp/*
+
+
+RUN set -xe; \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    $PHPIZE_DEPS \
+  && docker-php-source extract \
+  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+  && docker-php-ext-install -j$(nproc) gd pdo_mysql soap \
+  && pecl install --configureoptions=enable-apcu-debug=no apcu \
+  && docker-php-ext-enable opcache apcu \
+  && docker-php-source delete \
+  && DEBIAN_FRONTEND=noninteractive apt-get purge -yq $PHPIZE_DEPS \
+  && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
+  && apt-get autoclean -y; \
+  apt-get autoremove -y; \
+  rm -rf /var/lib/apt/lists/*; \
+  rm -rf /var/log/*; \
+  rm -rf /var/cache/*; \
+  rm -rf /tmp/*
+
+
+COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
+
+RUN set -xe; \
+  cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
+  && echo "c5043a2d448546b322cfad449e8936348d3ef1700ba44d1eb7b683943224ddd505649b54872c7d82b3e562f98b90dd8fcb5c1c61414fbd206659727c83a198ec  composer-setup.php" | sha512sum -c - \
+  && php composer-setup.php --check \
+  && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
+  && chmod +x /usr/local/bin/composer \
+  && set +x \
+  && printf "$(composer --ansi --version)\n\n"\
+  && composer --ansi diagnose \
+  && rm -rf /tmp/composer-setup.php
+
+RUN set -xe; \
+  cd /tmp \
+  && touch ~/.profile \
+  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh \
+  && echo "dca3e27af2255e6d63a8558eee751bceef88375e7677ed3c0cbf745c8e91604067245502601db41fd00f7e701af8e94b135cdb7c99079c1ee27341cdb6c70368  install.sh"  | sha512sum -c - \
+  && bash install.sh \
+  && rm install.sh
