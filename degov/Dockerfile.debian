@@ -27,6 +27,7 @@ RUN set -xe; \
     git-lfs \
     default-jre-headless \
     rsync \
+    unzip \
     && apt-get autoclean -y; \
     apt-get autoremove -y; \
     rm -rf /var/lib/apt/lists/*; \

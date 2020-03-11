@@ -50,7 +50,7 @@ RUN set -xe; \
   && docker-php-source extract \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install -j$(nproc) gd pdo_mysql soap \
-  && pecl install apcu \
+  && pecl install --configureoptions=enable-apcu-debug=no apcu \
   && docker-php-ext-enable opcache apcu \
   && docker-php-source delete \
   && apk del --no-cache .build-dependencies \
