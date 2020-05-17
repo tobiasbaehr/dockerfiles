@@ -39,7 +39,7 @@ RUN set -xe; \
   php7-fileinfo \
   && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
   && echo "memory_limit=256M" >> /etc/php7/php.ini
-  
+
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
   && echo "c5043a2d448546b322cfad449e8936348d3ef1700ba44d1eb7b683943224ddd505649b54872c7d82b3e562f98b90dd8fcb5c1c61414fbd206659727c83a198ec  composer-setup.php" | sha512sum -c - \
@@ -57,9 +57,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.3.2/drush.phar -o /usr/local/bin/drush8 \
+	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.3.3/drush.phar -o /usr/local/bin/drush8 \
   && chmod +x /usr/local/bin/drush8 \
-  && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush8"  | sha512sum -c -
+  && echo "8088dd6d3b78dfa3e510aeb1db081965a4d899e139171f613e3a0652f87f2a79c7032f8b470de0bfc45298951a740c595e1319f58d9f616ba9d56e6a5f6b35ff  /usr/local/bin/drush8"  | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
@@ -103,7 +103,7 @@ RUN set -xe; \
     && apk del --no-cache .build-deps \
     && rm -rf /tmp/* \
     && rm -rf /home/root/.gem/
-    
+
 RUN set -xe; \
   npm install --production --no-color --no-progress -g npm yarn gulp-cli cloudron@3.1.1\
   && rm -rf /root/.npm \
