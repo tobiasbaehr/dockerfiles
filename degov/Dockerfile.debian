@@ -43,7 +43,7 @@ RUN set -xe; \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install -j$(nproc) gd pdo_mysql soap \
   && pecl install --configureoptions=enable-apcu-debug=no apcu \
-  && docker-php-ext-enable opcache apcu \
+  && docker-php-ext-enable opcache apcu zip\
   && docker-php-source delete \
   && DEBIAN_FRONTEND=noninteractive apt-get purge -yq $PHPIZE_DEPS \
   && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
@@ -59,7 +59,7 @@ COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "c5043a2d448546b322cfad449e8936348d3ef1700ba44d1eb7b683943224ddd505649b54872c7d82b3e562f98b90dd8fcb5c1c61414fbd206659727c83a198ec  composer-setup.php" | sha512sum -c - \
+  && echo "d1041f60bced22b1b4936e8c0777d0ef339e4c4e1cc246044a297a3cc61e31c9bac5af31fc437894dbcbeb3a8fbb6093844e9dd169b2b4023b3ae8314788af33  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
   && chmod +x /usr/local/bin/composer \
