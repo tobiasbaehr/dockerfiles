@@ -10,7 +10,6 @@ Installed Tools
 * Mysql client
 * PostgreSQL client
 * [composer](https://getcomposer.org/)
-* [Drupal Console Launcher](http://drupalconsole.com/)
 * [drush launcher](https://github.com/drush-ops/drush)
 * [drush8 as fallback](https://github.com/drush-ops/drush-launcher)
 * [nodejs](http://nodejs.org/)

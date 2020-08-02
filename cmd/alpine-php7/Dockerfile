@@ -51,15 +51,10 @@ RUN set -xe; \
   && composer diagnose
 
 RUN set -xe; \
-  cd /tmp && curl -sSL https://drupalconsole.com/installer -o /usr/local/bin/drupal \
-  && chmod +x /usr/local/bin/drupal \
-  && echo "8f562502747c3ca17bab8502a707ca0d28386ab1930e6bfe94af3bf88759acb4bbe5e513f0a5da4895f88e124480e2a6aae0793423502c6780a10fd428b0f295  /usr/local/bin/drupal" | sha512sum -c -
-
-RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.3.5/drush.phar -o /usr/local/bin/drush8 \
+	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.3.6/drush.phar -o /usr/local/bin/drush8 \
   && chmod +x /usr/local/bin/drush8 \
-  && echo "5088389b4b9d5b45409a6f1873bb0dc348ba032ac26c4229785a89c08771e98d3a93fc27cb05e5abc7502f88e305a996530aaeb017447cabb05f45bcc5a00fdf  /usr/local/bin/drush8"  | sha512sum -c -
+  && echo "31d7fab58530bf9538b907de6c8bb8927ac5b4d87fbe3fb1d3ad4661ae4746a49ba3c856a8f332fc018e32db8bff7438a3eba23ecfc3b29d706c862495f306c7  /usr/local/bin/drush8"  | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
