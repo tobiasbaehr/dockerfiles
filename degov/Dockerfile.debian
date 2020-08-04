@@ -23,6 +23,7 @@ RUN set -xe; \
     libxml2-dev \
     libzip-dev \
     exim4-base \
+    dh-autoreconf \
     jq \
     wget \
     git-lfs \
