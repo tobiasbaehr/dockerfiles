@@ -11,6 +11,7 @@ ENV TZ /etc/localtime
 RUN set -xe; \
   mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1; \
   apt-get update\
+  && DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq \
   && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
     less \
     default-mysql-client \
