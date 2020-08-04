@@ -24,13 +24,14 @@ RUN set -xe; \
     libxml2-dev \
     libzip-dev \
     exim4-base \
-    dh-autoreconf \
     jq \
     wget \
     git-lfs \
     default-jre-headless \
     rsync \
     unzip \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+    dh-autoreconf \
     && apt-get autoclean -y; \
     apt-get autoremove -y; \
     rm -rf /var/lib/apt/lists/*; \
