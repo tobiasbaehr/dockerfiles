@@ -30,8 +30,6 @@ RUN set -xe; \
     default-jre-headless \
     rsync \
     unzip \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
-    dh-autoreconf \
     && apt-get autoclean -y; \
     apt-get autoremove -y; \
     rm -rf /var/lib/apt/lists/*; \
@@ -58,6 +56,17 @@ RUN set -xe; \
   rm -rf /var/cache/*; \
   rm -rf /tmp/*
 
+
+RUN set -xe; \
+  apt-get update\
+  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
+  dh-autoreconf
+  && apt-get autoclean -y; \
+  apt-get autoremove -y; \
+  rm -rf /var/lib/apt/lists/*; \
+  rm -rf /var/log/*; \
+  rm -rf /var/cache/*; \
+  rm -rf /tmp/*
 
 COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
