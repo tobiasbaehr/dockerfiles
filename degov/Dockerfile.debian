@@ -10,7 +10,7 @@ ENV TZ /etc/localtime
 # Install default packages
 RUN set -xe; \
   mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1; \
-  apt-get update\
+  apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq \
   && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
     less \
@@ -58,9 +58,9 @@ RUN set -xe; \
 
 
 RUN set -xe; \
-  apt-get update\
+  apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
-  dh-autoreconf
+  dh-autoreconf \
   && apt-get autoclean -y; \
   apt-get autoremove -y; \
   rm -rf /var/lib/apt/lists/*; \
