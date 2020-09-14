@@ -43,7 +43,7 @@ RUN set -xe; \
     $PHPIZE_DEPS \
   && docker-php-source extract \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install -j$(nproc) gd pdo_mysql soap zip\
+  && docker-php-ext-install -j$(nproc) gd pdo_mysql soap zip exif\
   && pecl install --configureoptions=enable-apcu-debug=no apcu mongodb \
   && docker-php-ext-enable opcache apcu zip mongodb \
   && docker-php-source delete \
