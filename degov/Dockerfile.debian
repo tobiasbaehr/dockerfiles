@@ -72,7 +72,7 @@ COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "d1041f60bced22b1b4936e8c0777d0ef339e4c4e1cc246044a297a3cc61e31c9bac5af31fc437894dbcbeb3a8fbb6093844e9dd169b2b4023b3ae8314788af33  composer-setup.php" | sha512sum -c - \
+  && echo "99e9112582eb02ac678f74f57e069c29911ef11c6dd2d5ba840053bc6ffc56219a0c15a38561866cedf86fe5492ba6b917d00cf98fb9e4ccb269f907eb2e3bfd  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
   && chmod +x /usr/local/bin/composer \
