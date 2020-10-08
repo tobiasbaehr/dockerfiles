@@ -58,9 +58,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar -o /usr/local/bin/drush \
+	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.7.3/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
-  && echo "820f5428ac5fa41072717123020a5aebc92400a2d58445c8aae639a73faad479aeeb17847f1c0ce9fd73255204ae68a2134d7dc1619727fc216c890ef7fb9089  /usr/local/bin/drush"  | sha512sum -c -
+  && echo "a25bd9eb75fa60ec5d7c87feded09f3d4e2cc3b3541a8ec9fb16db2cf56c894fe99b2b91ea164b07f9f4124c6fa651b716ddd3b9854923a198cb8d822535ecfd  /usr/local/bin/drush"  | sha512sum -c -
 
 ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
 
@@ -100,7 +100,7 @@ RUN set -xe; \
     && rm -rf /home/root/.gem/
 
 RUN set -xe; \
-  npm install --production --no-color --no-progress -g npm yarn gulp-cli cloudron@3.1.1\
+  npm install --production --no-color --no-progress -g npm yarn gulp-cli\
   && rm -rf /root/.npm \
   && rm -rf /usr/share/man/* \
   && rm -rf /tmp/*
