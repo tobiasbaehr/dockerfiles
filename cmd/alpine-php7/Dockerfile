@@ -42,9 +42,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "99e9112582eb02ac678f74f57e069c29911ef11c6dd2d5ba840053bc6ffc56219a0c15a38561866cedf86fe5492ba6b917d00cf98fb9e4ccb269f907eb2e3bfd  composer-setup.php" | sha512sum -c - \
+  && echo "7d13a47927d4e7e8abc9c70f62ea69c033dcb223b73a18cb5a3fda2d14d09c237966f1a3882c88764e190cc864077c3d5b944fc3c0c344b8a80b89e3794d84a2  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
-  && php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer \
+  && php composer-setup.php --version="1.10.16" --install-dir=/usr/local/bin/ --filename=composer \
   && rm -rf /tmp/composer-setup.php \
   && set +x \
   && printf "$(composer --version)\n\n"\
