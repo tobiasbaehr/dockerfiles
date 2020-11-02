@@ -58,9 +58,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.7.3/drush.phar -o /usr/local/bin/drush \
+	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.8.0/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
-  && echo "a25bd9eb75fa60ec5d7c87feded09f3d4e2cc3b3541a8ec9fb16db2cf56c894fe99b2b91ea164b07f9f4124c6fa651b716ddd3b9854923a198cb8d822535ecfd  /usr/local/bin/drush"  | sha512sum -c -
+  && echo "7a948468bd3a47319f719a4ac34935a3ea8e7d5ddba8cb0f77a591cc0cd7fa542aeae552ab07a20d2ebf5a9cc413ba72bedb5a19e9159bd514787fabc64b3e98  /usr/local/bin/drush"  | sha512sum -c -
 
 ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
 
