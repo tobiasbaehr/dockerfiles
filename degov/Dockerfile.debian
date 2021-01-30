@@ -70,21 +70,23 @@ RUN set -xe; \
 
 COPY ./degov.ini /usr/local/etc/php/conf.d/degov.ini
 
+WORKDIR /tmp
+
 RUN set -xe; \
-  cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "7d13a47927d4e7e8abc9c70f62ea69c033dcb223b73a18cb5a3fda2d14d09c237966f1a3882c88764e190cc864077c3d5b944fc3c0c344b8a80b89e3794d84a2  composer-setup.php" | sha512sum -c - \
+  curl -sSL https://getcomposer.org/installer > composer-setup.php \
+  && echo "3137ad86bd990524ba1dedc2038309dfa6b63790d3ca52c28afea65dcc2eaead16fb33e9a72fd2a7a8240afaf26e065939a2d472f3b0eeaa575d1e8648f9bf19  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
-  && php composer-setup.php --version="1.10.16" --install-dir=/usr/local/bin/ --filename=composer \
+  && php composer-setup.php --1 --install-dir=/usr/local/bin/ --filename=composer \
   && chmod +x /usr/local/bin/composer \
   && set +x \
-  && printf "$(composer --ansi --version)\n\n"\
+  && printf "%s\n\n" "$(composer --ansi --version)" \
   && composer --ansi diagnose \
-  && rm -rf /tmp/composer-setup.php
+  && rm -rf composer-setup.php
 
 RUN set -xe; \
   cd /tmp \
   && touch ~/.profile \
-  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh \
-  && echo "dca3e27af2255e6d63a8558eee751bceef88375e7677ed3c0cbf745c8e91604067245502601db41fd00f7e701af8e94b135cdb7c99079c1ee27341cdb6c70368  install.sh"  | sha512sum -c - \
+  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh \
+  && echo "b3bb0619f91dedc5cbff5489dc73ca8ff25bf54e3013a7843abe475bb51e350143fdd260f4d709ff17dd9fc82e1c781b305af96f72e8b9f0ea7d83d3716113ce  install.sh"  | sha512sum -c - \
   && bash install.sh \
   && rm install.sh
