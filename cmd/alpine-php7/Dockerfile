@@ -42,9 +42,9 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
-  && echo "7d13a47927d4e7e8abc9c70f62ea69c033dcb223b73a18cb5a3fda2d14d09c237966f1a3882c88764e190cc864077c3d5b944fc3c0c344b8a80b89e3794d84a2  composer-setup.php" | sha512sum -c - \
+  && echo "3137ad86bd990524ba1dedc2038309dfa6b63790d3ca52c28afea65dcc2eaead16fb33e9a72fd2a7a8240afaf26e065939a2d472f3b0eeaa575d1e8648f9bf19  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
-  && php composer-setup.php --version="1.10.16" --install-dir=/usr/local/bin/ --filename=composer \
+  && php composer-setup.php --1 --install-dir=/usr/local/bin/ --filename=composer \
   && rm -rf /tmp/composer-setup.php \
   && set +x \
   && printf "$(composer --version)\n\n"\
@@ -52,15 +52,15 @@ RUN set -xe; \
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.4.5/drush.phar -o /usr/local/bin/drush8 \
+	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.4.6/drush.phar -o /usr/local/bin/drush8 \
   && chmod +x /usr/local/bin/drush8 \
-  && echo "f1a5e094cc34ff23f31f987543b9ea914e8405af78946031d2a07daf7cf5b72ed2c7956ef6e4656793a9312fcfe477cfc9ba52124b2db25319be1a210ef26a2e  /usr/local/bin/drush8"  | sha512sum -c -
+  && echo "2e43c1ea8308a3fdeebd8b51f778ffefe3e17f9df1d15a89dffcadf099996dee30e05100a5b13599bcb5d2643a79818423b7fa7ba1f869cd9d02d995ee3f3d05  /usr/local/bin/drush8"  | sha512sum -c -
 
 RUN set -xe; \
   cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.8.0/drush.phar -o /usr/local/bin/drush \
+	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.9.0/drush.phar -o /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
-  && echo "7a948468bd3a47319f719a4ac34935a3ea8e7d5ddba8cb0f77a591cc0cd7fa542aeae552ab07a20d2ebf5a9cc413ba72bedb5a19e9159bd514787fabc64b3e98  /usr/local/bin/drush"  | sha512sum -c -
+  && echo "abc7138f6c86d2d9f157a6507889819ccc422ec053daaabe9778e48d58ea8a3d185353388b995ac5e81856578a5f52a2d8ea625693c8bf255c9bd1b94ee550bc  /usr/local/bin/drush"  | sha512sum -c -
 
 ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
 
