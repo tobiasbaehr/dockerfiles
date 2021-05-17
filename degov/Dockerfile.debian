@@ -86,7 +86,7 @@ RUN set -xe; \
 RUN set -xe; \
   cd /tmp \
   && touch ~/.profile \
-  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh \
-  && echo "b3bb0619f91dedc5cbff5489dc73ca8ff25bf54e3013a7843abe475bb51e350143fdd260f4d709ff17dd9fc82e1c781b305af96f72e8b9f0ea7d83d3716113ce  install.sh"  | sha512sum -c - \
+  && wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh \
+  && echo "1a28103411ec0092aab7859a3bbc7eb7be9a2a8bedc458177c452df2fa965b761440151b33e0c7cf165910866c74938917d7d1deaf544227f2b295062f8e5059  install.sh"  | sha512sum -c - \
   && bash install.sh \
   && rm install.sh
