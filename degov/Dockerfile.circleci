@@ -1,6 +1,0 @@
-FROM cimg/php:7.3-node
-
-RUN sudo apt-get update && \
-    DEBIAN_FRONTEND=noninteractive sudo apt-get install git-lfs && \
-    git lfs install && \
-    sudo rm -r /var/lib/apt/lists/*
