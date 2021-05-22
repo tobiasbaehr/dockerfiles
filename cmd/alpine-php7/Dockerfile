@@ -1,7 +1,6 @@
-FROM gzevd/alpine:3.8
+FROM gzevd/alpine:3.13
 
-RUN set -xe; \
-  apk add --update --no-cache --virtual .persistent-deps \
+RUN apk add --update --no-cache --virtual .persistent-deps \
   git \
   sudo \
   rsync \
@@ -10,7 +9,6 @@ RUN set -xe; \
   bzip2 \
   nodejs \
   nodejs-npm \
-  zsh \
   sassc \
   ruby \
   git-lfs \
@@ -40,48 +38,35 @@ RUN set -xe; \
   && echo "date.timezone=Europe/Berlin" >> /etc/php7/php.ini \
   && echo "memory_limit=256M" >> /etc/php7/php.ini
 
-RUN set -xe; \
-  cd /tmp && curl -sSL https://getcomposer.org/installer > composer-setup.php \
+WORKDIR /tmp
+
+RUN curl --silent --show-error https://getcomposer.org/installer --output composer-setup.php \
   && echo "3137ad86bd990524ba1dedc2038309dfa6b63790d3ca52c28afea65dcc2eaead16fb33e9a72fd2a7a8240afaf26e065939a2d472f3b0eeaa575d1e8648f9bf19  composer-setup.php" | sha512sum -c - \
   && php composer-setup.php --check \
   && php composer-setup.php --1 --install-dir=/usr/local/bin/ --filename=composer \
-  && rm -rf /tmp/composer-setup.php \
+  && chmod +x /usr/local/bin/composer \
   && set +x \
-  && printf "$(composer --version)\n\n"\
-  && composer diagnose
+  && printf "%s\n\n" "$(composer --ansi --version)" \
+  && composer --ansi diagnose \
+  && rm -rf composer-setup.php
 
-RUN set -xe; \
-  cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush/releases/download/8.4.7/drush.phar -o /usr/local/bin/drush8 \
+RUN curl --silent --show-error --location https://github.com/drush-ops/drush/releases/download/8.4.8/drush.phar --output /usr/local/bin/drush8 \
   && chmod +x /usr/local/bin/drush8 \
-  && echo "6b7fcbca4979101ea4fd1b728bf2b1fd0b54ede717a914837b18f4829c4f9ca035880819dd1c25de468601fd1f5e424c6c0f913f57d548307303ea7e2ef62bec  /usr/local/bin/drush8"  | sha512sum -c -
+  && echo "5a2c1cf587a3f57e50b553a4cc2e0e846e7bf0c20f705017295b77755b408da077e038bb67fd1abc3f5484eb49d8ca21bbecba6b1b8032ee582ecd3be8594d2d  /usr/local/bin/drush8"  | sha512sum -c -
 
-RUN set -xe; \
-  cd /tmp \
-	&& curl -sSL https://github.com/drush-ops/drush-launcher/releases/download/0.9.0/drush.phar -o /usr/local/bin/drush \
+RUN curl --silent --show-error --location https://github.com/drush-ops/drush-launcher/releases/download/0.9.0/drush.phar --output /usr/local/bin/drush \
   && chmod +x /usr/local/bin/drush \
   && echo "abc7138f6c86d2d9f157a6507889819ccc422ec053daaabe9778e48d58ea8a3d185353388b995ac5e81856578a5f52a2d8ea625693c8bf255c9bd1b94ee550bc  /usr/local/bin/drush"  | sha512sum -c -
 
 ENV DRUSH_LAUNCHER_FALLBACK /usr/local/bin/drush8
 
 # Setup dev user
-RUN set -xe; \
-  adduser dev -s /bin/zsh -D \
-  && su -l dev -c "git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git /home/dev/antigen" \
+RUN adduser dev -s /bin/bash -D \
   && echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev \
   && chmod 0440 /etc/sudoers.d/dev
 
-COPY .zshrc /home/dev/.zshrc
-
-RUN set -xe; \
-    chown dev: /home/dev/.zshrc \
-    && su -l dev -c "source /home/dev/.zshrc" \
-    && find /home/dev/ -type d -name \.git -exec rm -rf -- {} +
-
 COPY .gemrc /etc/gemrc
-RUN set -xe; \
-    export CONFIGURE_OPTS="--disable-install-doc"; \
-    apk add --no-cache \
+RUN apk add --no-cache \
     gmp \
     yaml \
     ruby-json \
@@ -90,7 +75,7 @@ RUN set -xe; \
     ruby-dev \
     build-base \
     openssl-dev \
-    && gem update --clear-sources --quiet --system 2.7.9 \
+    && gem update --clear-sources --quiet --system \
     && gem update --clear-sources --quiet --force \
     && gem install --clear-sources --quiet compass jekyll jekyll-sitemap jekyll-feed\
     && gem update --clear-sources --quiet --force \
@@ -99,8 +84,7 @@ RUN set -xe; \
     && rm -rf /tmp/* \
     && rm -rf /home/root/.gem/
 
-RUN set -xe; \
-  npm install --production --no-color --no-progress -g npm yarn gulp-cli\
+RUN npm install --production --no-color --no-progress -g gulp-cli\
   && rm -rf /root/.npm \
   && rm -rf /usr/share/man/* \
   && rm -rf /tmp/*
