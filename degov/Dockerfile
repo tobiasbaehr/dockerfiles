@@ -2,7 +2,7 @@ FROM php:7.3-cli
 
 SHELL ["/bin/bash", "-o", "xtrace", "-o", "pipefail", "-o", "errexit", "-c"]
 
-#Set timezone
+# Set timezone
 RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
   && echo "Europe/Berlin" > /etc/timezone
 
